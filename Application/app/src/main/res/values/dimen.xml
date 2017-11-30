@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="home_tv_drawable_padding">6dp</dimen>
+    <dimen name="home_tv_setting_margin_left">32dp</dimen>
+    <dimen name="home_ll_resource_margin">35dp</dimen>
+
+    <dimen name="login_enter_tv_size">14sp</dimen>
+
+    <dimen name="login_btn_margin_left_right">40dp</dimen>
+    <dimen name="login_btn_margin_top">40dp</dimen>
+
+    <dimen name="login_btn_padding_top_bottom">20dp</dimen>
+    <dimen name="login_btn_text_size">18sp</dimen>
+
+    <dimen name="login_enter_padding_top_bottom">15dp</dimen>
+    <dimen name="login_enter_padding_left_right">30dp</dimen>
+    <dimen name="login_enter_margin_top_bottom">15dp</dimen>
+    <dimen name="dialog_width">32dp</dimen>
+    <dimen name="dialog_height">48dp</dimen>
+
+    <dimen name="overhaul_belong_place_margin_top">10dp</dimen>
+    <dimen name="overhaul_belong_place_margin_bottom">7dp</dimen>
+    <dimen name="overhaul_equ_name_margin_top">26dp</dimen>
+    <dimen name="overhaul_user_margin_top">20dp</dimen>
+    <dimen name="overhaul_time_margin_top">18dp</dimen>
+    <dimen name="overhaul_time_margin_bottom">26dp</dimen>
+    <dimen name="overhaul_alarm_margin_right">6dp</dimen>
+    <dimen name="overhaul_alarm_margin_left">10dp</dimen>
+    <dimen name="overhaul_item_margin_left_right">13dp</dimen>
+    <dimen name="overhaul_item_padding_left">15dp</dimen>
+    <dimen name="overhaul_item_padding_right">22dp</dimen>
+    <dimen name="overhaul_belong_place_text_size">13sp</dimen>
+    <dimen name="overhaul_equip_name_text_size">14sp</dimen>
+    <dimen name="overhaul_item_card_view_margin">3dp</dimen>
+    <dimen name="overhaul_item_card_view_radius">8dp</dimen>
+    <dimen name="overhaul_user_text_size">19sp</dimen>
+    <dimen name="overhaul_user_position_text_size">13sp</dimen>
+    <dimen name="overhaul_start_time_text_size">14sp</dimen>
+    <dimen name="overhaul_alarm_text_size">14sp</dimen>
+
+    <dimen name="increment_card_view_margin">10dp</dimen>
+    <dimen name="increment_margin_top">21dp</dimen>
+    <dimen name="increment_margin_bottom">16dp</dimen>
+    <dimen name="increment_margin_left_right">10dp</dimen>
+    <dimen name="increment_info_margin_top">23dp</dimen>
+    <dimen name="increment_image_margin_left">5dp</dimen>
+    <dimen name="increment_image_margin_right">5dp</dimen>
+    <dimen name="increment_image_margin_top_bottom">15dp</dimen>
+
+    <dimen name="increment_alarm_text_size">16sp</dimen>
+    <dimen name="increment_from_time_text_size">12sp</dimen>
+    <dimen name="increment_alarm_margin_top">21sp</dimen>
+    <dimen name="increment_alarm_margin_bottom">13sp</dimen>
+    <dimen name="increment_speech_margin_top_bottom">6dp</dimen>\
+    <dimen name="increment_second_text_size">14sp</dimen>
+    <dimen name="image_size_width">100dp</dimen>
+    <dimen name="image_size_height">100dp</dimen>
+    <dimen name="DP_1">1dp</dimen>
+    <dimen name="DP_2">2dp</dimen>
+    <dimen name="DP_3">3dp</dimen>
+    <dimen name="DP_4">4dp</dimen>
+    <dimen name="DP_5">5dp</dimen>
+    <dimen name="DP_6">6dp</dimen>
+    <dimen name="DP_7">7dp</dimen>
+    <dimen name="DP_8">8dp</dimen>
+    <dimen name="DP_9">9dp</dimen>
+    <dimen name="DP_10">10dp</dimen>
+    <dimen name="SP_12">12dp</dimen>
+    <dimen name="SP_14">14dp</dimen>
+    <dimen name="SP_16">16dp</dimen>
+    <dimen name="SP_18">18dp</dimen>
+    <dimen name="SP_20">20dp</dimen>
+</resources>
