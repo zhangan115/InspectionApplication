@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
-import com.library.base.AbsBaseFragment;
+import com.inspection.application.base.AbsBaseFragment;
 
 
 /**
@@ -71,7 +71,6 @@ public class BaseFragment extends AbsBaseFragment implements DialogInterface.OnC
 
     @Override
     public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
         onCancel();
     }
 

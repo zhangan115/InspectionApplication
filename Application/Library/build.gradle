@@ -38,10 +38,8 @@ dependencies {
     compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
     compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
     compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.rxjavaAdapterAdapter"
-    compile 'com.soundcloud.android:android-crop:1.0.1@aar'
     compile files('libs/logger_v1.3.0.jar')
     compile 'pub.devrel:easypermissions:1.0.1'
-    compile "com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.1"
-    compile "com.google.dagger:dagger:$rootProject.daggerVersion"
-    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
+    compile 'com.blankj:utilcode:1.9.10'
+
 }

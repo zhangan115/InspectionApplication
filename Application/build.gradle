@@ -35,7 +35,7 @@ ext {
     supportLibraryVersion = '27.0.1'
     junitVersion = '4.12'
     retrofit2Version = '2.1.0'
-    okhttp3Version = '3.5.0'
+    okhttp3Version = '3.9.1'
     glideVersion = '3.7.0'
     greenDaoVersion = '3.2.0'
     daggerVersion = '2.5'

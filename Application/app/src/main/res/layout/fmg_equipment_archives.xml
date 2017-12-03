@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_equipment_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:drawablePadding="4dp"
+            android:textColor="@color/color_text_normal"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_equipment_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="加氢列表话"
+                android:textColor="@color/color_text_normal"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_division" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备位号" />
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备类型" />
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="出厂编号" />
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生产厂商" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="供应厂商" />
+
+                <TextView
+                    android:id="@+id/tv_5"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="运行状态" />
+
+                <TextView
+                    android:id="@+id/tv_6"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备状态" />
+
+                <TextView
+                    android:id="@+id/tv_7"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="安装时间" />
+
+                <TextView
+                    android:id="@+id/tv_8"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="生产时间" />
+
+                <TextView
+                    android:id="@+id/tv_9"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="运行时间" />
+
+                <TextView
+                    android:id="@+id/tv_10"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设备别名" />
+
+                <TextView
+                    android:id="@+id/tv_11"
+                    style="@style/Equipment_TEXT_CONTENT_STYLE"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="设备位号" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_equipment_nameplate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:orientation="horizontal"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp">
+
+                <TextView
+                    style="@style/Equipment_TEXT_TITLE_STYLE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="铭牌信息" />
+
+                <ImageView
+                    android:id="@+id/iv_1"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="10dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_division" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_division" />
+
+                <LinearLayout
+                    android:id="@+id/ll_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="10dp"
+                        android:text="故障记录"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_division" />
+
+                <LinearLayout
+                    android:id="@+id/ll_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="10dp"
+                        android:text="检修记录"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_division" />
+
+                <LinearLayout
+                    android:id="@+id/ll_3"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="25dp"
+                        android:layout_marginTop="20dp"
+                        android:drawablePadding="10dp"
+                        android:text="巡检数据"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_division" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_division" />
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

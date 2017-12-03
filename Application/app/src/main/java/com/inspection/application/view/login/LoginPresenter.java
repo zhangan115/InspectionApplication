@@ -4,14 +4,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.inspection.application.app.App;
-import com.inspection.application.mode.InspectionDataSource;
-import com.inspection.application.mode.InspectionRepository;
-import com.inspection.application.mode.bean.User;
+import com.inspection.application.mode.bean.user.User;
 import com.inspection.application.mode.callback.IListCallBack;
+import com.inspection.application.mode.source.user.UserDataSource;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -23,27 +20,21 @@ import rx.subscriptions.CompositeSubscription;
 
 final class LoginPresenter implements LoginContract.Presenter {
 
-    private InspectionRepository mRepository;
+    private UserDataSource mUserDataSource;
     private LoginContract.View mView;
-    @NonNull
     private CompositeSubscription mSubscriptions;
 
-    @Inject
-    LoginPresenter(InspectionRepository repository, LoginContract.View view) {
-        this.mRepository = repository;
+    LoginPresenter(UserDataSource repository, LoginContract.View view) {
+        this.mUserDataSource = repository;
         this.mView = view;
         mSubscriptions = new CompositeSubscription();
-    }
-
-    @Inject
-    void setupListeners() {
         mView.setPresenter(this);
     }
 
     @Override
     public void login(String name, String pass) {
         mView.loginLoading();
-        mSubscriptions.add(mRepository.login(name, pass, new InspectionDataSource.LoadUserCallBack() {
+        mSubscriptions.add(mUserDataSource.login(name, pass, new UserDataSource.LoadUserCallBack() {
 
             @Override
             public void onLoginSuccess(@NonNull User user) {
@@ -52,8 +43,9 @@ final class LoginPresenter implements LoginContract.Presenter {
             }
 
             @Override
-            public void onLoginFail() {
+            public void onLoginFail(@Nullable String failMessage) {
                 mView.loginFail();
+                mView.showMessage(failMessage);
             }
 
             @Override
@@ -65,13 +57,8 @@ final class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void autoLogin() {
-
-    }
-
-    @Override
     public void loadHistoryUser(@NonNull String userName, @Nullable List<User> userList) {
-        mSubscriptions.add(mRepository.loadHistoryUser(userName, new IListCallBack<User>() {
+        mSubscriptions.add(mUserDataSource.loadHistoryUser(userName, new IListCallBack<User>() {
             @Override
             public void onSuccess(@NonNull List<User> list) {
                 mView.showHistoryUser(list);
@@ -86,9 +73,13 @@ final class LoginPresenter implements LoginContract.Presenter {
             public void onFinish() {
 
             }
+
+            @Override
+            public void noData() {
+
+            }
         }));
     }
-
 
     @Override
     public void subscribe() {

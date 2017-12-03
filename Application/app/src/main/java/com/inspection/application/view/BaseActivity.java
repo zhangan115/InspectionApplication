@@ -19,7 +19,7 @@ import com.inspection.application.R;
 import com.inspection.application.app.AppStatusConstant;
 import com.inspection.application.app.AppStatusManager;
 import com.inspection.application.view.main.MainActivity;
-import com.library.base.AbsBaseActivity;
+import com.inspection.application.base.AbsBaseActivity;
 
 
 /**
@@ -30,8 +30,7 @@ import com.library.base.AbsBaseActivity;
  * @version v0.1
  * @since 2015-04-13
  */
-public abstract class BaseActivity extends AbsBaseActivity implements OnClickListener {
-    public final String TAG = this.getClass().getSimpleName();
+public abstract class BaseActivity extends AbsBaseActivity implements OnClickListener, DialogInterface.OnCancelListener {
     protected boolean isDestroy = false;
     protected MaterialDialog loadingDialog = null;
     private TextView mTitleTv;
@@ -49,18 +48,14 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
         this.onToolbarClickListener = onToolbarClickListener;
     }
 
+    @Override
+    public void onCancel(DialogInterface dialogInterface) {
+        onCancel();
+    }
+
     interface OnToolbarClickListener {
         void onToolBarBackClick();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (AppStatusManager.getInstance().getAppStatus() == AppStatusConstant.STATUS_FORCE_KILLED) {
-            restartApp();
-        }
-    }
-
 
     /**
      * 设置当前布局资源(不包含Toolbar)
@@ -88,12 +83,17 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slideinleft, R.anim.slideoutright);
     }
 
     /**
@@ -120,12 +120,12 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
     public void setLayoutAndToolbar(int layoutId, int titleResId, boolean haveToolbar) {
         this.setContentView(layoutId);
         if (haveToolbar) {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            Toolbar toolbar = findViewById(R.id.toolbar);
             if (toolbar == null) {
                 return;
             }
             if (mTitleTv == null) {
-                mTitleTv = (TextView) toolbar.findViewById(R.id.titleId);
+                mTitleTv = toolbar.findViewById(R.id.titleId);
             }
             mTitleTv.setText(titleResId);
             setSupportActionBar(toolbar);
@@ -152,13 +152,13 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
     public void setLayoutAndToolbar(int layoutId, String titleResId, boolean haveToolbar) {
         this.setContentView(layoutId);
         if (haveToolbar) {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            Toolbar toolbar = findViewById(R.id.toolbar);
             if (toolbar == null) {
                 return;
             }
-            mTitleTv = (TextView) toolbar.findViewById(R.id.titleId);
+            mTitleTv = toolbar.findViewById(R.id.titleId);
             if (mTitleTv == null) {
-                mTitleTv = (TextView) toolbar.findViewById(R.id.titleId);
+                mTitleTv = toolbar.findViewById(R.id.titleId);
             }
             mTitleTv.setText(titleResId);
             setSupportActionBar(toolbar);
@@ -177,7 +177,7 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
     }
 
     public Toolbar getToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             return toolbar;
         }
@@ -208,7 +208,7 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
 
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
-
+        overridePendingTransition(R.anim.slideinright, R.anim.slideoutleft);
     }
 
     public void startActivity(Intent intent) {
@@ -252,11 +252,6 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
         return loadingDialog;
     }
 
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        onCancel();
-    }
 
     protected void onCancel() {
 

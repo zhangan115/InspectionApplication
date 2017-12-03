@@ -5,9 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 
-import com.inspection.application.mode.bean.User;
-import com.library.base.BasePresenter;
-import com.library.base.BaseView;
+import com.inspection.application.mode.bean.user.User;
+import com.inspection.application.base.BasePresenter;
+import com.inspection.application.base.BaseView;
 
 import java.util.List;
 
@@ -20,8 +20,6 @@ interface LoginContract {
     interface Presenter extends BasePresenter {
 
         void login(String name, String pass);
-
-        void autoLogin();
 
         void loadHistoryUser(@NonNull String userName, @Nullable List<User> userList);
     }

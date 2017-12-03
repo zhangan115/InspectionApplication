@@ -27,14 +27,13 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  * Created by zhangan on 2017-06-21.
  */
 
-public class Api {
-    
-    public static final String HOST = BuildConfig.HOST;
+public final class Api {
 
+    public static final String HOST = BuildConfig.HOST;
     private static Retrofit mRetrofit;
     private static final int CONNECT_TIME = 5;
-    private static final int READ_TIME = 200;
-    private static final int WRITE_TIME = 200;
+    private static final int READ_TIME = 30;
+    private static final int WRITE_TIME = 30;
     private static Cookie cookie;
 
     public static Retrofit createRetrofit() {
@@ -104,8 +103,4 @@ public class Api {
         SPHelper.remove(App.getInstance().getApplicationContext(), ConstantStr.USER_INFO, ConstantStr.COOKIE_VALUE);
     }
 
-    public static Cookie getCookie() {
-        return cookie;
-    }
-    
 }

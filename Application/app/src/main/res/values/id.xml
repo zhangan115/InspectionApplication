@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="tag_task" type="id" />
+    <item name="tag_position" type="id" />
+    <item name="tag_position_1" type="id" />
+    <item name="tag_object" type="id" />
+    <item name="tag_object_1" type="id" />
+    <item name="tag_object_2" type="id" />
+    <item name="image_tag" type="id" />
+    <item name="tag_group_position" type="id" />
+    <item name="tag_child_position" type="id" />
+</resources>

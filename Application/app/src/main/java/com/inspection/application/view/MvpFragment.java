@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.library.base.BasePresenter;
+import com.inspection.application.base.BasePresenter;
 
 
 /**
@@ -15,7 +15,6 @@ import com.library.base.BasePresenter;
 
 public class MvpFragment<T extends BasePresenter> extends BaseFragment {
 
-    @Nullable
     protected T mPresenter;
 
     @Override

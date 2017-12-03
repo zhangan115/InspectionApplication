@@ -1,10 +1,12 @@
 package com.inspection.application.mode.api;
 
 /**
+ * 没有登陆异常
  * Created by zhangan on 2017-05-16.
  */
 
 public class NotLoggedThrowable extends Throwable {
+
     public NotLoggedThrowable() {
     }
 

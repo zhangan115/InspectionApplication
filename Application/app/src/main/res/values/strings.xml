@@ -2,4 +2,33 @@
     <string name="str_login_btn">登录</string>
     <string name="hit_login_user">请输入手机号</string>
     <string name="hit_login_pass">请输入密码</string>
+
+    <string name="need_save_setting">当前App需要申请存储权限,需要打开设置页面么?</string>
+    <string name="request_permissions">需要请求存储权限</string>
+    <string name="sure">确认</string>
+    <string name="update_new_version">版本更新</string>
+    <string name="cancel">取消</string>
+
+    <string name="str_choose_camera">拍照</string>
+    <string name="str_choose_photo">相册</string>
+
+    <string name="str_upload">重新上传</string>
+    <string name="str_delete">删除照片</string>
+    <string name="str_take_photo">重新拍照</string>
+    <string name="mine_about_content">&#160;&#160;&#160;&#160;&#160;&#160;西安西拓电气股份有限公司成立于2006年，2015年9月正式完成股份制改造，是一家专门为电力系统用户提供全套在线监测解决方案以及运维检修技术服务的股份制科技企业。所提供的产品和服务已经覆盖发电、输电、变电、配电等领域，并逐步发展成为，以智能在线监测系统集成、电气设备运维检修技术服务、国际电力工程总包三大板块为主体，以自主品牌产品研发和生产为发展创新的高新技术企业。</string>
+    <string name="mine_tel">&#160;&#160;&#160;&#160;&#160;&#160;服务热线：</string>
+
+    <string name="main_alarm_news">报警信息</string>
+    <string name="main_fault_record">缺陷记录</string>
+    <string name="main_inject_manager">润滑管理</string>
+    <string name="main_equipment_list">设备档案</string>
+
+    <string name="main_task">点检任务</string>
+    <string name="main_fault_submit">缺陷上报</string>
+
+    <string name="main_count">统计分析</string>
+    <string name="main_work_manager">标准规范</string>
+    <string name="main_customer">人员组织</string>
+    <string name="main_my_setting">我的设置</string>
+
 </resources>

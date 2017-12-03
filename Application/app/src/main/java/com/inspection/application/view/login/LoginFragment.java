@@ -11,9 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-
 import com.inspection.application.R;
-import com.inspection.application.mode.bean.User;
+import com.inspection.application.mode.bean.user.User;
 import com.inspection.application.view.MvpFragment;
 import com.inspection.application.view.main.MainActivity;
 
@@ -38,10 +37,10 @@ public class LoginFragment extends MvpFragment<LoginContract.Presenter> implemen
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fmg_login, container, false);
-        mNameEt = (AppCompatMultiAutoCompleteTextView) rootView.findViewById(R.id.edit_username);
-        mPassEt = (EditText) rootView.findViewById(R.id.edit_password);
+        mNameEt = rootView.findViewById(R.id.edit_username);
+        mPassEt = rootView.findViewById(R.id.edit_password);
         rootView.findViewById(R.id.tv_login).setOnClickListener(this);
         rootView.findViewById(R.id.tv_forget_password).setOnClickListener(this);
         return rootView;
@@ -68,18 +67,13 @@ public class LoginFragment extends MvpFragment<LoginContract.Presenter> implemen
     }
 
     @Override
-    public void showMessage(@NonNull String message) {
-
+    public void showMessage(@Nullable String message) {
+        getApp().showToast(message);
     }
 
     @Override
     public void showHistoryUser(@NonNull List<User> userList) {
 
-    }
-
-    @Override
-    public void setPresenter(LoginContract.Presenter presenter) {
-        mPresenter = presenter;
     }
 
     @Override
@@ -94,22 +88,23 @@ public class LoginFragment extends MvpFragment<LoginContract.Presenter> implemen
         }
     }
 
-    int startTestTimes;
-
     private void checkUserInfo() {
         String userName = mNameEt.getEditableText().toString().trim();
         String userPass = mPassEt.getEditableText().toString().trim();
         if (TextUtils.isEmpty(userName) || TextUtils.isEmpty(userPass)) {
             return;
         }
-        if (mPresenter != null) {
-            mPresenter.login(userName, userPass);
-        }
-
+        mPresenter.login(userName, userPass);
     }
 
     private void startHomeActivity() {
         startActivity(new Intent(getActivity(), MainActivity.class));
-        getActivity().finish();
+        if (getActivity() != null)
+            getActivity().finish();
+    }
+
+    @Override
+    public void setPresenter(LoginContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

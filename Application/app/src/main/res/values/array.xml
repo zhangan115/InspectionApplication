@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="choose_photo">
+        <item>@string/str_choose_camera</item>
+        <item>@string/str_choose_photo</item>
+    </string-array>
+
+    <string-array name="choose_condition_1">
+        <item>@string/str_upload</item>
+        <item>@string/str_delete</item>
+        <item>@string/str_take_photo</item>
+    </string-array>
+
+    <string-array name="choose_condition_2">
+        <item>@string/str_delete</item>
+        <item>@string/str_take_photo</item>
+    </string-array>
+</resources>

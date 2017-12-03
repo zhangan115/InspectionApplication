@@ -1,7 +1,6 @@
 package com.inspection.application.view.welcome;
 
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -10,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-
 import com.inspection.application.R;
+import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.login.LoginActivity;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import java.util.List;
  * Created by zhangan on 2017-07-22.
  */
 
-public class WelcomeActivity extends Activity implements View.OnClickListener {
+public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
 
     private static final int[] pics = {R.layout.guide_view1,
             R.layout.guide_view2, R.layout.guide_view3};

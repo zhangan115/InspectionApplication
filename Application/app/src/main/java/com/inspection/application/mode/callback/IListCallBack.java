@@ -1,6 +1,7 @@
 package com.inspection.application.mode.callback;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -13,7 +14,9 @@ public interface IListCallBack<T> {
 
     void onSuccess(@NonNull List<T> list);
 
-    void onError(String message);
+    void onError(@Nullable String message);
 
     void onFinish();
+
+    void noData();
 }

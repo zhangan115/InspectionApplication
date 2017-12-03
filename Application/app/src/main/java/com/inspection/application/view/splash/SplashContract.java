@@ -1,8 +1,10 @@
 package com.inspection.application.view.splash;
 
 
-import com.library.base.BasePresenter;
-import com.library.base.BaseView;
+import android.support.annotation.Nullable;
+
+import com.inspection.application.base.BasePresenter;
+import com.inspection.application.base.BaseView;
 
 /**
  * 启动屏幕
@@ -25,5 +27,8 @@ public interface SplashContract {
 
         //进入首页
         void openHome();
+
+        //显示异常信息
+        void showMessage(@Nullable String message);
     }
 }
