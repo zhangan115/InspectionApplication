@@ -3,10 +3,12 @@ package com.inspection.application.view.equipment;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.inspection.application.R;
+import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.equipment.EquipmentBean;
@@ -35,7 +37,7 @@ public class EquipListActivity extends BaseActivity implements EquipListContract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.activity_equip_list, "设备档案");
-        new EquipListPresenter(Injection.provideEquipmentRepository(), this);
+        new EquipListPresenter(Injection.getIntent().provideEquipmentRepository(), this);
         isChooseEquipment = getIntent().getBooleanExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, false);
         mListView = findViewById(R.id.expandableListView);
         mNoDataLayout = findViewById(R.id.layout_no_data);
@@ -77,6 +79,11 @@ public class EquipListActivity extends BaseActivity implements EquipListContract
     @Override
     public void hideLoading() {
 
+    }
+
+    @Override
+    public void showMessage(@Nullable String message) {
+        App.getInstance().showToast(message);
     }
 
     @Override

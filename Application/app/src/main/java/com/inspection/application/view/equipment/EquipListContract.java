@@ -1,6 +1,8 @@
 package com.inspection.application.view.equipment;
 
 
+import android.support.annotation.Nullable;
+
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
 import com.inspection.application.mode.bean.equipment.RoomListBean;
@@ -25,6 +27,8 @@ interface EquipListContract {
         void showLoading();
 
         void hideLoading();
+
+        void showMessage(@Nullable String message);
 
         void noData();
     }

@@ -38,6 +38,10 @@ public class ApiCallBackObject<T> {
     }
 
     public Observable<?> execute(final @Nullable IObjectCallBack<T> callBack) {
+        return execute(false, callBack);
+    }
+
+    public Observable<?> execute(final boolean isEmpty, final @Nullable IObjectCallBack<T> callBack) {
         mTryCount = 1;
         return mObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,6 +51,7 @@ public class ApiCallBackObject<T> {
                         if (callBack != null) {
                             callBack.onFinish();
                             callBack.onError(t.getMessage());
+                            callBack.noData();
                         }
                     }
                 })
@@ -56,7 +61,7 @@ public class ApiCallBackObject<T> {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
                             if (callBack != null) {
                                 callBack.onFinish();
-                                if (t.getData() == null) {
+                                if (t.getData() == null && !isEmpty) {
                                     callBack.noData();
                                 } else {
                                     callBack.onSuccess(t.getData());
@@ -68,6 +73,7 @@ public class ApiCallBackObject<T> {
                             if (callBack != null) {
                                 callBack.onFinish();
                                 callBack.onError(t.getMessage());
+                                callBack.noData();
                             }
                         }
                     }

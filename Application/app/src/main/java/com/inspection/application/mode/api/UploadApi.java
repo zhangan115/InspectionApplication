@@ -25,5 +25,5 @@ public interface UploadApi {
      */
     @POST("base/file/upload.json")
     @Multipart
-    Observable<Bean<List<String>>> postImageFile(@Part List<MultipartBody.Part> partList);
+    Observable<Bean<List<String>>> postFile(@Part List<MultipartBody.Part> partList);
 }

@@ -30,7 +30,7 @@ public class EquipmentArchivesActivity extends BaseActivity {
         if (fragment == null) {
             fragment = EquipmentArchivesFragment.newInstance(bean);
         }
-        new EquipmentArchivesPresenter(Injection.provideEquipmentRepository(), fragment);
+        new EquipmentArchivesPresenter(Injection.getIntent().provideEquipmentRepository(), fragment);
         ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
     }
 }

@@ -47,6 +47,7 @@ public class ApiCallBackList<T> {
                         if (callBack != null) {
                             callBack.onFinish();
                             callBack.onError(t.getMessage());
+                            callBack.noData();
                         }
                     }
                 })
@@ -56,7 +57,7 @@ public class ApiCallBackList<T> {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
                             if (callBack != null) {
                                 callBack.onFinish();
-                                if (t.getData() == null) {
+                                if (t.getData() == null || t.getData().size() == 0) {
                                     callBack.noData();
                                 } else {
                                     callBack.onSuccess(t.getData());
@@ -68,6 +69,7 @@ public class ApiCallBackList<T> {
                             if (callBack != null) {
                                 callBack.onFinish();
                                 callBack.onError(t.getMessage());
+                                callBack.noData();
                             }
                         }
                     }

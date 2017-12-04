@@ -37,7 +37,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        new SettingPresenter(Injection.provideApplicationRepository(App.getInstance().getModule()),this);
+        new SettingPresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule()), this);
         setLayoutAndToolbar(R.layout.activity_setting, "设置");
         initView();
     }
@@ -123,17 +123,28 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void downLoadApp() {
-//        new UpdateManager(this, mVersion.getUrl()).updateApp();
+
     }
 
     @Override
-    public void uploadUserPhotoSuccess() {
+    public void uploadUserPhotoSuccess(String url) {
+        App.getInstance().getCurrentUser().setPortraitUrl(url);
         GlideUtils.ShowCircleImage(this, userPhoto.getAbsolutePath(), mUserPhoto, R.drawable.mine_head_default);
     }
 
     @Override
     public void uploadUserPhotoFail() {
         App.getInstance().showToast("图片上传失败");
+    }
+
+    @Override
+    public void showUploadProgress() {
+        showProgressDialog("上传中...");
+    }
+
+    @Override
+    public void hideProgress() {
+        hideProgressDialog();
     }
 
     @Override
@@ -177,17 +188,5 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } else if (resultCode == Crop.RESULT_ERROR) {
             App.getInstance().showToast(Crop.getError(result).getMessage());
         }
-    }
-
-    private static void deleteDirWithFile(File dir) {
-        if (dir == null || !dir.exists() || !dir.isDirectory())
-            return;
-        for (File file : dir.listFiles()) {
-            if (file.isFile())
-                file.delete(); // 删除所有文件
-            else if (file.isDirectory())
-                deleteDirWithFile(file); // 递规的方式删除文件夹
-        }
-        dir.delete();// 删除目录本身
     }
 }

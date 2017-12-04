@@ -47,9 +47,7 @@ public class ContactFragment extends MvpFragment<ContactContract.Presenter> impl
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (mPresenter != null) {
-            mPresenter.getEmployee();
-        }
+        mPresenter.getEmployee();
     }
 
     @Override

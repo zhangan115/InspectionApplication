@@ -30,9 +30,13 @@ interface SettingContract {
 
         void downLoadApp();
 
-        void uploadUserPhotoSuccess();
+        void uploadUserPhotoSuccess(String url);
 
         void uploadUserPhotoFail();
+
+        void showUploadProgress();
+
+        void hideProgress();
     }
 
 }

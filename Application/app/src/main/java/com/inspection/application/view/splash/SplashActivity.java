@@ -35,7 +35,7 @@ public class SplashActivity extends BaseActivity implements SplashContract.View 
         setTheme(R.style.LoginActivityStyle);
         setContentView(R.layout.activity_splash);
         transparentStatusBar();
-        new SplashPresenter(Injection.provideUserRepository(App.getInstance().getModule())
+        new SplashPresenter(Injection.getIntent().provideUserRepository(App.getInstance().getModule())
                 , this);
         mPresenter.subscribe();
     }

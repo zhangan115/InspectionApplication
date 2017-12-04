@@ -111,6 +111,7 @@
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.soundcloud.android.crop.CropImageActivity" />
         <activity
             android:name=".view.setting.feedback.QuestionActivity"
             android:allowTaskReparenting="true"

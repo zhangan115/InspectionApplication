@@ -20,41 +20,80 @@ import com.inspection.application.view.ApplicationModule;
  */
 
 public class Injection {
+
+    private static Injection injection;
+
+    private Injection() {
+
+    }
+
+    public static Injection getIntent() {
+        if (injection == null) {
+            injection = new Injection();
+        }
+        return injection;
+    }
+
+    private ApplicationRepository applicationRepository;
+
     /**
      * @param module ApplicationModule
      * @return ApplicationRepository
      */
-    public static ApplicationRepository provideApplicationRepository(@NonNull ApplicationModule module) {
-        return DaggerApplicationRepositoryComponent.builder().applicationModule(module).build().getRepository();
+    public ApplicationRepository provideApplicationRepository(@NonNull ApplicationModule module) {
+        if (applicationRepository == null) {
+            applicationRepository = DaggerApplicationRepositoryComponent.builder().applicationModule(module).build().getRepository();
+        }
+        return applicationRepository;
     }
+
+    private UserRepository userRepository;
 
     /**
      * @param module ApplicationModule
      * @return UserRepository
      */
-    public static UserRepository provideUserRepository(@NonNull ApplicationModule module) {
-        return DaggerUserRepositoryComponent.builder().applicationModule(module).build().getRepository();
+    public UserRepository provideUserRepository(@NonNull ApplicationModule module) {
+        if (userRepository == null) {
+            userRepository = DaggerUserRepositoryComponent.builder().applicationModule(module).build().getRepository();
+        }
+        return userRepository;
     }
+
+    private InjectRepository injectRepository;
 
     /**
      * @return InjectRepository
      */
-    public static InjectRepository provideInjectRepository() {
-        return DaggerInjectRepositoryComponent.builder().build().getRepository();
+    public InjectRepository provideInjectRepository() {
+        if (injectRepository == null) {
+            injectRepository = DaggerInjectRepositoryComponent.builder().build().getRepository();
+        }
+        return injectRepository;
     }
+
+    private CustomerRepository customerRepository;
 
     /**
      * @return CustomerRepository
      */
-    public static CustomerRepository provideCustomerRepository() {
-        return DaggerCustomerRepositoryComponent.builder().build().getRepository();
+    public CustomerRepository provideCustomerRepository() {
+        if (customerRepository == null) {
+            customerRepository = DaggerCustomerRepositoryComponent.builder().build().getRepository();
+        }
+        return customerRepository;
     }
+
+    private EquipmentRepository equipmentRepository;
 
     /**
      * @return EquipmentRepository
      */
-    public static EquipmentRepository provideEquipmentRepository() {
-        return DaggerEquipmentRepositoryComponent.builder().build().getRepository();
+    public EquipmentRepository provideEquipmentRepository() {
+        if (equipmentRepository == null) {
+            equipmentRepository = DaggerEquipmentRepositoryComponent.builder().build().getRepository();
+        }
+        return equipmentRepository;
     }
 
 

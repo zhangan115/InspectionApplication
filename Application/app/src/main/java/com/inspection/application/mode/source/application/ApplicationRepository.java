@@ -5,19 +5,32 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
+import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.ApiCallBackObject;
 import com.inspection.application.mode.api.ApplicationApi;
+import com.inspection.application.mode.api.CustomerApi;
+import com.inspection.application.mode.api.UploadApi;
+import com.inspection.application.mode.api.UserApi;
 import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.version.NewVersion;
+import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
+import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscription;
 
@@ -81,10 +94,76 @@ public class ApplicationRepository implements ApplicationDataSource {
         return new ApiCallBackObject<>(observable).execute(null).subscribe();
     }
 
+    private String mUserPhotoUrl;
+
     @NonNull
     @Override
-    public Subscription uploadUserPhoto(@NonNull File file, @NonNull IObjectCallBack<String> callBack) {
-        return null;
+    public Subscription uploadUserPhoto(@NonNull File file, @NonNull final IObjectCallBack<String> callBack) {
+        MultipartBody.Builder builder = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("businessType", "user")
+                .addFormDataPart("fileType", "image");
+        RequestBody requestFile =
+                RequestBody.create(MediaType.parse("multipart/form-data"), file);
+        builder.addFormDataPart("file", file.getName(), requestFile);
+        List<MultipartBody.Part> parts = builder.build().parts();
+        Observable<Bean<List<String>>> observable = Api.createRetrofit().create(UploadApi.class)
+                .postFile(parts);
+        return new ApiCallBackList<String>(observable).execute(new IListCallBack<String>() {
+            @Override
+            public void onSuccess(@NonNull List<String> strings) {
+                if (strings.size() > 0) {
+                    String userPhotoUrl = strings.get(0);
+                    JSONObject jsonObject = new JSONObject();
+                    try {
+                        jsonObject.put("portraitUrl", userPhotoUrl);
+                        mUserPhotoUrl = userPhotoUrl;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    Observable<Bean<String>> observable1 = Api.createRetrofit().create(UserApi.class).updateUserInfo(jsonObject.toString());
+                    new ApiCallBackObject<>(observable1).execute(true, new IObjectCallBack<String>() {
+                        @Override
+                        public void onSuccess(@NonNull String s) {
+                            callBack.onSuccess(mUserPhotoUrl);
+                        }
+
+                        @Override
+                        public void onError(@Nullable String message) {
+                            callBack.onError(message);
+                        }
+
+                        @Override
+                        public void noData() {
+                            callBack.noData();
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            callBack.onFinish();
+                        }
+                    }).subscribe();
+                } else {
+                    callBack.onFinish();
+                    callBack.onError("");
+                }
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                callBack.onFinish();
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }).subscribe();
     }
 
     @NonNull

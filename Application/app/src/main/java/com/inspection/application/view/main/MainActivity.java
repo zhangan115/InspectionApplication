@@ -11,6 +11,10 @@ import com.inspection.application.app.AppStatusConstant;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.view.BaseActivity;
+import com.inspection.application.view.contact.ContactActivity;
+import com.inspection.application.view.equipment.EquipListActivity;
+import com.inspection.application.view.inject.InjectActivity;
+import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.splash.SplashActivity;
 import com.orhanobut.logger.Logger;
 
@@ -28,11 +32,24 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new MainPresenter(Injection.provideApplicationRepository(App.getInstance().getModule()), this);
+        new MainPresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule()), this);
+        initView();
         checkPermission();
         mPresenter.getNewVersion();
     }
 
+    private void initView() {
+        findViewById(R.id.tv_alarm_news).setOnClickListener(this);
+        findViewById(R.id.tv_inject_manager).setOnClickListener(this);
+        findViewById(R.id.tv_equipment_list).setOnClickListener(this);
+        findViewById(R.id.tv_task).setOnClickListener(this);
+        findViewById(R.id.tv_fault_submit).setOnClickListener(this);
+        findViewById(R.id.tv_count).setOnClickListener(this);
+        findViewById(R.id.tv_work_manager).setOnClickListener(this);
+        findViewById(R.id.tv_customer).setOnClickListener(this);
+        findViewById(R.id.tv_my_setting).setOnClickListener(this);
+        findViewById(R.id.tv_news).setOnClickListener(this);
+    }
 
     public static final int REQUEST_EXTERNAL = 10;//内存卡权限
 
@@ -83,6 +100,32 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        switch (v.getId()) {
+            case R.id.tv_alarm_news:
+                break;
+            case R.id.tv_inject_manager:
+                startActivity(new Intent(this, InjectActivity.class));
+                break;
+            case R.id.tv_equipment_list:
+                startActivity(new Intent(this, EquipListActivity.class));
+                break;
+            case R.id.tv_task:
+                break;
+            case R.id.tv_fault_submit:
+                break;
+            case R.id.tv_count:
+                break;
+            case R.id.tv_work_manager:
+                break;
+            case R.id.tv_customer:
+                startActivity(new Intent(this, ContactActivity.class));
+                break;
+            case R.id.tv_my_setting:
+                startActivity(new Intent(this, SettingActivity.class));
+                break;
+            case R.id.tv_news:
+                break;
+        }
     }
 
     @Override

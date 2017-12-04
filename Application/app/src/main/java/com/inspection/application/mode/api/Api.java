@@ -80,7 +80,7 @@ public final class Api {
                 return cookies;
             }
         });
-        String host = App.getInstance().AppHost();
+        String host = Api.HOST;
         if (!host.endsWith("/")) {
             host = host + "/";
         }

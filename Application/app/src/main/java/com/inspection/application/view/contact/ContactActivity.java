@@ -24,7 +24,7 @@ public class ContactActivity extends BaseActivity {
         if (fragment == null) {
             fragment = ContactFragment.newInstance();
         }
-        new ContactPresenter(Injection.provideCustomerRepository(), fragment);
+        new ContactPresenter(Injection.getIntent().provideCustomerRepository(), fragment);
         ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
     }
 }

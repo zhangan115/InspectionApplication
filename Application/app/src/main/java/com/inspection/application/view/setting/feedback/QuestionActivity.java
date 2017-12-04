@@ -19,7 +19,7 @@ public class QuestionActivity extends BaseActivity implements QuestionContract.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.activity_question, "意见反馈");
-        new QuestionPresenter(Injection.provideApplicationRepository(App.getInstance().getModule()), this);
+        new QuestionPresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule()), this);
         initViews();
     }
 

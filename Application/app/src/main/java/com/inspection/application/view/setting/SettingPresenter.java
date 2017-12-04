@@ -53,10 +53,11 @@ final class SettingPresenter implements SettingContract.Presenter {
 
     @Override
     public void uploadUserPhoto(File file) {
+        mView.showUploadProgress();
         mSubscription.add(mApplicationDataSource.uploadUserPhoto(file, new IObjectCallBack<String>() {
             @Override
             public void onSuccess(@NonNull String s) {
-                mView.uploadUserPhotoSuccess();
+                mView.uploadUserPhotoSuccess(s);
             }
 
             @Override
@@ -71,6 +72,7 @@ final class SettingPresenter implements SettingContract.Presenter {
 
             @Override
             public void onFinish() {
+                mView.hideProgress();
             }
         }));
     }

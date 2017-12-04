@@ -4,6 +4,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -25,17 +26,14 @@ import com.inspection.application.mode.bean.inject.InjectRoomBean;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.widget.InjectionView;
 import com.library.adapter.RVAdapter;
-import com.library.widget.ExpendRecycleView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 public class InjectActivity extends BaseActivity implements View.OnClickListener, InjectContract.View {
     //view
     private RelativeLayout mNoDataLayout;
-    private ExpendRecycleView mExpendRecycleView;
+    private RecyclerView mExpendRecycleView;
     private LinearLayout ll_choose_local;
     private TextView mStation;
     private EditText mSearchEditText;
@@ -54,7 +52,7 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.activity_inject_list, "注油管理");
-        new InjectPresenter(Injection.provideInjectRepository(), this);
+        new InjectPresenter(Injection.getIntent().provideInjectRepository(), this);
         initView();
         initData();
         mPresenter.getRoomList();

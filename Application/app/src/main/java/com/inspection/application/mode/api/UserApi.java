@@ -25,5 +25,7 @@ public interface UserApi {
     @POST("user/login.json")
     Observable<Bean<User>> userLogin(@Body() String info);
 
-
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("user/appEdit.json")
+    Observable<Bean<String>> updateUserInfo(@Body() String info);
 }

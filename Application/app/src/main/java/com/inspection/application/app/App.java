@@ -113,7 +113,7 @@ public class App extends AbsBaseApp {
     @NonNull
     @Override
     public String imageCacheFile() {
-        return null;
+        return getCacheFile("inspection").getAbsolutePath();
     }
 
     @Override
@@ -149,8 +149,10 @@ public class App extends AbsBaseApp {
         return pass;
     }
 
-    public void setCurrentUser(User data) {
-
+    public void setCurrentUser(User user) {
+        this.mUser = user;
+        String userInfo = new Gson().toJson(user);
+        SPHelper.write(this, ConstantStr.USER_INFO, ConstantStr.USER_BEAN, userInfo);
     }
 
     public ApplicationModule getModule() {

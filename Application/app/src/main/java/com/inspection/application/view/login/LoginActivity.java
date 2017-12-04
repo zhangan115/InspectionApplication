@@ -28,7 +28,7 @@ public class LoginActivity extends BaseActivity {
         if (fragment == null) {
             fragment = LoginFragment.newInstance();
         }
-        new LoginPresenter(Injection.provideUserRepository(App.getInstance().getModule()), fragment);
+        new LoginPresenter(Injection.getIntent().provideUserRepository(App.getInstance().getModule()), fragment);
         ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
     }
 }
