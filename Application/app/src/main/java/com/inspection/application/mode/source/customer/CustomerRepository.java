@@ -47,6 +47,7 @@ public class CustomerRepository implements CustomerDataSource {
         return new ApiCallBackList<>(Api.createRetrofit().create(CustomerApi.class).getEmployeeList()).execute(new IListCallBack<DepartmentBean>() {
             @Override
             public void onSuccess(@NonNull List<DepartmentBean> list) {
+                departmentBeans = list;
                 callBack.onSuccess(list);
             }
 

@@ -8,6 +8,8 @@ import com.inspection.application.mode.source.customer.CustomerRepository;
 import com.inspection.application.mode.source.customer.DaggerCustomerRepositoryComponent;
 import com.inspection.application.mode.source.equipment.DaggerEquipmentRepositoryComponent;
 import com.inspection.application.mode.source.equipment.EquipmentRepository;
+import com.inspection.application.mode.source.fault.DaggerFaultRepositoryComponent;
+import com.inspection.application.mode.source.fault.FaultRepository;
 import com.inspection.application.mode.source.inject.DaggerInjectRepositoryComponent;
 import com.inspection.application.mode.source.inject.InjectRepository;
 import com.inspection.application.mode.source.user.DaggerUserRepositoryComponent;
@@ -96,5 +98,17 @@ public class Injection {
         return equipmentRepository;
     }
 
+    private FaultRepository faultRepository;
+
+    /**
+     * @param module ApplicationModule
+     * @return FaultRepository
+     */
+    public FaultRepository provideFaultRepository(@NonNull ApplicationModule module) {
+        if (faultRepository == null) {
+            faultRepository = DaggerFaultRepositoryComponent.builder().applicationModule(module).build().getRepository();
+        }
+        return faultRepository;
+    }
 
 }

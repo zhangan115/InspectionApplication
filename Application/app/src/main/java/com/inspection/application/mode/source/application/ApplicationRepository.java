@@ -18,6 +18,7 @@ import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
+import com.inspection.application.mode.source.FilePartManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -99,17 +100,9 @@ public class ApplicationRepository implements ApplicationDataSource {
     @NonNull
     @Override
     public Subscription uploadUserPhoto(@NonNull File file, @NonNull final IObjectCallBack<String> callBack) {
-        MultipartBody.Builder builder = new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("businessType", "user")
-                .addFormDataPart("fileType", "image");
-        RequestBody requestFile =
-                RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        builder.addFormDataPart("file", file.getName(), requestFile);
-        List<MultipartBody.Part> parts = builder.build().parts();
         Observable<Bean<List<String>>> observable = Api.createRetrofit().create(UploadApi.class)
-                .postFile(parts);
-        return new ApiCallBackList<String>(observable).execute(new IListCallBack<String>() {
+                .postFile(FilePartManager.getPostFileParts("user", "image", file));
+        return new ApiCallBackList<>(observable).execute(new IListCallBack<String>() {
             @Override
             public void onSuccess(@NonNull List<String> strings) {
                 if (strings.size() > 0) {
@@ -166,9 +159,18 @@ public class ApplicationRepository implements ApplicationDataSource {
         }).subscribe();
     }
 
+
     @NonNull
     @Override
     public Subscription postQuestion(String title, String content, @NonNull IObjectCallBack<String> callBack) {
-        return null;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("feedbackTitle", title);
+            jsonObject.put("feedbackText", content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Observable<Bean<String>> observable = Api.createRetrofit().create(ApplicationApi.class).postSuggest(jsonObject.toString());
+        return new ApiCallBackObject<>(observable).execute(true, callBack).subscribe();
     }
 }

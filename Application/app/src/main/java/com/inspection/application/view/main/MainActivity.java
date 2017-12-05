@@ -13,6 +13,7 @@ import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.contact.ContactActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
+import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
 import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.splash.SplashActivity;
@@ -112,6 +113,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
             case R.id.tv_task:
                 break;
             case R.id.tv_fault_submit:
+                startActivity(new Intent(this, FaultActivity.class));
                 break;
             case R.id.tv_count:
                 break;
