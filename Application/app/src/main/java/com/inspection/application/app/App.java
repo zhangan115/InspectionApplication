@@ -11,6 +11,7 @@ import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.bean.option.OptionBean;
 import com.inspection.application.mode.bean.user.User;
+import com.inspection.application.mode.db.DbManager;
 import com.inspection.application.view.ApplicationModule;
 import com.library.utils.Base64Util;
 import com.library.utils.SPHelper;
@@ -38,6 +39,7 @@ public class App extends AbsBaseApp {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+        DbManager.init(this);
     }
 
     public static App getInstance() {

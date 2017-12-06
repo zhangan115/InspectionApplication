@@ -30,5 +30,11 @@
     <string name="main_work_manager">标准规范</string>
     <string name="main_customer">人员组织</string>
     <string name="main_my_setting">我的设置</string>
+    <string name="str_submit">提交</string>
+    <string name="fault_grade">缺陷等级</string>
+    <string name="fault_describe">缺陷描述</string>
+    <string name="equipment_name">设备名称</string>
+    <string name="image_record">图片记录</string>
+    <string name="fault_assign">指派</string>
 
 </resources>

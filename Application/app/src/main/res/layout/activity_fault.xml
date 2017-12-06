@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/id_fault_ll_device"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/equipment_name"
+                        android:textColor="#535761"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/id_fault_device_name"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="4dp"
+                        android:gravity="right|center_vertical"
+                        android:lines="1"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="16sp"
+                        tools:text="1#出线柜" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#b9c9d5" />
+
+                <LinearLayout
+                    android:id="@+id/id_fault_ll_grade"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/fault_grade"
+                        android:textColor="#535761"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/tv_fault_grade"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:drawablePadding="4dp"
+                        android:gravity="right|center_vertical"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#b9c9d5" />
+
+                <LinearLayout
+                    android:id="@+id/id_fault_ll_describe"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="@string/fault_describe"
+                        android:textColor="#535761"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/et_fault_describe"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_item_stroke"
+                        android:gravity="top|left"
+                        android:hint="请输入缺陷描述的内容..."
+                        android:lines="3"
+                        android:padding="8dp"
+                        android:textColor="@color/color_text_normal"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:background="#b9c9d5" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/image_record"
+                        android:textColor="#535761"
+                        android:textSize="16sp" />
+
+                    <com.inspection.application.widget.TakePhotoView
+                        android:id="@+id/take_photo_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_appoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/fault_assign"
+                    android:textColor="#535761"
+                    android:textSize="16sp" />
+
+                <HorizontalScrollView
+                    android:id="@+id/id_hs_employee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:id="@+id/ll_employee_add"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:visibility="visible">
+
+                        <ImageButton
+                            android:id="@+id/ib_add_user"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp" />
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <TextView
+                    android:id="@+id/tv_fault_submit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_btn_comm"
+                    android:gravity="center"
+                    android:paddingBottom="15dp"
+                    android:paddingTop="15dp"
+                    android:text="@string/str_submit"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

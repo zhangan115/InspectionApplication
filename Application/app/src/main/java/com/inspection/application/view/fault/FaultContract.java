@@ -48,12 +48,14 @@ public interface FaultContract {
 
     interface Presenter extends BasePresenter {
 
-        void getCacheFromDb(@Nullable Long taskId, @Nullable Long roomId, @Nullable Long equipmentId);
+        void getCacheFromDb(@Nullable String inspectionTag);
 
         void uploadPhoto(@NonNull Image image);
 
         void uploadFaultData(@NonNull JSONObject jsonObject);
 
         void getUserFlowList();
+
+        void deleteImage(Image image);
     }
 }

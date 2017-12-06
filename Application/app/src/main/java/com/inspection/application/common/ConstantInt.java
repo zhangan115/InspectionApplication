@@ -18,7 +18,8 @@ public interface ConstantInt {
     int TASK_STATE_3 = 3;//进行中
     int TASK_STATE_4 = 4;//已完成
 
-
+    int FAULT = 1;//故障上报
+    int INSPECTION = 2;//巡检
 
 
 }

@@ -4,9 +4,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.bean.image.Image;
+import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.fault.FaultDataSource;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -16,6 +19,7 @@ import rx.subscriptions.CompositeSubscription;
  */
 
 class FaultPresenter implements FaultContract.Presenter {
+
     private final FaultDataSource mFaultDataSource;
     private final FaultContract.View mView;
     private CompositeSubscription subscription;
@@ -34,26 +38,67 @@ class FaultPresenter implements FaultContract.Presenter {
 
     @Override
     public void unSubscribe() {
-
+        subscription.clear();
     }
 
     @Override
-    public void getCacheFromDb(@Nullable Long taskId, @Nullable Long roomId, @Nullable Long equipmentId) {
-
+    public void getCacheFromDb(@Nullable String inspectionTag) {
+        subscription.add(mFaultDataSource.loadImageList(inspectionTag, new FaultDataSource.LoadImageCallBack() {
+            @Override
+            public void onSuccess(@NonNull List<Image> imageList) {
+                mView.showImageList(imageList);
+            }
+        }));
     }
 
     @Override
     public void uploadPhoto(@NonNull Image image) {
+        subscription.add(mFaultDataSource.uploadPhoto(image, new FaultDataSource.UploadImageCallBack() {
+            @Override
+            public void onSuccess() {
+                mView.uploadImageSuccess();
+            }
 
+            @Override
+            public void onFail(Image image) {
+                mView.uploadImageFail(image);
+            }
+        }));
     }
 
     @Override
     public void uploadFaultData(@NonNull JSONObject jsonObject) {
+        mView.showUploadProgress();
+        subscription.add(mFaultDataSource.uploadFaultData(jsonObject, new IObjectCallBack<String>() {
+            @Override
+            public void onSuccess(@NonNull String s) {
+                mView.uploadFaultDataSuccess();
+            }
 
+            @Override
+            public void onError(@Nullable String message) {
+                mView.uploadFaultDataFail();
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mView.hideUploadProgress();
+            }
+        }));
     }
 
     @Override
     public void getUserFlowList() {
+
+    }
+
+    @Override
+    public void deleteImage(Image image) {
 
     }
 }

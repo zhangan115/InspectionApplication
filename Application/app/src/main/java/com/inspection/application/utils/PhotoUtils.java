@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.OpenableColumns;
+import android.text.TextUtils;
 import android.util.Log;
 
 
+import com.inspection.application.mode.bean.image.Image;
 import com.library.luban.Luban;
 
 import java.io.File;
@@ -32,6 +34,13 @@ public class PhotoUtils {
 
     public interface PhotoListener {
         void onSuccess(File file);
+    }
+
+    public interface CropPhotoListener {
+
+        void onFail(Image image);
+
+        void onSuccess(Image image);
     }
 
     public static void cropPhoto(final Context context, File photoFile, final PhotoListener listener) {
@@ -75,6 +84,55 @@ public class PhotoUtils {
                             return;
                         }
                         listener.onSuccess(file);
+                    }
+                });
+
+    }
+
+    public static void cropPhoto(final Context context, final Image image, final CropPhotoListener listener) {
+        Observable.just(image)
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<Image, Observable<Image>>() {
+                    @Override
+                    public Observable<Image> call(Image image) {
+                        File file = new File(image.getPhotoLocal());
+                        File file1 = null;
+                        try {
+                            file1 = Luban.with(context).load(file).get().get(0);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        if (file1 != null && file.exists()) {
+                            image.setImageLocal(file1.getAbsolutePath());
+                            file.delete();
+                        }
+                        return Observable.just(image);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Image>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        if (listener != null) {
+                            listener.onFail(image);
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Image image) {
+                        if (listener != null) {
+                            if (!TextUtils.isEmpty(image.getImageLocal())) {
+                                listener.onSuccess(image);
+                            } else {
+                                listener.onFail(image);
+                            }
+                        }
                     }
                 });
 

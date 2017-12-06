@@ -55,7 +55,7 @@ public class EquipListActivity extends BaseActivity implements EquipListContract
                 if (isChooseEquipment) {
                     Intent intent = new Intent();
                     intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, equipmentBean);
-                    setResult(Activity.RESULT_OK);
+                    setResult(Activity.RESULT_OK, intent);
                     finish();
                 }
             }
