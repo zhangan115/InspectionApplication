@@ -57,9 +57,20 @@ public class ApplicationRepository implements ApplicationDataSource {
     @Override
     public Subscription getNewVersion(final @NonNull NewVersionCallBack callBack) {
         Observable<Bean<NewVersion>> observable = Api.createRetrofit().create(ApplicationApi.class).newVersion();
-        return new ApiCallBackObject<>(observable).execute(new IObjectCallBack<NewVersion>() {
+        return new ApiCallBackObject<NewVersion>(observable) {
             @Override
-            public void onSuccess(@NonNull NewVersion result) {
+            public void onData(@NonNull NewVersion d) {
+
+            }
+        }.execute(new IObjectCallBack<NewVersion>() {
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull NewVersion result) {
                 if (result.getVersion() > ConstantStr.VERSION_NO && result.getVersion() != userSp.getInt(ConstantStr.cancelVersion, -1)) {
                     callBack.newVersion(result);
                 }
@@ -92,7 +103,12 @@ public class ApplicationRepository implements ApplicationDataSource {
     @Override
     public Subscription exitApp() {
         Observable<Bean<String>> observable = Api.createRetrofit().create(ApplicationApi.class).exitApp();
-        return new ApiCallBackObject<>(observable).execute(null).subscribe();
+        return new ApiCallBackObject<String>(observable) {
+            @Override
+            public void onData(@NonNull String d) {
+
+            }
+        }.execute(null).subscribe();
     }
 
     private String mUserPhotoUrl;
@@ -102,54 +118,71 @@ public class ApplicationRepository implements ApplicationDataSource {
     public Subscription uploadUserPhoto(@NonNull File file, @NonNull final IObjectCallBack<String> callBack) {
         Observable<Bean<List<String>>> observable = Api.createRetrofit().create(UploadApi.class)
                 .postFile(FilePartManager.getPostFileParts("user", "image", file));
-        return new ApiCallBackList<>(observable).execute(new IListCallBack<String>() {
+        return new ApiCallBackList<String>(observable) {
             @Override
-            public void onSuccess(@NonNull List<String> strings) {
-                if (strings.size() > 0) {
-                    String userPhotoUrl = strings.get(0);
-                    JSONObject jsonObject = new JSONObject();
-                    try {
-                        jsonObject.put("portraitUrl", userPhotoUrl);
-                        mUserPhotoUrl = userPhotoUrl;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    Observable<Bean<String>> observable1 = Api.createRetrofit().create(UserApi.class).updateUserInfo(jsonObject.toString());
-                    new ApiCallBackObject<>(observable1).execute(true, new IObjectCallBack<String>() {
-                        @Override
-                        public void onSuccess(@NonNull String s) {
-                            callBack.onSuccess(mUserPhotoUrl);
-                        }
-
-                        @Override
-                        public void onError(@Nullable String message) {
-                            callBack.onError(message);
-                        }
-
-                        @Override
-                        public void noData() {
-                            callBack.noData();
-                        }
-
-                        @Override
-                        public void onFinish() {
-                            callBack.onFinish();
-                        }
-                    }).subscribe();
-                } else {
-                    callBack.onFinish();
-                    callBack.onError("");
+            public void onData(List<String> strings) {
+                String userPhotoUrl = strings.get(0);
+                JSONObject jsonObject = new JSONObject();
+                try {
+                    jsonObject.put("portraitUrl", userPhotoUrl);
+                    mUserPhotoUrl = userPhotoUrl;
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+                Observable<Bean<String>> observable1 = Api.createRetrofit().create(UserApi.class).updateUserInfo(jsonObject.toString());
+                new ApiCallBackObject<String>(observable1) {
+                    @Override
+                    public void onData(@NonNull String s) {
+
+                    }
+                }.execute(new IObjectCallBack<String>() {
+
+                    @Override
+                    public void onSuccess() {
+                        callBack.onData(mUserPhotoUrl);
+                    }
+
+                    @Override
+                    public void onData(@NonNull String s) {
+
+                    }
+
+                    @Override
+                    public void onError(@Nullable String message) {
+
+                    }
+
+                    @Override
+                    public void noData() {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+
+                    }
+                }).subscribe();
+            }
+        }.execute(new IListCallBack<String>() {
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<String> strings) {
+
             }
 
             @Override
             public void onError(@Nullable String message) {
-                callBack.onFinish();
                 callBack.onError(message);
             }
 
             @Override
             public void onFinish() {
+                callBack.onFinish();
             }
 
             @Override
@@ -171,6 +204,11 @@ public class ApplicationRepository implements ApplicationDataSource {
             e.printStackTrace();
         }
         Observable<Bean<String>> observable = Api.createRetrofit().create(ApplicationApi.class).postSuggest(jsonObject.toString());
-        return new ApiCallBackObject<>(observable).execute(true, callBack).subscribe();
+        return new ApiCallBackObject<String>(observable) {
+            @Override
+            public void onData(@NonNull String d) {
+
+            }
+        }.execute(callBack).subscribe();
     }
 }

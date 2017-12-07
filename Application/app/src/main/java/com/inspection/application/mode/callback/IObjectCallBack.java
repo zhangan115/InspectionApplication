@@ -10,11 +10,32 @@ import android.support.annotation.Nullable;
 
 public interface IObjectCallBack<T> {
 
-    void onSuccess(@NonNull T t);
+    /**
+     * 请求成功
+     */
+    void onSuccess();
 
+    /**
+     * 获取到数据
+     *
+     * @param t 数据
+     */
+    void onData(@NonNull T t);
+
+    /**
+     * 出错了
+     *
+     * @param message 出错信息
+     */
     void onError(@Nullable String message);
 
+    /**
+     * 没有数据
+     */
     void noData();
 
+    /**
+     * 请求完成
+     */
     void onFinish();
 }

@@ -55,8 +55,14 @@ final class SettingPresenter implements SettingContract.Presenter {
     public void uploadUserPhoto(File file) {
         mView.showUploadProgress();
         mSubscription.add(mApplicationDataSource.uploadUserPhoto(file, new IObjectCallBack<String>() {
+
             @Override
-            public void onSuccess(@NonNull String s) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
                 mView.uploadUserPhotoSuccess(s);
             }
 

@@ -24,10 +24,12 @@ import rx.schedulers.Schedulers;
  * Created by zhangan on 2017-05-16.
  */
 
-public class ApiCallBackObject<T> {
+public abstract class ApiCallBackObject<T> {
 
     private int mTryCount;
     private Observable<Bean<T>> mObservable;
+
+    private T data;
 
     public ApiCallBackObject() {
 
@@ -37,11 +39,7 @@ public class ApiCallBackObject<T> {
         this.mObservable = observable;
     }
 
-    public Observable<?> execute(final @Nullable IObjectCallBack<T> callBack) {
-        return execute(false, callBack);
-    }
-
-    public Observable<?> execute(final boolean isEmpty, final @Nullable IObjectCallBack<T> callBack) {
+    public Observable<T> execute(final @Nullable IObjectCallBack<T> callBack) {
         mTryCount = 1;
         return mObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -61,10 +59,12 @@ public class ApiCallBackObject<T> {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
                             if (callBack != null) {
                                 callBack.onFinish();
-                                if (t.getData() == null && !isEmpty) {
+                                callBack.onSuccess();
+                                if (t.getData() == null) {
                                     callBack.noData();
                                 } else {
-                                    callBack.onSuccess(t.getData());
+                                    data = t.getData();
+                                    onData(data);
                                 }
                             }
                         } else if (t.getErrorCode() == ApiErrorCode.NOT_LOGGED && mTryCount == 0) {
@@ -136,6 +136,13 @@ public class ApiCallBackObject<T> {
                             }
                         });
                     }
+                }).flatMap(new Func1<NotLoggedThrowable, Observable<T>>() {
+                    @Override
+                    public Observable<T> call(NotLoggedThrowable notLoggedThrowable) {
+                        return Observable.just(data);
+                    }
                 });
     }
+
+    public abstract void onData(@NonNull T d);
 }

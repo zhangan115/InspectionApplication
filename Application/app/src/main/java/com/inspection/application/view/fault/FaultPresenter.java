@@ -70,9 +70,15 @@ class FaultPresenter implements FaultContract.Presenter {
     public void uploadFaultData(@NonNull JSONObject jsonObject) {
         mView.showUploadProgress();
         subscription.add(mFaultDataSource.uploadFaultData(jsonObject, new IObjectCallBack<String>() {
+
             @Override
-            public void onSuccess(@NonNull String s) {
+            public void onSuccess() {
                 mView.uploadFaultDataSuccess();
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
+
             }
 
             @Override

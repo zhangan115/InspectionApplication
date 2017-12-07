@@ -33,8 +33,14 @@ public class ContactPresenter implements ContactContract.Presenter {
     public void getEmployee() {
         mView.showLoading();
         mSubscriptions.add(mCustomerDataSource.getEmployeeList(new IListCallBack<DepartmentBean>() {
+
             @Override
-            public void onSuccess(@NonNull List<DepartmentBean> list) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<DepartmentBean> list) {
                 mView.showData(list);
             }
 

@@ -82,15 +82,26 @@ public class FaultRepository implements FaultDataSource {
     public Subscription uploadPhoto(final Image image, @NonNull final UploadImageCallBack callBack) {
         Observable<Bean<List<String>>> observable = Api.createRetrofit().create(UploadApi.class)
                 .postFile(FilePartManager.getPostFileParts("fault", "image", new File(image.getImageLocal())));
-        return new ApiCallBackList<>(observable).execute(new IListCallBack<String>() {
-
+        return new ApiCallBackList<String>(observable) {
             @Override
-            public void onSuccess(@NonNull List<String> list) {
-                image.setImageUrl(list.get(0));
+            public void onData(List<String> data) {
+                image.setImageUrl(data.get(0));
                 image.setIsUpload(true);
                 image.setSaveTime(System.currentTimeMillis());
                 DbManager.getDbManager().getDaoSession().getImageDao().insertOrReplaceInTx(image);
                 callBack.onSuccess();
+            }
+        }.execute(new IListCallBack<String>() {
+
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<String> list) {
+
             }
 
             @Override

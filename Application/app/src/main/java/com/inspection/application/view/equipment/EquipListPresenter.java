@@ -41,8 +41,14 @@ final class EquipListPresenter implements EquipListContract.Presenter {
     public void getEquipList() {
         mView.showLoading();
         subscription.add(mRepository.getEquipInfo(new IListCallBack<RoomListBean>() {
+
             @Override
-            public void onSuccess(@NonNull List<RoomListBean> list) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<RoomListBean> list) {
                 mView.showRoomList(list);
             }
 

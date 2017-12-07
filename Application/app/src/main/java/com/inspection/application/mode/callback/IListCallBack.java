@@ -12,7 +12,9 @@ import java.util.List;
 
 public interface IListCallBack<T> {
 
-    void onSuccess(@NonNull List<T> list);
+    void onSuccess();
+
+    void onData(@NonNull List<T> list);
 
     void onError(@Nullable String message);
 

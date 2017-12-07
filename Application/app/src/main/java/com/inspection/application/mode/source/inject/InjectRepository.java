@@ -42,52 +42,52 @@ public class InjectRepository implements InjectDataSource {
     public Subscription getInjectRoomList(@NonNull final IListCallBack<InjectRoomBean> callBack) {
         if (injectRooms != null) {
             callBack.onFinish();
-            callBack.onSuccess(injectRooms);
+            callBack.onData(injectRooms);
             return Observable.just(injectRooms).subscribe();
         }
         Observable<Bean<List<InjectRoomBean>>> observable = Api.createRetrofit().create(InjectApi.class).getInjectRoom(1);
-        return new ApiCallBackList<>(observable).execute(new IListCallBack<InjectRoomBean>() {
+        return new ApiCallBackList<InjectRoomBean>(observable) {
             @Override
-            public void onSuccess(@NonNull List<InjectRoomBean> list) {
+            public void onData(List<InjectRoomBean> list) {
                 injectRooms = list;
-                callBack.onSuccess(list);
+                callBack.onData(list);
             }
-
-            @Override
-            public void onError(@Nullable String message) {
-                callBack.onError(message);
-            }
-
-            @Override
-            public void onFinish() {
-                callBack.onFinish();
-            }
-
-            @Override
-            public void noData() {
-                callBack.noData();
-            }
-        }).subscribe();
+        }.execute(callBack).subscribe();
     }
 
     @NonNull
     @Override
-    public Subscription getInjectEquipmentList(long roomId, @NonNull IListCallBack<InjectEquipment> callBack) {
+    public Subscription getInjectEquipmentList(long roomId, @NonNull final IListCallBack<InjectEquipment> callBack) {
         Observable<Bean<List<InjectEquipment>>> observable = Api.createRetrofit().create(InjectApi.class).getInjectEquipment(roomId);
-        return new ApiCallBackList<>(observable).execute(callBack).subscribe();
+        return new ApiCallBackList<InjectEquipment>(observable) {
+            @Override
+            public void onData(List<InjectEquipment> data) {
+                callBack.onData(data);
+            }
+        }.execute(callBack).subscribe();
     }
 
     @NonNull
     @Override
-    public Subscription injectEquipmentList(long equipmentId, Integer cycle, @NonNull IObjectCallBack<InjectResultBean> callBack) {
+    public Subscription injectEquipmentList(long equipmentId, Integer cycle, @NonNull final IObjectCallBack<InjectResultBean> callBack) {
         Observable<Bean<InjectResultBean>> observable = Api.createRetrofit().create(InjectApi.class).injectEquipment(equipmentId, cycle);
-        return new ApiCallBackObject<>(observable).execute(callBack).subscribe();
+        return new ApiCallBackObject<InjectResultBean>(observable) {
+            @Override
+            public void onData(@NonNull InjectResultBean d) {
+                callBack.onData(d);
+            }
+        }.execute(callBack).subscribe();
     }
 
     @NonNull
     @Override
-    public Subscription injectEquipmentList(long equipmentId, int oilType, @NonNull IObjectCallBack<InjectResultBean> callBack) {
+    public Subscription injectEquipmentList(long equipmentId, int oilType, @NonNull final IObjectCallBack<InjectResultBean> callBack) {
         Observable<Bean<InjectResultBean>> observable = Api.createRetrofit().create(InjectApi.class).injectEquipment(equipmentId, oilType);
-        return new ApiCallBackObject<>(observable).execute(callBack).subscribe();
+        return new ApiCallBackObject<InjectResultBean>(observable) {
+            @Override
+            public void onData(@NonNull InjectResultBean d) {
+                callBack.onData(d);
+            }
+        }.execute(callBack).subscribe();
     }
 }

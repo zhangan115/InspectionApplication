@@ -39,7 +39,7 @@ public interface FaultContract {
 
         void uploadFaultDataFail();
 
-        void showDefaultFlowData(@Nullable List<DefaultFlowBean> beans);
+        void showDefaultFlowData(@NonNull List<DefaultFlowBean> beans);
 
         void noDefaultFlowData();
 

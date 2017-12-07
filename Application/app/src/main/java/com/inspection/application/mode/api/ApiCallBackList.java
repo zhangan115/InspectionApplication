@@ -24,10 +24,11 @@ import rx.schedulers.Schedulers;
  * Created by zhangan on 2017-05-16.
  */
 
-public class ApiCallBackList<T> {
+public abstract class ApiCallBackList<T> {
 
     private int mTryCount;
     private Observable<Bean<List<T>>> mObservable;
+    private List<T> data;
 
     public ApiCallBackList() {
 
@@ -37,7 +38,7 @@ public class ApiCallBackList<T> {
         this.mObservable = observable;
     }
 
-    public Observable<?> execute(final @Nullable IListCallBack<T> callBack) {
+    public Observable<List<T>> execute(final @Nullable IListCallBack<T> callBack) {
         mTryCount = 1;
         return mObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -57,10 +58,12 @@ public class ApiCallBackList<T> {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
                             if (callBack != null) {
                                 callBack.onFinish();
+                                callBack.onSuccess();
                                 if (t.getData() == null || t.getData().size() == 0) {
                                     callBack.noData();
                                 } else {
-                                    callBack.onSuccess(t.getData());
+                                    data = t.getData();
+                                    onData(data);
                                 }
                             }
                         } else if (t.getErrorCode() == ApiErrorCode.NOT_LOGGED && mTryCount == 0) {
@@ -132,6 +135,13 @@ public class ApiCallBackList<T> {
                             }
                         });
                     }
+                }).flatMap(new Func1<NotLoggedThrowable, Observable<List<T>>>() {
+                    @Override
+                    public Observable<List<T>> call(NotLoggedThrowable notLoggedThrowable) {
+                        return Observable.just(data);
+                    }
                 });
     }
+
+    public abstract void onData(List<T> data);
 }

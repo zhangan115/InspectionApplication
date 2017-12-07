@@ -40,31 +40,17 @@ public class CustomerRepository implements CustomerDataSource {
                 @Override
                 public void call(List<DepartmentBean> departmentBeans) {
                     callBack.onFinish();
-                    callBack.onSuccess(departmentBeans);
+                    callBack.onSuccess();
+                    callBack.onData(departmentBeans);
                 }
             });
         }
-        return new ApiCallBackList<>(Api.createRetrofit().create(CustomerApi.class).getEmployeeList()).execute(new IListCallBack<DepartmentBean>() {
+        return new ApiCallBackList<DepartmentBean>(Api.createRetrofit().create(CustomerApi.class).getEmployeeList()) {
             @Override
-            public void onSuccess(@NonNull List<DepartmentBean> list) {
-                departmentBeans = list;
-                callBack.onSuccess(list);
+            public void onData(List<DepartmentBean> data) {
+                departmentBeans = data;
+                callBack.onData(data);
             }
-
-            @Override
-            public void onError(@Nullable String message) {
-                callBack.onError(message);
-            }
-
-            @Override
-            public void onFinish() {
-                callBack.onFinish();
-            }
-
-            @Override
-            public void noData() {
-                callBack.noData();
-            }
-        }).subscribe();
+        }.execute(callBack).subscribe();
     }
 }

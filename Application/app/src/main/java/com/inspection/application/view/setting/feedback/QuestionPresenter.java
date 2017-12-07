@@ -27,8 +27,14 @@ final class QuestionPresenter implements QuestionContract.Presenter {
     public void postQuestion(String title, String content) {
         mView.showLoading();
         mSubscription.add(mRepository.postQuestion(title, content, new IObjectCallBack<String>() {
+
             @Override
-            public void onSuccess(@NonNull String s) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
                 mView.postSuccess();
             }
 

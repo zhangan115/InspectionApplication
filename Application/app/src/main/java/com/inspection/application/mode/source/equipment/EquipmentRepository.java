@@ -37,30 +37,15 @@ public class EquipmentRepository implements EquipmentDataSource {
     public Subscription getEquipInfo(@NonNull final IListCallBack<RoomListBean> callBack) {
         if (roomListBeans != null) {
             callBack.onFinish();
-            callBack.onSuccess(roomListBeans);
+            callBack.onData(roomListBeans);
             return rx.Observable.just(roomListBeans).subscribe();
         }
-        return new ApiCallBackList<>(Api.createRetrofit().create(EquipmentApi.class).getRoomDta()).execute(new IListCallBack<RoomListBean>() {
+        return new ApiCallBackList<RoomListBean>(Api.createRetrofit().create(EquipmentApi.class).getRoomDta()) {
             @Override
-            public void onSuccess(@NonNull List<RoomListBean> list) {
-                roomListBeans = list;
-                callBack.onSuccess(list);
+            public void onData(List<RoomListBean> data) {
+                roomListBeans = data;
+                callBack.onData(data);
             }
-
-            @Override
-            public void onError(@Nullable String message) {
-                callBack.onError(message);
-            }
-
-            @Override
-            public void onFinish() {
-                callBack.onFinish();
-            }
-
-            @Override
-            public void noData() {
-                callBack.noData();
-            }
-        }).subscribe();
+        }.execute(callBack).subscribe();
     }
 }

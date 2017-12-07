@@ -69,7 +69,12 @@ final class InjectPresenter implements InjectContract.Presenter {
     public void getRoomList() {
         mSubscriptions.add(mInjectDataSource.getInjectRoomList(new IListCallBack<InjectRoomBean>() {
             @Override
-            public void onSuccess(@NonNull List<InjectRoomBean> list) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<InjectRoomBean> list) {
                 mView.showRoomList(list);
             }
 
@@ -94,8 +99,14 @@ final class InjectPresenter implements InjectContract.Presenter {
     public void getRoomEquipmentList(long roomId) {
         mView.showLoading();
         mSubscriptions.add(mInjectDataSource.getInjectEquipmentList(roomId, new IListCallBack<InjectEquipment>() {
+
             @Override
-            public void onSuccess(@NonNull List<InjectEquipment> list) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<InjectEquipment> list) {
                 mView.showRoomEquipment(list);
             }
 
@@ -122,7 +133,12 @@ final class InjectPresenter implements InjectContract.Presenter {
         mSubscriptions.add(mInjectDataSource.injectEquipmentList(equipmentId, cycle, new IObjectCallBack<InjectResultBean>() {
 
             @Override
-            public void onSuccess(@NonNull InjectResultBean resultBean) {
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull InjectResultBean injectResultBean) {
                 mView.injectSuccess(position);
             }
 
