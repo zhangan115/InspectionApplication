@@ -10,10 +10,13 @@ import android.widget.RelativeLayout;
 
 
 import com.inspection.application.R;
+import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.bean.customer.DepartmentBean;
+import com.inspection.application.mode.bean.customer.EmployeeBean;
 import com.inspection.application.view.MvpFragment;
 import com.library.widget.PinnedHeaderExpandableListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,12 +29,25 @@ public class ContactFragment extends MvpFragment<ContactContract.Presenter> impl
     private PinnedHeaderExpandableListView mListView;
     private ContactListAdapter mContactAdapter;
     private RelativeLayout noDataLayout;
+    private boolean isChooseUser;//是否选择人员
+    private ArrayList<EmployeeBean> chooseEmployeeBeans;
 
-    public static ContactFragment newInstance() {
+    public static ContactFragment newInstance(boolean isChooseUser, ArrayList<EmployeeBean> employeeBeans) {
         Bundle args = new Bundle();
+        args.putBoolean(ConstantStr.KEY_BUNDLE_BOOLEAN, isChooseUser);
+        args.putParcelableArrayList(ConstantStr.KEY_BUNDLE_LIST, employeeBeans);
         ContactFragment fragment = new ContactFragment();
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            isChooseUser = getArguments().getBoolean(ConstantStr.KEY_BUNDLE_BOOLEAN);
+            chooseEmployeeBeans = getArguments().getParcelableArrayList(ConstantStr.KEY_BUNDLE_LIST);
+        }
     }
 
     @Nullable

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.mode.bean.customer.DepartmentBean;
+import com.inspection.application.mode.bean.customer.EmployeeBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +28,21 @@ class ContactListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private int groupLayout, childLayout;
     private List<DepartmentBean> data = new ArrayList<>();
+    private ArrayList<EmployeeBean> chooseEmployeeBeans;//选中的人员
+    private boolean isChooseUser;//是否选择人员
 
     ContactListAdapter(Context context, int groupLayout, int childLayout) {
         this.context = context;
         this.groupLayout = groupLayout;
         this.childLayout = childLayout;
+    }
+
+    ContactListAdapter(Context context, int groupLayout, int childLayout, boolean isChooseUser, ArrayList<EmployeeBean> employeeBeans) {
+        this.context = context;
+        this.groupLayout = groupLayout;
+        this.childLayout = childLayout;
+        this.isChooseUser = isChooseUser;
+        this.chooseEmployeeBeans = employeeBeans;
     }
 
     public void setData(List<DepartmentBean> data) {

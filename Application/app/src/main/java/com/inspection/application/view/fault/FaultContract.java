@@ -29,8 +29,6 @@ public interface FaultContract {
 
         void showImageList(@NonNull List<Image> images);
 
-        void showDataFromCache(@Nullable EquipmentBean equipmentBean, int faultType, @Nullable String faultDescribe, @Nullable List<User> userList);
-
         void uploadImageSuccess();
 
         void uploadImageFail(Image image);

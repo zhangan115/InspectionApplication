@@ -72,11 +72,6 @@ public class LoginFragment extends MvpFragment<LoginContract.Presenter> implemen
     }
 
     @Override
-    public void showHistoryUser(@NonNull List<User> userList) {
-
-    }
-
-    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_login:

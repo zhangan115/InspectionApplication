@@ -3,7 +3,9 @@ package com.inspection.application.mode.source.fault;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.inspection.application.mode.bean.fault.DefaultFlowBean;
 import com.inspection.application.mode.bean.image.Image;
+import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 
 import org.json.JSONObject;
@@ -67,6 +69,6 @@ public interface FaultDataSource {
      */
     void deleteImage(Image image);
 
-    void saveCache();
-
+    @NonNull
+    Subscription getFlowUserList(@NonNull IListCallBack<DefaultFlowBean> callBack);
 }

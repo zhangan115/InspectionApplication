@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.inspection.application.base.AbsBaseApp;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
@@ -17,6 +18,7 @@ import com.library.utils.Base64Util;
 import com.library.utils.SPHelper;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,6 +67,8 @@ public class App extends AbsBaseApp {
     public void setOptionInfo(@NonNull List<OptionBean> list) {
         mOptionBeen = new ArrayList<>();
         mOptionBeen.addAll(list);
+        String jsonStr = new Gson().toJson(list);
+        SPHelper.write(this, ConstantStr.USER_INFO, ConstantStr.OPTION, jsonStr);
     }
 
     /**
@@ -103,6 +107,22 @@ public class App extends AbsBaseApp {
         }
         setMapOption(mOption);
         return mOption;
+    }
+
+
+    /**
+     * 获取字典
+     *
+     * @return
+     */
+    public List<OptionBean> getOptionInfo() {
+        if (mOptionBeen == null) {
+            String optionStr = SPHelper.readString(this, ConstantStr.USER_INFO, ConstantStr.OPTION);
+            Type type = new TypeToken<List<OptionBean>>() {
+            }.getType();
+            mOptionBeen = new Gson().fromJson(optionStr, type);
+        }
+        return mOptionBeen;
     }
 
 

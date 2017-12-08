@@ -3,8 +3,13 @@ package com.inspection.application.view.main;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.app.AppStatusConstant;
@@ -15,10 +20,15 @@ import com.inspection.application.view.contact.ContactActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
 import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
+import com.inspection.application.view.main.home.HomeFragment;
+import com.inspection.application.view.main.mine.MineFragment;
+import com.inspection.application.view.main.mine.MinePresenter;
+import com.inspection.application.view.main.news.NewsFragment;
 import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.splash.SplashActivity;
 import com.orhanobut.logger.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
@@ -28,6 +38,9 @@ import pub.devrel.easypermissions.EasyPermissions;
 public class MainActivity extends BaseActivity implements EasyPermissions.PermissionCallbacks, MainContract.View {
 
     private MainContract.Presenter mPresenter;
+    private AHBottomNavigation bottomNavigation;
+    private int selectPosition = 0;
+    private ArrayList<Fragment> mFragments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +53,67 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     private void initView() {
-        findViewById(R.id.tv_alarm_news).setOnClickListener(this);
-        findViewById(R.id.tv_inject_manager).setOnClickListener(this);
-        findViewById(R.id.tv_equipment_list).setOnClickListener(this);
-        findViewById(R.id.tv_task).setOnClickListener(this);
-        findViewById(R.id.tv_fault_submit).setOnClickListener(this);
-        findViewById(R.id.tv_count).setOnClickListener(this);
-        findViewById(R.id.tv_work_manager).setOnClickListener(this);
-        findViewById(R.id.tv_customer).setOnClickListener(this);
-        findViewById(R.id.tv_my_setting).setOnClickListener(this);
-        findViewById(R.id.tv_news).setOnClickListener(this);
+        mFragments = getFragments();
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.str_first_nav_1, R.drawable.nav_work_icon_normal, R.color.colorPrimary);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.str_first_nav_2, R.drawable.nav_work_icon_normal, R.color.colorPrimary);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.str_first_nav_3, R.drawable.nav_work_icon_normal, R.color.colorPrimary);
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item3);
+        bottomNavigation.setTitleTextSizeInSp(12f, 12f);
+        bottomNavigation.setBackgroundColor(findColorById(R.color.colorWhite));
+        bottomNavigation.setDefaultBackgroundColor(findColorById(R.color.colorWhite));
+        bottomNavigation.setForceTint(false);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        bottomNavigation.setAccentColor(findColorById(R.color.colorPrimary));
+        bottomNavigation.setInactiveColor(findColorById(R.color.color_bg_nav_normal));
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                if (selectPosition != position) {
+                    FragmentManager fm = getSupportFragmentManager();
+                    FragmentTransaction ft = fm.beginTransaction();
+                    ft.hide(mFragments.get(selectPosition));
+                    if (mFragments.get(position).isAdded()) {
+                        ft.show(mFragments.get(position));
+                    } else {
+                        ft.add(R.id.frame_container, mFragments.get(position), "tag_" + position);
+                    }
+                    selectPosition = position;
+                    ft.commit();
+                    return true;
+                }
+                return false;
+            }
+        });
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction transaction = fm.beginTransaction();
+        transaction.replace(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+        bottomNavigation.setCurrentItem(selectPosition);
+        transaction.commit();
+    }
+
+    public ArrayList<Fragment> getFragments() {
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        HomeFragment newsFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("tag_0");
+        if (newsFragment == null) {
+            newsFragment = HomeFragment.newInstance();
+        }
+        NewsFragment workFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag("tag_1");
+        if (workFragment == null) {
+            workFragment = NewsFragment.newInstance();
+        }
+        MineFragment mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
+        if (mineFragment == null) {
+            mineFragment = MineFragment.newInstance();
+        }
+        new MinePresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule()), mineFragment);
+        fragments.add(newsFragment);
+        fragments.add(workFragment);
+        fragments.add(mineFragment);
+        return fragments;
     }
 
     public static final int REQUEST_EXTERNAL = 10;//内存卡权限
@@ -98,37 +162,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.tv_alarm_news:
-                break;
-            case R.id.tv_inject_manager:
-                startActivity(new Intent(this, InjectActivity.class));
-                break;
-            case R.id.tv_equipment_list:
-                startActivity(new Intent(this, EquipListActivity.class));
-                break;
-            case R.id.tv_task:
-                break;
-            case R.id.tv_fault_submit:
-                startActivity(new Intent(this, FaultActivity.class));
-                break;
-            case R.id.tv_count:
-                break;
-            case R.id.tv_work_manager:
-                break;
-            case R.id.tv_customer:
-                startActivity(new Intent(this, ContactActivity.class));
-                break;
-            case R.id.tv_my_setting:
-                startActivity(new Intent(this, SettingActivity.class));
-                break;
-            case R.id.tv_news:
-                break;
-        }
-    }
 
     @Override
     protected void onCancel() {

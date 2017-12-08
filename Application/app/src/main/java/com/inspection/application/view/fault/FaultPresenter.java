@@ -3,7 +3,9 @@ package com.inspection.application.view.fault;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.inspection.application.mode.bean.fault.DefaultFlowBean;
 import com.inspection.application.mode.bean.image.Image;
+import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.fault.FaultDataSource;
 
@@ -100,11 +102,37 @@ class FaultPresenter implements FaultContract.Presenter {
 
     @Override
     public void getUserFlowList() {
+        subscription.add(mFaultDataSource.getFlowUserList(new IListCallBack<DefaultFlowBean>() {
 
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<DefaultFlowBean> list) {
+                mView.showDefaultFlowData(list);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.noDefaultFlowData();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+                mView.noDefaultFlowData();
+            }
+        }));
     }
 
     @Override
     public void deleteImage(Image image) {
-
+        mFaultDataSource.deleteImage(image);
     }
 }

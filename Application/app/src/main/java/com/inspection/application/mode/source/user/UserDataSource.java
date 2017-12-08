@@ -55,13 +55,4 @@ public interface UserDataSource {
     @NonNull
     Subscription autoLogin(@NonNull AutoLoginCallBack callBack);
 
-    /**
-     * 获取历史用户
-     *
-     * @param userName 用户名称
-     * @param callBack 回调
-     * @return 订阅
-     */
-    @NonNull
-    Subscription loadHistoryUser(@Nullable String userName, @NonNull IListCallBack<User> callBack);
 }

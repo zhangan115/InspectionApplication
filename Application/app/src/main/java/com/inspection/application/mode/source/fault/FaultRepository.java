@@ -10,8 +10,10 @@ import com.inspection.application.common.ConstantInt;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.ApiCallBackObject;
+import com.inspection.application.mode.api.FaultApi;
 import com.inspection.application.mode.api.UploadApi;
 import com.inspection.application.mode.bean.Bean;
+import com.inspection.application.mode.bean.fault.DefaultFlowBean;
 import com.inspection.application.mode.bean.image.Image;
 import com.inspection.application.mode.bean.image.ImageDao;
 import com.inspection.application.mode.callback.IListCallBack;
@@ -124,7 +126,12 @@ public class FaultRepository implements FaultDataSource {
     @NonNull
     @Override
     public Subscription uploadFaultData(@NonNull JSONObject jsonObject, @NonNull IObjectCallBack<String> callBack) {
-        return null;
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(FaultApi.class).uploadFaultData(jsonObject.toString())) {
+            @Override
+            public void onData(@NonNull String d) {
+
+            }
+        }.execute(callBack).subscribe();
     }
 
     @Override
@@ -132,8 +139,15 @@ public class FaultRepository implements FaultDataSource {
         DbManager.getDbManager().getDaoSession().getImageDao().delete(image);
     }
 
+    @NonNull
     @Override
-    public void saveCache() {
-
+    public Subscription getFlowUserList(@NonNull final IListCallBack<DefaultFlowBean> callBack) {
+        return new ApiCallBackList<DefaultFlowBean>(Api.createRetrofit().create(FaultApi.class).getDefaultFlow(1)) {
+            @Override
+            public void onData(List<DefaultFlowBean> data) {
+                callBack.onData(data);
+            }
+        }.execute(callBack).subscribe();
     }
+
 }

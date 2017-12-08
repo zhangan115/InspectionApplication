@@ -37,4 +37,8 @@
     <string name="image_record">图片记录</string>
     <string name="fault_assign">指派</string>
 
+
+    <string name="str_first_nav_1">首页</string>
+    <string name="str_first_nav_2">代办消息</string>
+    <string name="str_first_nav_3">个人中心</string>
 </resources>

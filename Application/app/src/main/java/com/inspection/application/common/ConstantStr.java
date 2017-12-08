@@ -9,6 +9,7 @@ public interface ConstantStr {
     String USER_CONFIG_FILE = "user_config";
     String APP_HOST = "app_host";
     String NEED_LOGIN = "need_login";
+    String OPTION = "option";
     /**
      * 是否使用过App
      **/

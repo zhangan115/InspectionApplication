@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
@@ -24,6 +25,7 @@ import com.inspection.application.mode.bean.customer.EmployeeBean;
 import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.fault.DefaultFlowBean;
 import com.inspection.application.mode.bean.image.Image;
+import com.inspection.application.mode.bean.option.OptionBean;
 import com.inspection.application.mode.bean.user.User;
 import com.inspection.application.utils.PhotoUtils;
 import com.inspection.application.view.BaseActivity;
@@ -67,6 +69,7 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
     private int mFaultGrade = -1;
     private String mNextUserId = "";
     private Long defaultFlowId;
+    private List<OptionBean.ItemListBean> typeList;
     private List<DefaultFlowBean> mDefaultFlowBeen;
     private List<FlowLayout> mFlowLayoutList;
     private ArrayList<EmployeeBean> chooseEmployeeBeen;
@@ -82,9 +85,6 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
         setLayoutAndToolbar(R.layout.activity_fault, R.string.main_fault_submit);
         new FaultPresenter(Injection.getIntent().provideFaultRepository(App.getInstance().getModule()), this);
         initView();
-        if (savedInstanceState != null) {
-
-        }
         getDataFromIntent();
         initData();
         mPresenter.getCacheFromDb(INSPECTION_TAG);
@@ -132,6 +132,15 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
         images = new ArrayList<>();
         chooseEmployeeBeen = new ArrayList<>();
         mFlowLayoutList = new ArrayList<>();
+        List<OptionBean> list = App.getInstance().getOptionInfo();
+        if (list != null && list.size() > 0) {
+            typeList = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getOptionId() == 2) {
+                    typeList.addAll(list.get(i).getItemList());
+                }
+            }
+        }
         if (App.getInstance().getCurrentUser().getCustomer().getIsOpen() == 1) {
             mHSView.setVisibility(View.GONE);
             mFlowLayout.setVisibility(View.VISIBLE);
@@ -205,37 +214,39 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                         App.getInstance().showToast("请拍照");
                         return;
                     }
-                    uploadJson.put("", imageUrls);
+                    uploadJson.put("picsUrl", imageUrls);
                     if (mEquipmentBean == null) {
                         App.getInstance().showToast("请选择设备");
                         return;
                     }
-                    uploadJson.put("", String.valueOf(mEquipmentBean.getEquipmentId()));
+                    uploadJson.put("equipmentId", String.valueOf(mEquipmentBean.getEquipmentId()));
                     if (mFaultGrade == -1) {
                         App.getInstance().showToast("请选择故障类型");
                         return;
                     }
-                    uploadJson.put("", String.valueOf(mFaultGrade));
+                    uploadJson.put("faultType", String.valueOf(mFaultGrade));
                     if (TextUtils.isEmpty(describeFaultEt.getText().toString())) {
                         App.getInstance().showToast("请输入故障描述");
                         return;
                     }
-                    uploadJson.put("", describeFaultEt.getText().toString());
+                    uploadJson.put("faultDescript", describeFaultEt.getText().toString());
                     if (TextUtils.isEmpty(mNextUserId) && defaultFlowId == null) {
                         App.getInstance().showToast("请选择指派人");
                         return;
                     }
                     if (!TextUtils.isEmpty(mNextUserId)) {
-                        uploadJson.put("", mNextUserId);
+                        uploadJson.put("usersNext", mNextUserId);
                     } else {
-                        uploadJson.put("", String.valueOf(defaultFlowId));
+                        uploadJson.put("defaultFlowId", String.valueOf(defaultFlowId));
                     }
+                    mPresenter.uploadFaultData(uploadJson);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
             case R.id.ib_add_user:
                 Intent intentUser = new Intent(this, ContactActivity.class);
+                intentUser.putExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, true);
                 intentUser.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST, chooseEmployeeBeen);
                 startActivityForResult(intentUser, CHOOSE_USER_LIST);
                 break;
@@ -245,7 +256,20 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                 startActivityForResult(deviceInt, CHOOSE_EQUIPMENT);
                 break;
             case R.id.id_fault_ll_grade:
-
+                final List<String> mTypeItem = new ArrayList<>();
+                for (int i = 0; i < typeList.size(); i++) {
+                    mTypeItem.add(typeList.get(i).getItemName());
+                }
+                new MaterialDialog.Builder(FaultActivity.this)
+                        .items(mTypeItem)
+                        .itemsCallback(new MaterialDialog.ListCallback() {
+                            @Override
+                            public void onSelection(MaterialDialog dialog, View itemView, int position, CharSequence text) {
+                                faultGradeTv.setText(typeList.get(position).getItemName());
+                                mFaultGrade = Integer.valueOf(typeList.get(position).getItemCode());
+                            }
+                        })
+                        .show();
                 break;
         }
     }
@@ -287,7 +311,7 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                     }
                 });
             }
-        } else if (requestCode == CHOOSE_USER_LIST) {
+        } else if (requestCode == CHOOSE_USER_LIST && data != null) {
             ArrayList<EmployeeBean> employeeBeen = data.getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST);
             chooseEmployeeBeen.clear();
             mNextUserId = "";
@@ -355,11 +379,6 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
     }
 
     @Override
-    public void showDataFromCache(@Nullable EquipmentBean equipmentBean, int faultType, @Nullable String faultDescribe, @Nullable List<User> userList) {
-
-    }
-
-    @Override
     public void uploadImageSuccess() {
         mTakePhotoView.setImages(images);
     }
@@ -376,12 +395,14 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
 
     @Override
     public void uploadFaultDataSuccess() {
-
+        App.getInstance().showToast("上传缺陷成功");
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
     public void uploadFaultDataFail() {
-
+        App.getInstance().showToast("上传缺陷失败");
     }
 
 

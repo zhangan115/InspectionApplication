@@ -57,37 +57,6 @@ final class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void loadHistoryUser(@NonNull String userName, @Nullable List<User> userList) {
-        mSubscriptions.add(mUserDataSource.loadHistoryUser(userName, new IListCallBack<User>() {
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onData(@NonNull List<User> list) {
-                mView.showHistoryUser(list);
-            }
-
-            @Override
-            public void onError(String message) {
-                mView.showMessage(message);
-            }
-
-            @Override
-            public void onFinish() {
-
-            }
-
-            @Override
-            public void noData() {
-
-            }
-        }));
-    }
-
-    @Override
     public void subscribe() {
 
     }

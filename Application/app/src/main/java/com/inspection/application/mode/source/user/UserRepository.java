@@ -246,12 +246,6 @@ public class UserRepository implements UserDataSource {
         }
     }
 
-    @NonNull
-    @Override
-    public Subscription loadHistoryUser(@Nullable String userName, @NonNull IListCallBack<User> callBack) {
-        return null;
-    }
-
     private void saveUserInfo(@NonNull String name, @NonNull String pass) {
         name = Base64Util.encode(name.getBytes());
         pass = Base64Util.encode(pass.getBytes());

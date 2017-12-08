@@ -7,6 +7,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
         android:scaleType="centerCrop" />
 
     <RelativeLayout
@@ -15,7 +16,8 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp">
 
             <LinearLayout
                 android:id="@+id/ll_login"
@@ -90,6 +92,7 @@
                     android:paddingBottom="15dp"
                     android:paddingTop="15dp"
                     android:text="@string/str_login_btn"
+                    android:textColor="@color/colorWhite"
                     android:textSize="@dimen/login_btn_text_size"
                     android:typeface="serif" />
 

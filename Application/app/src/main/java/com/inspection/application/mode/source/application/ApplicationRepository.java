@@ -139,7 +139,8 @@ public class ApplicationRepository implements ApplicationDataSource {
 
                     @Override
                     public void onSuccess() {
-                        callBack.onData(mUserPhotoUrl);
+                        App.getInstance().getCurrentUser().setPortraitUrl(mUserPhotoUrl);
+                        callBack.onSuccess();
                     }
 
                     @Override

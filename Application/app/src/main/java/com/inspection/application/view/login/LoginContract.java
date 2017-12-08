@@ -20,8 +20,6 @@ interface LoginContract {
     interface Presenter extends BasePresenter {
 
         void login(String name, String pass);
-
-        void loadHistoryUser(@NonNull String userName, @Nullable List<User> userList);
     }
 
     interface View extends BaseView<Presenter> {
@@ -36,6 +34,5 @@ interface LoginContract {
 
         void showMessage(@Nullable String message);
 
-        void showHistoryUser(@NonNull List<User> userList);
     }
 }
