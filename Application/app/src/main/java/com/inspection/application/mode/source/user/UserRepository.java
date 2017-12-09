@@ -82,7 +82,7 @@ public class UserRepository implements UserDataSource {
                     public void call(Bean<User> userBean) {
                         callBack.onFinish();
                         if (userBean.getErrorCode() == 0) {
-                            saveUserInfo(name, pass);
+                            App.getInstance().setUserInfo(jsonObject.toString());
                             userSp.edit().putBoolean(ConstantStr.USE_APP, true).apply();
                             App.getInstance().setCurrentUser(userBean.getData());
                             try {
@@ -244,13 +244,6 @@ public class UserRepository implements UserDataSource {
                         }
                     });
         }
-    }
-
-    private void saveUserInfo(@NonNull String name, @NonNull String pass) {
-        name = Base64Util.encode(name.getBytes());
-        pass = Base64Util.encode(pass.getBytes());
-        userSp.edit().putString(ConstantStr.USER_NAME, name).apply();
-        userSp.edit().putString(ConstantStr.USER_PASS, pass).apply();
     }
 
     private void autoFinish(long startTime, @NonNull final AutoLoginCallBack callBack) {

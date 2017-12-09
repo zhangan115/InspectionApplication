@@ -2,6 +2,7 @@ package com.inspection.application.view.main.mine;
 
 import android.support.annotation.NonNull;
 
+import com.inspection.application.app.App;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.application.ApplicationDataSource;
@@ -90,6 +91,7 @@ public final class MinePresenter implements MineContract.Presenter {
 
     @Override
     public void exitApp() {
-
+        App.getInstance().cleanUserInfo();
+        mApplicationDataSource.exitApp();
     }
 }

@@ -24,6 +24,7 @@ import com.inspection.application.view.main.home.HomeFragment;
 import com.inspection.application.view.main.mine.MineFragment;
 import com.inspection.application.view.main.mine.MinePresenter;
 import com.inspection.application.view.main.news.NewsFragment;
+import com.inspection.application.view.main.news.NewsPresenter;
 import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.splash.SplashActivity;
 import com.orhanobut.logger.Logger;
@@ -97,21 +98,22 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     public ArrayList<Fragment> getFragments() {
         ArrayList<Fragment> fragments = new ArrayList<>();
-        HomeFragment newsFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("tag_0");
+        HomeFragment homeFragment = (HomeFragment) getSupportFragmentManager().findFragmentByTag("tag_0");
+        if (homeFragment == null) {
+            homeFragment = HomeFragment.newInstance();
+        }
+        NewsFragment newsFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag("tag_1");
         if (newsFragment == null) {
-            newsFragment = HomeFragment.newInstance();
+            newsFragment = NewsFragment.newInstance();
         }
-        NewsFragment workFragment = (NewsFragment) getSupportFragmentManager().findFragmentByTag("tag_1");
-        if (workFragment == null) {
-            workFragment = NewsFragment.newInstance();
-        }
+        new NewsPresenter(Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), newsFragment);
         MineFragment mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
         if (mineFragment == null) {
             mineFragment = MineFragment.newInstance();
         }
         new MinePresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule()), mineFragment);
+        fragments.add(homeFragment);
         fragments.add(newsFragment);
-        fragments.add(workFragment);
         fragments.add(mineFragment);
         return fragments;
     }

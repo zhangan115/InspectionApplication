@@ -20,7 +20,7 @@ import com.inspection.application.app.App;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.utils.PhotoUtils;
 import com.inspection.application.view.MvpFragment;
-import com.inspection.application.view.main.news.NewsFragment;
+import com.inspection.application.view.login.LoginActivity;
 import com.inspection.application.view.setting.AboutActivity;
 import com.inspection.application.view.setting.feedback.QuestionActivity;
 import com.library.utils.GlideUtils;
@@ -71,6 +71,8 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
         return rootView;
     }
 
+    private MaterialDialog exitDialog;
+
     @Override
     public void onClick(View view) {
         if (getActivity() == null) {
@@ -78,7 +80,34 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
         }
         switch (view.getId()) {
             case R.id.tv_exit_app:
-                mPresenter.exitApp();
+                if (getActivity() != null) {
+                    View exitView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_home_exit, null);
+                    exitView.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (exitDialog != null) {
+                                exitDialog.dismiss();
+                            }
+                        }
+                    });
+                    exitView.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (exitDialog != null) {
+                                exitDialog.dismiss();
+                                if (mPresenter != null) {
+                                    mPresenter.exitApp();
+                                }
+                                startActivity(new Intent(getActivity(), LoginActivity.class));
+                                getActivity().finish();
+                            }
+                        }
+                    });
+                    exitDialog = new MaterialDialog.Builder(getActivity())
+                            .customView(exitView, false)
+                            .build();
+                    exitDialog.show();
+                }
                 break;
             case R.id.iv_user_photo:
                 new MaterialDialog.Builder(getActivity())
@@ -162,8 +191,6 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
         mPresenter = presenter;
     }
 
-    private File userPhoto;
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,7 +217,6 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
                 @Override
                 public void onSuccess(File file) {
                     if (mPresenter != null) {
-                        userPhoto = file;
                         mPresenter.uploadUserPhoto(file);
                     }
                 }

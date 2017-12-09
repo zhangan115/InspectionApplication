@@ -1,7 +1,6 @@
 package com.inspection.application.mode.source.inject;
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
@@ -20,7 +19,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
-import rx.Observer;
 import rx.Subscription;
 
 /**
@@ -48,11 +46,31 @@ public class InjectRepository implements InjectDataSource {
         Observable<Bean<List<InjectRoomBean>>> observable = Api.createRetrofit().create(InjectApi.class).getInjectRoom(1);
         return new ApiCallBackList<InjectRoomBean>(observable) {
             @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
             public void onData(List<InjectRoomBean> list) {
                 injectRooms = list;
                 callBack.onData(list);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 
     @NonNull
@@ -61,10 +79,30 @@ public class InjectRepository implements InjectDataSource {
         Observable<Bean<List<InjectEquipment>>> observable = Api.createRetrofit().create(InjectApi.class).getInjectEquipment(roomId);
         return new ApiCallBackList<InjectEquipment>(observable) {
             @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
             public void onData(List<InjectEquipment> data) {
                 callBack.onData(data);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 
     @NonNull
@@ -76,7 +114,27 @@ public class InjectRepository implements InjectDataSource {
             public void onData(@NonNull InjectResultBean d) {
                 callBack.onData(d);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 
     @NonNull
@@ -88,6 +146,26 @@ public class InjectRepository implements InjectDataSource {
             public void onData(@NonNull InjectResultBean d) {
                 callBack.onData(d);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 }

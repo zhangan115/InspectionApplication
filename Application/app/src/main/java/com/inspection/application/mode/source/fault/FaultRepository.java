@@ -86,6 +86,11 @@ public class FaultRepository implements FaultDataSource {
                 .postFile(FilePartManager.getPostFileParts("fault", "image", new File(image.getImageLocal())));
         return new ApiCallBackList<String>(observable) {
             @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
             public void onData(List<String> data) {
                 image.setImageUrl(data.get(0));
                 image.setIsUpload(true);
@@ -93,21 +98,9 @@ public class FaultRepository implements FaultDataSource {
                 DbManager.getDbManager().getDaoSession().getImageDao().insertOrReplaceInTx(image);
                 callBack.onSuccess();
             }
-        }.execute(new IListCallBack<String>() {
-
 
             @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onData(@NonNull List<String> list) {
-
-            }
-
-            @Override
-            public void onError(@Nullable String message) {
+            public void onFail(@NonNull String message) {
                 callBack.onFail(image);
             }
 
@@ -120,18 +113,38 @@ public class FaultRepository implements FaultDataSource {
             public void noData() {
 
             }
-        }).subscribe();
+        }.execute().subscribe();
     }
 
     @NonNull
     @Override
-    public Subscription uploadFaultData(@NonNull JSONObject jsonObject, @NonNull IObjectCallBack<String> callBack) {
+    public Subscription uploadFaultData(@NonNull JSONObject jsonObject, @NonNull final IObjectCallBack<String> callBack) {
         return new ApiCallBackObject<String>(Api.createRetrofit().create(FaultApi.class).uploadFaultData(jsonObject.toString())) {
             @Override
             public void onData(@NonNull String d) {
-
+                callBack.onData(d);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 
     @Override
@@ -144,10 +157,30 @@ public class FaultRepository implements FaultDataSource {
     public Subscription getFlowUserList(@NonNull final IListCallBack<DefaultFlowBean> callBack) {
         return new ApiCallBackList<DefaultFlowBean>(Api.createRetrofit().create(FaultApi.class).getDefaultFlow(1)) {
             @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
             public void onData(List<DefaultFlowBean> data) {
                 callBack.onData(data);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 
 }

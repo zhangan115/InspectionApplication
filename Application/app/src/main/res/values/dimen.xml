@@ -70,4 +70,6 @@
     <dimen name="SP_16">16dp</dimen>
     <dimen name="SP_18">18dp</dimen>
     <dimen name="SP_20">20dp</dimen>
+
+    <dimen name="task_data_size">40dp</dimen>
 </resources>

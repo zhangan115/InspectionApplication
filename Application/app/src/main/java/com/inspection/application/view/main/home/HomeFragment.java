@@ -16,6 +16,7 @@ import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
 import com.inspection.application.view.main.mine.MineFragment;
 import com.inspection.application.view.setting.SettingActivity;
+import com.inspection.application.view.task.TaskListActivity;
 
 /**
  * 首页
@@ -61,6 +62,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), EquipListActivity.class));
                 break;
             case R.id.tv_task:
+                startActivity(new Intent(getActivity(), TaskListActivity.class));
                 break;
             case R.id.tv_fault_submit:
                 startActivity(new Intent(getActivity(), FaultActivity.class));

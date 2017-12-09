@@ -42,10 +42,30 @@ public class EquipmentRepository implements EquipmentDataSource {
         }
         return new ApiCallBackList<RoomListBean>(Api.createRetrofit().create(EquipmentApi.class).getRoomDta()) {
             @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
             public void onData(List<RoomListBean> data) {
                 roomListBeans = data;
                 callBack.onData(data);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 }

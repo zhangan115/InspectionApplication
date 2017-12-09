@@ -5,8 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import com.blankj.utilcode.util.ToastUtils;
+import com.blankj.utilcode.util.Utils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.inspection.application.R;
 import com.inspection.application.base.AbsBaseApp;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
@@ -42,6 +45,7 @@ public class App extends AbsBaseApp {
         super.onCreate();
         _instance = this;
         DbManager.init(this);
+        Utils.init(this);
     }
 
     public static App getInstance() {
@@ -60,7 +64,9 @@ public class App extends AbsBaseApp {
     @Override
     public void showToast(@Nullable String message) {
         if (!TextUtils.isEmpty(message)) {
-
+            ToastUtils.setBgColor(getResources().getColor(R.color.colorPrimary));
+            ToastUtils.setMsgColor(getResources().getColor(R.color.colorWhite));
+            ToastUtils.showShort(message);
         }
     }
 
@@ -111,9 +117,7 @@ public class App extends AbsBaseApp {
 
 
     /**
-     * 获取字典
-     *
-     * @return
+     * @return 获取字典
      */
     public List<OptionBean> getOptionInfo() {
         if (mOptionBeen == null) {
@@ -143,32 +147,24 @@ public class App extends AbsBaseApp {
         return null;
     }
 
-    /**
-     * @return 获取用户名称
-     */
+    public void setUserInfo(@NonNull String info) {
+        SPHelper.write(this, ConstantStr.USER_INFO, ConstantStr.USER_INFO, Base64Util.encode(info.getBytes()));
+    }
+
     @Nullable
-    public String getUserName() {
+    public String getUserInfo() {
+        String json = SPHelper.readString(this, ConstantStr.USER_INFO, ConstantStr.USER_INFO);
         String name = null;
         try {
-            name = new String(Base64Util.decode(SPHelper.readString(this, ConstantStr.USER_INFO, ConstantStr.USER_NAME)), "UTF-8");
+            name = new String(Base64Util.decode(json), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         return name;
     }
 
-    /**
-     * @return 获取用户密码
-     */
-    @Nullable
-    public String getUserPass() {
-        String pass = null;
-        try {
-            pass = new String(Base64Util.decode(SPHelper.readString(this, ConstantStr.USER_INFO, ConstantStr.USER_PASS)), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return pass;
+    public void cleanUserInfo() {
+        SPHelper.remove(this, ConstantStr.USER_INFO, ConstantStr.USER_INFO);
     }
 
     public void setCurrentUser(User user) {

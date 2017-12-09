@@ -12,6 +12,8 @@ import com.inspection.application.mode.callback.IObjectCallBack;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -39,42 +41,37 @@ public abstract class ApiCallBackObject<T> {
         this.mObservable = observable;
     }
 
-    public Observable<T> execute(final @Nullable IObjectCallBack<T> callBack) {
+    public Observable<T> execute() {
         mTryCount = 1;
         return mObservable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(new Action1<Throwable>() {
                     @Override
                     public void call(Throwable t) {
-                        if (callBack != null) {
-                            callBack.onFinish();
-                            callBack.onError(t.getMessage());
-                            callBack.noData();
-                        }
+                        onFinish();
+                        onFail(t.getMessage());
+                        noData();
                     }
                 })
                 .doOnNext(new Action1<Bean<T>>() {
                     @Override
                     public void call(Bean<T> t) {
                         if (t.getErrorCode() == ApiErrorCode.SUCCEED) {
-                            if (callBack != null) {
-                                callBack.onFinish();
-                                callBack.onSuccess();
-                                if (t.getData() == null) {
-                                    callBack.noData();
-                                } else {
-                                    data = t.getData();
-                                    onData(data);
-                                }
+                            onFinish();
+                            onSuccess();
+                            if (t.getData() == null) {
+                                noData();
+                            } else {
+                                data = t.getData();
+                                onData(data);
                             }
+
                         } else if (t.getErrorCode() == ApiErrorCode.NOT_LOGGED && mTryCount == 0) {
                             App.getInstance().needLogin();
                         } else if (t.getErrorCode() != ApiErrorCode.NOT_LOGGED) {
-                            if (callBack != null) {
-                                callBack.onFinish();
-                                callBack.onError(t.getMessage());
-                                callBack.noData();
-                            }
+                            onFinish();
+                            onFail(t.getMessage());
+                            noData();
                         }
                     }
                 })
@@ -95,17 +92,8 @@ public abstract class ApiCallBackObject<T> {
                             public Observable<?> call(Throwable throwable) {
                                 if (mTryCount > 0 && throwable != null && throwable instanceof NotLoggedThrowable) {
                                     --mTryCount;
-                                    String name = App.getInstance().getUserName();
-                                    String pass = App.getInstance().getUserPass();
-                                    JSONObject jsonObject = new JSONObject();
-                                    try {
-                                        jsonObject.put("userName", name);
-                                        jsonObject.put("userPwd", pass);
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
                                     return Api.createRetrofit().create(UserApi.class)
-                                            .userLogin(jsonObject.toString())
+                                            .userLogin(App.getInstance().getUserInfo())
                                             .subscribeOn(Schedulers.io())
                                             .observeOn(AndroidSchedulers.mainThread())
                                             .flatMap(new Func1<Bean<User>, Observable<NotLoggedThrowable>>() {
@@ -144,5 +132,13 @@ public abstract class ApiCallBackObject<T> {
                 });
     }
 
-    public abstract void onData(@NonNull T d);
+    public abstract void onData(@NonNull T data);
+
+    public abstract void onSuccess();
+
+    public abstract void onFail(@NonNull String message);
+
+    public abstract void onFinish();
+
+    public abstract void noData();
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
+ * 日期类
  * Created by zhangan on 2017-07-03.
  */
 
@@ -41,6 +42,34 @@ public class CalendarUtil {
             list.add(c.getTime());
         }
         return list;
+    }
+
+    public static String getWeek(Calendar calendar) {
+        String str;
+        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
+            case 1:
+                str = "星期天";
+                break;
+            case 2:
+                str = "星期一";
+                break;
+            case 3:
+                str = "星期二";
+                break;
+            case 4:
+                str = "星期三";
+                break;
+            case 5:
+                str = "星期四";
+                break;
+            case 6:
+                str = "星期五";
+                break;
+            default:
+                str = "星期六";
+                break;
+        }
+        return str;
     }
 
 }

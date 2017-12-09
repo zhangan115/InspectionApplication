@@ -51,7 +51,7 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayoutAndToolbar(R.layout.activity_inject_list, "注油管理");
+        setLayoutAndToolbar(R.layout.activity_inject_list, R.string.main_inject_manager);
         new InjectPresenter(Injection.getIntent().provideInjectRepository(), this);
         initView();
         initData();

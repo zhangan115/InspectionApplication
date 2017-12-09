@@ -12,6 +12,10 @@ import com.inspection.application.mode.source.fault.DaggerFaultRepositoryCompone
 import com.inspection.application.mode.source.fault.FaultRepository;
 import com.inspection.application.mode.source.inject.DaggerInjectRepositoryComponent;
 import com.inspection.application.mode.source.inject.InjectRepository;
+import com.inspection.application.mode.source.news.DaggerNewsRepositoryComponent;
+import com.inspection.application.mode.source.news.NewsRepository;
+import com.inspection.application.mode.source.task.DaggerTaskRepositoryComponent;
+import com.inspection.application.mode.source.task.TaskRepository;
 import com.inspection.application.mode.source.user.DaggerUserRepositoryComponent;
 import com.inspection.application.mode.source.user.UserRepository;
 import com.inspection.application.view.ApplicationModule;
@@ -111,4 +115,28 @@ public class Injection {
         return faultRepository;
     }
 
+    private NewsRepository newsRepository;
+
+    /**
+     * @param module ApplicationModule
+     * @return NewsRepository
+     */
+    public NewsRepository provideNewsRepository(@NonNull ApplicationModule module) {
+        if (newsRepository == null) {
+            newsRepository = DaggerNewsRepositoryComponent.builder().applicationModule(module).build().getRepository();
+        }
+        return newsRepository;
+    }
+
+    private TaskRepository taskRepository;
+
+    /**
+     * @return TaskRepository
+     */
+    public TaskRepository provideTaskRepository() {
+        if (taskRepository == null) {
+            taskRepository = DaggerTaskRepositoryComponent.builder().build().getRepository();
+        }
+        return taskRepository;
+    }
 }

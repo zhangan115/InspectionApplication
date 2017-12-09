@@ -3,7 +3,6 @@ package com.inspection.application.mode.source.application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantStr;
@@ -11,12 +10,10 @@ import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.ApiCallBackObject;
 import com.inspection.application.mode.api.ApplicationApi;
-import com.inspection.application.mode.api.CustomerApi;
 import com.inspection.application.mode.api.UploadApi;
 import com.inspection.application.mode.api.UserApi;
 import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.version.NewVersion;
-import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.FilePartManager;
 
@@ -29,11 +26,9 @@ import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import rx.Observable;
 import rx.Subscription;
+import rx.functions.Func1;
 
 /**
  * 系统mode repository
@@ -58,11 +53,15 @@ public class ApplicationRepository implements ApplicationDataSource {
     public Subscription getNewVersion(final @NonNull NewVersionCallBack callBack) {
         Observable<Bean<NewVersion>> observable = Api.createRetrofit().create(ApplicationApi.class).newVersion();
         return new ApiCallBackObject<NewVersion>(observable) {
-            @Override
-            public void onData(@NonNull NewVersion d) {
 
+            @Override
+            public void onData(@NonNull NewVersion result) {
+                if (result.getVersion() > ConstantStr.VERSION_NO && result.getVersion() != userSp.getInt(ConstantStr.cancelVersion, -1)) {
+                    callBack.newVersion(result);
+                } else {
+                    callBack.noNewVersion();
+                }
             }
-        }.execute(new IObjectCallBack<NewVersion>() {
 
             @Override
             public void onSuccess() {
@@ -70,27 +69,20 @@ public class ApplicationRepository implements ApplicationDataSource {
             }
 
             @Override
-            public void onData(@NonNull NewVersion result) {
-                if (result.getVersion() > ConstantStr.VERSION_NO && result.getVersion() != userSp.getInt(ConstantStr.cancelVersion, -1)) {
-                    callBack.newVersion(result);
-                }
-            }
-
-            @Override
-            public void onError(@Nullable String message) {
-
-            }
-
-            @Override
-            public void noData() {
-
+            public void onFail(@NonNull String message) {
+                callBack.noNewVersion();
             }
 
             @Override
             public void onFinish() {
 
             }
-        }).subscribe();
+
+            @Override
+            public void noData() {
+                callBack.noNewVersion();
+            }
+        }.execute().subscribe();
     }
 
     @NonNull
@@ -108,7 +100,27 @@ public class ApplicationRepository implements ApplicationDataSource {
             public void onData(@NonNull String d) {
 
             }
-        }.execute(null).subscribe();
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }.execute().subscribe();
     }
 
     private String mUserPhotoUrl;
@@ -120,7 +132,32 @@ public class ApplicationRepository implements ApplicationDataSource {
                 .postFile(FilePartManager.getPostFileParts("user", "image", file));
         return new ApiCallBackList<String>(observable) {
             @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
             public void onData(List<String> strings) {
+
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }.execute().flatMap(new Func1<List<String>, Observable<String>>() {
+            @Override
+            public Observable<String> call(List<String> strings) {
                 String userPhotoUrl = strings.get(0);
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -130,12 +167,12 @@ public class ApplicationRepository implements ApplicationDataSource {
                     e.printStackTrace();
                 }
                 Observable<Bean<String>> observable1 = Api.createRetrofit().create(UserApi.class).updateUserInfo(jsonObject.toString());
-                new ApiCallBackObject<String>(observable1) {
+                return new ApiCallBackObject<String>(observable1) {
+
                     @Override
                     public void onData(@NonNull String s) {
 
                     }
-                }.execute(new IObjectCallBack<String>() {
 
                     @Override
                     public void onSuccess() {
@@ -144,51 +181,20 @@ public class ApplicationRepository implements ApplicationDataSource {
                     }
 
                     @Override
-                    public void onData(@NonNull String s) {
+                    public void onFail(@NonNull String message) {
 
                     }
 
                     @Override
-                    public void onError(@Nullable String message) {
-
+                    public void onFinish() {
+                        callBack.onFinish();
                     }
 
                     @Override
                     public void noData() {
 
                     }
-
-                    @Override
-                    public void onFinish() {
-
-                    }
-                }).subscribe();
-            }
-        }.execute(new IListCallBack<String>() {
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onData(@NonNull List<String> strings) {
-
-            }
-
-            @Override
-            public void onError(@Nullable String message) {
-                callBack.onError(message);
-            }
-
-            @Override
-            public void onFinish() {
-                callBack.onFinish();
-            }
-
-            @Override
-            public void noData() {
-
+                }.execute();
             }
         }).subscribe();
     }
@@ -196,7 +202,7 @@ public class ApplicationRepository implements ApplicationDataSource {
 
     @NonNull
     @Override
-    public Subscription postQuestion(String title, String content, @NonNull IObjectCallBack<String> callBack) {
+    public Subscription postQuestion(String title, String content, @NonNull final IObjectCallBack<String> callBack) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("feedbackTitle", title);
@@ -208,8 +214,28 @@ public class ApplicationRepository implements ApplicationDataSource {
         return new ApiCallBackObject<String>(observable) {
             @Override
             public void onData(@NonNull String d) {
-
+                callBack.onData(d);
             }
-        }.execute(callBack).subscribe();
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 }
