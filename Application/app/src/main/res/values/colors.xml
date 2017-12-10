@@ -11,8 +11,27 @@
     <color name="green_btn_press">#06d194</color>
     <color name="color_bg_nav_normal">#8998A5</color>
     <color name="text_black">#333333</color>
+    <color name="text_blue">#0b86ff</color>
     <color name="text_light_gray">#cccccc</color>
     <color name="text_gray">#656565</color>
+    <color name="text_gray_999">#999999</color>
     <color name="bg_green">#06d194</color>
     <color name="bg_normal">#fafafa</color>
+    <color name="color_inspection_working_normal">#fc7876</color>
+    <color name="color_inspection_working_press">#fc7876</color>
+
+    <color name="color_inspection_get_normal">@color/green_btn_normal</color>
+    <color name="color_inspection_get_press">@color/green_btn_press</color>
+
+    <color name="color_inspection_start_normal">#1ba7fd</color>
+    <color name="color_inspection_start_press">#1ba7fd</color>
+
+    <color name="color_inspection_finish_normal">#999999</color>
+    <color name="color_inspection_finish_press">#999999</color>
+    <color name="color_special">#fc7876</color>
+    <color name="color_week">#faa029</color>
+    <color name="color_month">#8786f8</color>
+    <color name="color_day">#06d194</color>
+
+
 </resources>

@@ -93,4 +93,9 @@ public interface ConstantStr {
     String KEY_ID = "key_id";
     String KEY_TITLE = "key_title";
 
+    /**
+     * 安全包数据
+     */
+    String SECURE_INFO = "secure_info";
+
 }

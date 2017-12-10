@@ -1,6 +1,8 @@
 package com.inspection.application.mode.source.task;
 
 
+import com.inspection.application.view.ApplicationModule;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -11,7 +13,7 @@ import dagger.Component;
  * Created by zhangan on 2017-06-22.
  */
 @Singleton
-@Component()
+@Component(modules = ApplicationModule.class)
 public interface TaskRepositoryComponent {
 
     TaskRepository getRepository();

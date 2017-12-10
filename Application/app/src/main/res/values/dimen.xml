@@ -72,4 +72,5 @@
     <dimen name="SP_20">20dp</dimen>
 
     <dimen name="task_data_size">40dp</dimen>
+    <dimen name="inspection_type_size">14dp</dimen>
 </resources>

@@ -5,17 +5,22 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.inspection.application.R;
+import com.inspection.application.app.App;
+import com.inspection.application.common.ConstantInt;
 import com.inspection.application.mode.Injection;
+import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.view.BaseActivity;
+import com.library.adapter.RVAdapter;
 import com.library.utils.CalendarUtil;
+import com.library.utils.DataUtil;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
-import com.orhanobut.logger.Logger;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.MessageFormat;
@@ -44,12 +49,19 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
     private Calendar mCurrentDay;
     private TextView mYearTv, mMonthTv, mDayTv;
 
+    private List<InspectionBean> mList;
+    private String[] strList = new String[]{"日检", "周检", "月检", "特检"};
+    private int[] icons = new int[]{R.drawable.bg_inspection_day
+            , R.drawable.bg_inspection_week
+            , R.drawable.bg_inspection_month
+            , R.drawable.bg_inspection_special};
+    private int[] colors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.activity_task_lsit, R.string.main_task);
-        new TaskPresenter(Injection.getIntent().provideTaskRepository(), this);
+        new TaskPresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), this);
         mExpendRecycleView = findViewById(R.id.recycleViewId);
         mRefreshLoadLayout = findViewById(R.id.refresh_layout);
         mExpendRecycleView.setLayoutManager(new GridLayoutManager(this, 1));
@@ -61,7 +73,10 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         mYearTv = findViewById(R.id.tv_year);
         mMonthTv = findViewById(R.id.tv_month);
         mDayTv = findViewById(R.id.tv_day);
-
+        colors = new int[]{findColorById(R.color.color_day)
+                , findColorById(R.color.color_day)
+                , findColorById(R.color.color_month)
+                , findColorById(R.color.color_special)};
         dayTvs[0] = findViewById(R.id.tv_1);
         dayTvs[1] = findViewById(R.id.tv_2);
         dayTvs[2] = findViewById(R.id.tv_3);
@@ -80,10 +95,102 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
             layout.setOnClickListener(this);
         }
         mCurrentDay = Calendar.getInstance(Locale.CHINA);
-        getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH));
         dateList = CalendarUtil.getDaysOfWeek(mCurrentDay.getTime());
         setDayToView();
+        initAdapter();
     }
+
+    private void initAdapter() {
+        mList = new ArrayList<>();
+        RVAdapter<InspectionBean> adapter = new RVAdapter<InspectionBean>(mExpendRecycleView, mList, R.layout.item_day_inspection) {
+            @Override
+            public void showData(ViewHolder vHolder, InspectionBean data, int position) {
+                //巡检类型
+                TextView tv_inspection_type = (TextView) vHolder.getView(R.id.tv_inspection_type);
+                ImageView iv_inspection_type = (ImageView) vHolder.getView(R.id.iv_inspection_type);
+                LinearLayout ll_inspection_type = (LinearLayout) vHolder.getView(R.id.ll_inspection_type);
+                if (data.getIsManualCreated() == 0) {
+                    if (data.getPlanPeriodType() == 0) {
+                        ll_inspection_type.setVisibility(View.GONE);
+                    } else {
+                        ll_inspection_type.setVisibility(View.VISIBLE);
+                        iv_inspection_type.setImageDrawable(findDrawById(icons[data.getPlanPeriodType() - 1]));
+                        tv_inspection_type.setText(strList[data.getPlanPeriodType() - 1]);
+                        tv_inspection_type.setTextColor(colors[data.getPlanPeriodType() - 1]);
+                    }
+                } else {
+                    ll_inspection_type.setVisibility(View.VISIBLE);
+                    iv_inspection_type.setImageDrawable(findDrawById(icons[3]));
+                    tv_inspection_type.setText(strList[3]);
+                    tv_inspection_type.setTextColor(colors[3]);
+                }
+                //巡检状态
+                TextView tv_inspection_state = (TextView) vHolder.getView(R.id.tv_inspection_state);
+                switch (data.getTaskState()) {
+                    case ConstantInt.TASK_STATE_1:
+                        tv_inspection_state.setText("领取");
+                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_get));
+                        break;
+                    case ConstantInt.TASK_STATE_2:
+                        tv_inspection_state.setText("开始");
+                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_start));
+                        break;
+                    case ConstantInt.TASK_STATE_3:
+                        tv_inspection_state.setText("进行中");
+                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_working));
+                        break;
+                    case ConstantInt.TASK_STATE_4:
+                        tv_inspection_state.setText("已完成");
+                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_finish));
+                        break;
+                }
+                tv_inspection_state.setTag(R.id.tag_object, data);
+                tv_inspection_state.setOnClickListener(clickListener);
+                //任务名称
+                TextView tv_inspection_name = (TextView) vHolder.getView(R.id.tv_inspection_name);
+                TextView tv_start_time = (TextView) vHolder.getView(R.id.tv_start_time);
+                tv_inspection_name.setText(data.getTaskName());
+                if (data.getPlanStartTime() != 0) {
+                    tv_start_time.setVisibility(View.VISIBLE);
+                    tv_start_time.setText(String.format("开始时间:  %s", DataUtil.timeFormat(data.getPlanStartTime(), "HH:MM")));
+                } else {
+                    tv_start_time.setVisibility(View.GONE);
+                }
+                TextView tv_equipment_count = (TextView) vHolder.getView(R.id.tv_equipment_count);
+                tv_equipment_count.setText(String.format("%s/%s", String.valueOf(data.getUploadCount()), String.valueOf(data.getCount())));
+            }
+        };
+        mExpendRecycleView.setAdapter(adapter);
+        adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+        });
+    }
+
+    private View.OnClickListener clickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            InspectionBean data = (InspectionBean) view.getTag(R.id.tag_object);
+            if (data != null) {
+                switch (data.getTaskState()) {
+                    case ConstantInt.TASK_STATE_1:
+
+                        break;
+                    case ConstantInt.TASK_STATE_2:
+
+                        break;
+                    case ConstantInt.TASK_STATE_3:
+
+                        break;
+                    case ConstantInt.TASK_STATE_4:
+
+                        break;
+                }
+            }
+        }
+    };
 
     private void setDayToView(boolean isCalendar) {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
@@ -102,9 +209,7 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
             }
             dayTvs[i].setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
         }
-        getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH));
-        if (!isCalendar && !TextUtils.isEmpty(mDate)) {
-            Logger.d(mDate);
+        if (!isCalendar && !getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH))) {
             mPresenter.getTaskList(mDate);
         }
     }
@@ -160,8 +265,11 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
     }
 
     @Override
-    public void showTaskList() {
+    public void showTaskList(List<InspectionBean> been) {
         mNoDataLayout.setVisibility(View.GONE);
+        mList.clear();
+        mList.addAll(been);
+        mExpendRecycleView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -176,7 +284,14 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
 
     @Override
     public void noData() {
+        mList.clear();
+        mExpendRecycleView.getAdapter().notifyDataSetChanged();
         mNoDataLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
     }
 
     @Override
@@ -186,10 +301,13 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
 
     @Override
     public void onRefresh() {
-        mPresenter.getTaskList("");
+        mList.clear();
+        mExpendRecycleView.getAdapter().notifyDataSetChanged();
+        mPresenter.getTaskList(mDate);
     }
 
-    private void getDate(int year, int monthOfYear, int dayOfMonth) {
+    private boolean getDate(int year, int monthOfYear, int dayOfMonth) {
+        String currentDate = mDate;
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(year)).append("-");
         mYearTv.setText(String.valueOf(year) + "年");
@@ -210,7 +328,12 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         }
         mMonthTv.setText(time.toString());
         mDayTv.setText(CalendarUtil.getWeek(mCurrentDay));
-        mDate = sb.toString();
+        if (!TextUtils.isEmpty(currentDate) && currentDate.equals(sb.toString())) {
+            return true;
+        } else {
+            mDate = sb.toString();
+            return false;
+        }
     }
 
     @Override

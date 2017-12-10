@@ -2,6 +2,9 @@ package com.inspection.application.view.task;
 
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
+import com.inspection.application.mode.bean.task.InspectionBean;
+
+import java.util.List;
 
 /**
  * task contract
@@ -17,12 +20,14 @@ public interface TaskContract {
 
     interface View extends BaseView<Presenter> {
 
-        void showTaskList();
+        void showTaskList(List<InspectionBean> been);
 
         void showLoading();
 
         void hideLoading();
 
         void noData();
+
+        void showMessage(String message);
     }
 }

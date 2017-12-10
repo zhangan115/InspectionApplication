@@ -133,9 +133,9 @@ public class Injection {
     /**
      * @return TaskRepository
      */
-    public TaskRepository provideTaskRepository() {
+    public TaskRepository provideTaskRepository(@NonNull ApplicationModule module) {
         if (taskRepository == null) {
-            taskRepository = DaggerTaskRepositoryComponent.builder().build().getRepository();
+            taskRepository = DaggerTaskRepositoryComponent.builder().applicationModule(module).build().getRepository();
         }
         return taskRepository;
     }

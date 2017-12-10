@@ -21,5 +21,5 @@ public interface ConstantInt {
     int FAULT = 1;//故障上报
     int INSPECTION = 2;//巡检
 
-
+    int INSPECTION_TYPE = 0;
 }
