@@ -7,13 +7,13 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 
-import com.sito.ioammcpv2.app.App;
+
+import com.inspection.application.app.App;
 
 import java.io.File;
-
-import javax.annotation.Nullable;
 
 /**
  * 下载app
