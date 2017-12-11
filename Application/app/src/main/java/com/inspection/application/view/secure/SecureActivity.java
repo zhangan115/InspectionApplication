@@ -1,5 +1,6 @@
 package com.inspection.application.view.secure;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.view.WebActivity;
+import com.inspection.application.view.task.info.TaskInfoActivity;
 import com.library.utils.SPHelper;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class SecureActivity extends WebActivity implements View.OnClickListener,
     private TextView mPrevious;//上一页
     private TextView mNext;//下一页
     SecureContract.Presenter mPresenter;
-    private String mTaskId;
+    private long mTaskId;
     private int mPosition;
     private int previous;
     private int next;
@@ -40,7 +42,7 @@ public class SecureActivity extends WebActivity implements View.OnClickListener,
         }
         new SecurePresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), this);
         long mSecurityId = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
-        mTaskId = getIntent().getStringExtra(ConstantStr.KEY_BUNDLE_STR);
+        mTaskId = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG_1, -1);
         mPresenter.getSecureInfo(mSecurityId);
         mList = new ArrayList<>();
         initView();
@@ -93,11 +95,10 @@ public class SecureActivity extends WebActivity implements View.OnClickListener,
     }
 
     private void startRoomList() {
-        SPHelper.write(this, ConstantStr.SECURE_INFO, mTaskId, true);
-//        Intent intent = new Intent(this, InspectionDetailActivity.class);
-//        intent.putExtra(ConstantStr.KEY_BUNDLE_STR, mTaskId);
-//        intent.putExtra(ConstantStr.KEY_BUNDLE_INT, mSecurityId);
-//        startActivity(intent);
+        SPHelper.write(this, ConstantStr.SECURE_INFO, String.valueOf(mTaskId), true);
+        Intent intent = new Intent(this, TaskInfoActivity.class);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, mTaskId);
+        startActivity(intent);
         finish();
     }
 
@@ -130,6 +131,11 @@ public class SecureActivity extends WebActivity implements View.OnClickListener,
     @Override
     public void noData() {
         startRoomList();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
     }
 
     @Override

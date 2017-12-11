@@ -25,6 +25,8 @@ interface SecureContract {
         void hideLoading();
 
         void noData();
+
+        void showMessage(String message);
     }
 
 }

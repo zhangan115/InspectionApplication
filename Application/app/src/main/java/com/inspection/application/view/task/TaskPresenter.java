@@ -61,6 +61,42 @@ public class TaskPresenter implements TaskContract.Presenter {
     }
 
     @Override
+    public void getTask(int position, long taskId) {
+        mSubscription.add(mTaskDataSource.getTask(position, taskId, new TaskDataSource.GetTaskCallBack() {
+            @Override
+            public void onSuccess(int position) {
+                mView.getTaskSuccess(position);
+            }
+
+            @Override
+            public void onFail(String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }));
+    }
+
+    @Override
+    public void checkSecure(int position, long taskId) {
+        mTaskDataSource.checkSecure(position,taskId, new TaskDataSource.CheckSecureInfoCallBack() {
+            @Override
+            public void onShowTask(int position) {
+                mView.showTask(position);
+            }
+
+            @Override
+            public void onShowSecure(int position) {
+                mView.showSecure(position);
+            }
+
+        });
+    }
+
+    @Override
     public void subscribe() {
 
     }

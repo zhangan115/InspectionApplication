@@ -1,47 +1,48 @@
-package com.inspection.application.view.secure;
+package com.inspection.application.view.task.info;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
-import com.inspection.application.mode.bean.secure.SecureBean;
+import com.inspection.application.mode.bean.task.InspectionBean;
+import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.task.TaskDataSource;
 
 import rx.subscriptions.CompositeSubscription;
 
 /**
- * Created by Yangzb on 2017/7/23 16:52
- * E-mail：yangzongbin@si-top.com
+ * task info presenter
+ * Created by pingan on 2017/12/11.
  */
-final class SecurePresenter implements SecureContract.Presenter {
-    private TaskDataSource mRepository;
-    private SecureContract.View mView;
-    @NonNull
+class TaskInfoPresenter implements TaskInfoContract.Presenter {
+
+    private final TaskDataSource mTaskDataSource;
+    private final TaskInfoContract.View mView;
     private CompositeSubscription mSubscription;
 
-    SecurePresenter(TaskDataSource dataSource, SecureContract.View view) {
-        this.mRepository = dataSource;
-        this.mView = view;
+    TaskInfoPresenter(TaskDataSource mTaskDataSource, TaskInfoContract.View mView) {
+        this.mTaskDataSource = mTaskDataSource;
+        this.mView = mView;
         mView.setPresenter(this);
         mSubscription = new CompositeSubscription();
     }
 
     @Override
-    public void getSecureInfo(long securityId) {
+    public void getInspectionDetailList(long taskId) {
         mView.showLoading();
-        mSubscription.add(mRepository.getSecureInfo(securityId, new IObjectCallBack<SecureBean>() {
-
+        mSubscription.add(mTaskDataSource.getTaskInfo(taskId, new IObjectCallBack<InspectionDetailBean>() {
             @Override
             public void onSuccess() {
 
             }
 
             @Override
-            public void onData(@NonNull SecureBean secureBean) {
-                mView.showData(secureBean);
+            public void onData(@NonNull InspectionDetailBean inspectionDetailBean) {
+                mView.showData(inspectionDetailBean);
             }
 
             @Override
-            public void onError(String message) {
+            public void onError(@Nullable String message) {
                 mView.showMessage(message);
             }
 

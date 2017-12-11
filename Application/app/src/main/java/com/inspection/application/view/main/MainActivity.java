@@ -2,12 +2,15 @@ package com.inspection.application.view.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.inspection.application.R;
@@ -15,6 +18,7 @@ import com.inspection.application.app.App;
 import com.inspection.application.app.AppStatusConstant;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.version.NewVersion;
+import com.inspection.application.utils.DownloadAppUtils;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.contact.ContactActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
@@ -171,7 +175,30 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     }
 
     @Override
-    public void showNewVersion(NewVersion newVersion) {
+    public void showNewVersion(final NewVersion newVersion) {
+        if (!EasyPermissions.hasPermissions(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                , android.Manifest.permission.RECORD_AUDIO)) {
+            new AppSettingsDialog.Builder(MainActivity.this)
+                    .setTitle(getString(R.string.request_permissions))
+                    .setRationale(getString(R.string.need_save_setting))
+                    .setPositiveButton(getString(R.string.sure))
+                    .setNegativeButton(getString(R.string.cancel))
+                    .setRequestCode(REQUEST_EXTERNAL)
+                    .build()
+                    .show();
+            return;
+        }
+        new MaterialDialog.Builder(this)
+                .content(newVersion.getNote())
+                .negativeText("取消")
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        DownloadAppUtils.DownLoad(getApplicationContext(), newVersion.getUrl(), "点检");
+                    }
+                })
+                .show();
 
     }
 

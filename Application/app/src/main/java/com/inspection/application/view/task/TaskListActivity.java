@@ -1,5 +1,6 @@
 package com.inspection.application.view.task;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,9 +14,12 @@ import android.widget.TextView;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
+import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.view.BaseActivity;
+import com.inspection.application.view.secure.SecureActivity;
+import com.inspection.application.view.task.info.TaskInfoActivity;
 import com.library.adapter.RVAdapter;
 import com.library.utils.CalendarUtil;
 import com.library.utils.DataUtil;
@@ -145,6 +149,7 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
                         break;
                 }
                 tv_inspection_state.setTag(R.id.tag_object, data);
+                tv_inspection_state.setTag(R.id.tag_position, position);
                 tv_inspection_state.setOnClickListener(clickListener);
                 //任务名称
                 TextView tv_inspection_name = (TextView) vHolder.getView(R.id.tv_inspection_name);
@@ -152,7 +157,7 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
                 tv_inspection_name.setText(data.getTaskName());
                 if (data.getPlanStartTime() != 0) {
                     tv_start_time.setVisibility(View.VISIBLE);
-                    tv_start_time.setText(String.format("开始时间:  %s", DataUtil.timeFormat(data.getPlanStartTime(), "HH:MM")));
+                    tv_start_time.setText(String.format("开始时间:  %s", DataUtil.timeFormat(data.getPlanStartTime(), null)));
                 } else {
                     tv_start_time.setVisibility(View.GONE);
                 }
@@ -169,30 +174,34 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         });
     }
 
+    /**
+     * 点击事件
+     */
     private View.OnClickListener clickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            int position = (int) view.getTag(R.id.tag_position);
             InspectionBean data = (InspectionBean) view.getTag(R.id.tag_object);
             if (data != null) {
                 switch (data.getTaskState()) {
                     case ConstantInt.TASK_STATE_1:
-
+                        mPresenter.getTask(position, data.getTaskId());
                         break;
                     case ConstantInt.TASK_STATE_2:
-
-                        break;
                     case ConstantInt.TASK_STATE_3:
-
-                        break;
                     case ConstantInt.TASK_STATE_4:
-
+                        if (data.getSecurityPackage() == null) {
+                            showTask(position);
+                        } else {
+                            mPresenter.checkSecure(position, data.getTaskId());
+                        }
                         break;
                 }
             }
         }
     };
 
-    private void setDayToView(boolean isCalendar) {
+    private void setDayToView() {
         Calendar calendar = Calendar.getInstance(Locale.CHINA);
         for (int i = 0; i < dayTvs.length; i++) {
             calendar.setTime(dateList.get(i));
@@ -209,7 +218,7 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
             }
             dayTvs[i].setText(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH)));
         }
-        if (!isCalendar && !getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH))) {
+        if (!getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH))) {
             mPresenter.getTaskList(mDate);
         }
     }
@@ -260,10 +269,6 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         }
     }
 
-    private void setDayToView() {
-        setDayToView(false);
-    }
-
     @Override
     public void showTaskList(List<InspectionBean> been) {
         mNoDataLayout.setVisibility(View.GONE);
@@ -295,6 +300,27 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
     }
 
     @Override
+    public void getTaskSuccess(int position) {
+        mList.get(position).setTaskState(ConstantInt.TASK_STATE_2);
+        mExpendRecycleView.getAdapter().notifyItemChanged(position);
+    }
+
+    @Override
+    public void showTask(int position) {
+        Intent intent = new Intent(this, TaskInfoActivity.class);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getTaskId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void showSecure(int position) {
+        Intent intent = new Intent(this, SecureActivity.class);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getSecurityPackage().getSecurityId());
+        intent.putExtra(ConstantStr.KEY_BUNDLE_LONG_1, mList.get(position).getTaskId());
+        startActivity(intent);
+    }
+
+    @Override
     public void setPresenter(TaskContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -310,7 +336,7 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         String currentDate = mDate;
         StringBuilder sb = new StringBuilder();
         sb.append(String.valueOf(year)).append("-");
-        mYearTv.setText(String.valueOf(year) + "年");
+        mYearTv.setText(String.format("%s年", String.valueOf(year)));
         StringBuilder time = new StringBuilder();
         if (monthOfYear < 10) {
             sb.append("0").append(String.valueOf(monthOfYear)).append("-");
@@ -340,8 +366,6 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         mCurrentDay.set(year, monthOfYear, dayOfMonth);
         dateList = CalendarUtil.getDaysOfWeek(mCurrentDay.getTime());
-        setDayToView(true);
-        monthOfYear = monthOfYear + 1;
-        getDate(year, monthOfYear, dayOfMonth);
+        setDayToView();
     }
 }
