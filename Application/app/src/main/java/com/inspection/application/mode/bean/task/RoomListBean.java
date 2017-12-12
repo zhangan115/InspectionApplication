@@ -3,6 +3,8 @@ package com.inspection.application.mode.bean.task;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.inspection.application.mode.bean.equipment.db.RoomDb;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,7 @@ public class RoomListBean implements Parcelable {
     private List<TaskEquipmentBean> taskEquipment;
     private int state;//本地属性 未开始 0， 进行中 1，已完成2
     private long lastSaveTime;//最后保存时间
+    private RoomDb roomDb;
 
     public RoomBean getRoom() {
         return room;
@@ -84,6 +87,14 @@ public class RoomListBean implements Parcelable {
         this.lastSaveTime = lastSaveTime;
     }
 
+    public RoomDb getRoomDb() {
+        return roomDb;
+    }
+
+    public void setRoomDb(RoomDb roomDb) {
+        this.roomDb = roomDb;
+    }
+
     protected RoomListBean(Parcel in) {
         room = in.readParcelable(RoomBean.class.getClassLoader());
         startTime = in.readLong();
@@ -93,6 +104,7 @@ public class RoomListBean implements Parcelable {
         taskEquipment = in.createTypedArrayList(TaskEquipmentBean.CREATOR);
         state = in.readInt();
         lastSaveTime = in.readLong();
+        roomDb = in.readParcelable(RoomDb.class.getClassLoader());
     }
 
     public static final Creator<RoomListBean> CREATOR = new Creator<RoomListBean>() {
@@ -122,5 +134,6 @@ public class RoomListBean implements Parcelable {
         parcel.writeTypedList(taskEquipment);
         parcel.writeInt(state);
         parcel.writeLong(lastSaveTime);
+        parcel.writeParcelable(roomDb, i);
     }
 }

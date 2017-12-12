@@ -20,13 +20,10 @@ public class RoomDb implements Parcelable {
     private Long _id;
     private long taskId; //任务id
     private long roomId;//位置id
+    private String roomName;//区域名称
     private int state;//状态 0 未开始，1进行中，2已完成
     private long lastSaveTime;//最后保存时间
-    private int takePhotoPosition = -1;
-    private String localPhoto;
-    private String photoUrl;
     private long userId = App.getInstance().getCurrentUser().getUserId();
-
 
     protected RoomDb(Parcel in) {
         if (in.readByte() == 0) {
@@ -36,26 +33,21 @@ public class RoomDb implements Parcelable {
         }
         taskId = in.readLong();
         roomId = in.readLong();
+        roomName = in.readString();
         state = in.readInt();
         lastSaveTime = in.readLong();
-        takePhotoPosition = in.readInt();
-        localPhoto = in.readString();
-        photoUrl = in.readString();
         userId = in.readLong();
     }
 
-    @Generated(hash = 977374409)
-    public RoomDb(Long _id, long taskId, long roomId, int state, long lastSaveTime,
-            int takePhotoPosition, String localPhoto, String photoUrl,
-            long userId) {
+    @Generated(hash = 1645517573)
+    public RoomDb(Long _id, long taskId, long roomId, String roomName, int state,
+            long lastSaveTime, long userId) {
         this._id = _id;
         this.taskId = taskId;
         this.roomId = roomId;
+        this.roomName = roomName;
         this.state = state;
         this.lastSaveTime = lastSaveTime;
-        this.takePhotoPosition = takePhotoPosition;
-        this.localPhoto = localPhoto;
-        this.photoUrl = photoUrl;
         this.userId = userId;
     }
 
@@ -75,6 +67,62 @@ public class RoomDb implements Parcelable {
         }
     };
 
+    public Long get_id() {
+        return _id;
+    }
+
+    public void set_id(Long _id) {
+        this._id = _id;
+    }
+
+    public long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
+    }
+
+    public long getRoomId() {
+        return roomId;
+    }
+
+    public void setRoomId(long roomId) {
+        this.roomId = roomId;
+    }
+
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public void setRoomName(String roomName) {
+        this.roomName = roomName;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
+
+    public long getLastSaveTime() {
+        return lastSaveTime;
+    }
+
+    public void setLastSaveTime(long lastSaveTime) {
+        this.lastSaveTime = lastSaveTime;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -90,83 +138,9 @@ public class RoomDb implements Parcelable {
         }
         parcel.writeLong(taskId);
         parcel.writeLong(roomId);
+        parcel.writeString(roomName);
         parcel.writeInt(state);
         parcel.writeLong(lastSaveTime);
-        parcel.writeInt(takePhotoPosition);
-        parcel.writeString(localPhoto);
-        parcel.writeString(photoUrl);
         parcel.writeLong(userId);
-    }
-
-    public Long get_id() {
-        return this._id;
-    }
-
-    public void set_id(Long _id) {
-        this._id = _id;
-    }
-
-    public long getTaskId() {
-        return this.taskId;
-    }
-
-    public void setTaskId(long taskId) {
-        this.taskId = taskId;
-    }
-
-    public long getRoomId() {
-        return this.roomId;
-    }
-
-    public void setRoomId(long roomId) {
-        this.roomId = roomId;
-    }
-
-    public int getState() {
-        return this.state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public long getLastSaveTime() {
-        return this.lastSaveTime;
-    }
-
-    public void setLastSaveTime(long lastSaveTime) {
-        this.lastSaveTime = lastSaveTime;
-    }
-
-    public int getTakePhotoPosition() {
-        return this.takePhotoPosition;
-    }
-
-    public void setTakePhotoPosition(int takePhotoPosition) {
-        this.takePhotoPosition = takePhotoPosition;
-    }
-
-    public String getLocalPhoto() {
-        return this.localPhoto;
-    }
-
-    public void setLocalPhoto(String localPhoto) {
-        this.localPhoto = localPhoto;
-    }
-
-    public String getPhotoUrl() {
-        return this.photoUrl;
-    }
-
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
-    }
-
-    public long getUserId() {
-        return this.userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 }

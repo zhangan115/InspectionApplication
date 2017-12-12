@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
@@ -12,19 +13,28 @@ import com.inspection.application.mode.api.ApiCallBackObject;
 import com.inspection.application.mode.api.FaultApi;
 import com.inspection.application.mode.api.TaskApi;
 import com.inspection.application.mode.bean.Bean;
+import com.inspection.application.mode.bean.equipment.db.RoomDb;
+import com.inspection.application.mode.bean.equipment.db.RoomDbDao;
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
+import com.inspection.application.mode.db.DbManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
+import rx.Scheduler;
+import rx.Subscriber;
 import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 
 /**
  * task repository
@@ -146,7 +156,7 @@ public class TaskRepository implements TaskDataSource {
                 .getInspectionDetailList(taskId)) {
             @Override
             public void onData(@NonNull InspectionDetailBean data) {
-                callBack.onData(data);
+
             }
 
             @Override
@@ -161,14 +171,59 @@ public class TaskRepository implements TaskDataSource {
 
             @Override
             public void onFinish() {
-                callBack.onFinish();
+
             }
 
             @Override
             public void noData() {
                 callBack.noData();
             }
-        }.execute().subscribe();
+        }.execute().observeOn(Schedulers.io()).flatMap(new Func1<InspectionDetailBean, Observable<InspectionDetailBean>>() {
+            @Override
+            public Observable<InspectionDetailBean> call(InspectionDetailBean inspectionDetailBean) {
+                if (inspectionDetailBean != null) {
+                    long taskId = inspectionDetailBean.getTaskId();
+                    List<RoomDb> saveRoomDbList = new ArrayList<>();
+                    for (int i = 0; i < inspectionDetailBean.getRoomList().size(); i++) {
+                        long roomId = inspectionDetailBean.getRoomList().get(i).getRoom().getRoomId();
+                        RoomDb roomDb = DbManager.getDbManager().getDaoSession().getRoomDbDao().queryBuilder()
+                                .where(RoomDbDao.Properties.TaskId.eq(taskId), RoomDbDao.Properties.RoomId.eq(roomId),
+                                        RoomDbDao.Properties.UserId.eq(App.getInstance().getCurrentUser().getUserId())).unique();
+                        if (roomDb == null) {
+                            roomDb = new RoomDb();
+                            roomDb.setRoomId(roomId);
+                            roomDb.setTaskId(taskId);
+                            roomDb.setLastSaveTime(System.currentTimeMillis());
+                            roomDb.setRoomName(inspectionDetailBean.getRoomList().get(i).getRoom().getRoomName());
+                            roomDb.setState(inspectionDetailBean.getRoomList().get(i).getTaskRoomState());
+                            saveRoomDbList.add(roomDb);
+                        }
+                        inspectionDetailBean.getRoomList().get(i).setRoomDb(roomDb);
+                    }
+                    DbManager.getDbManager().getDaoSession().getRoomDbDao().insertOrReplaceInTx(saveRoomDbList);
+                    return Observable.just(inspectionDetailBean);
+                }
+                return Observable.just(null);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<InspectionDetailBean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                callBack.onFinish();
+                callBack.onError(e.getMessage());
+                callBack.noData();
+            }
+
+            @Override
+            public void onNext(InspectionDetailBean inspectionDetailBean) {
+                callBack.onFinish();
+                callBack.onData(inspectionDetailBean);
+            }
+        });
     }
 
     @Override

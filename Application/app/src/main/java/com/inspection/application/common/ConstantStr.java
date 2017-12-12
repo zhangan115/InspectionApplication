@@ -98,4 +98,6 @@ public interface ConstantStr {
      */
     String SECURE_INFO = "secure_info";
 
+    String ROOM_START_TIME = "start_time";
+    String ROOM_FINISH_TIME = "finish_time";
 }

@@ -3,7 +3,6 @@ package com.inspection.application.mode.bean.task;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.inspection.application.mode.bean.equipment.RoomListBean;
 
 import java.util.List;
 

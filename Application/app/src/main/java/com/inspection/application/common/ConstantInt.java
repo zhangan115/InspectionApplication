@@ -22,4 +22,13 @@ public interface ConstantInt {
     int INSPECTION = 2;//巡检
 
     int INSPECTION_TYPE = 0;
+
+    int DATA_VALUE_TYPE_1 = 1;
+    int DATA_VALUE_TYPE_2 = 2;//数字输入
+    int DATA_VALUE_TYPE_3 = 3;//拍照
+    int DATA_VALUE_TYPE_4 = 4;//文本输入
+
+    int ROOM_STATE_1 = 1;//未开始
+    int ROOM_STATE_2 = 2;//进行中
+    int ROOM_STATE_3 = 3;//已完成
 }

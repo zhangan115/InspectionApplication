@@ -31,10 +31,17 @@ public class InspectionOpenHelp extends DaoMaster.OpenHelper {
     @Override
     public void onUpgrade(Database db, int oldVersion, int newVersion) {
         super.onUpgrade(db, oldVersion, newVersion);
+        MigrationHelper.migrate(db, new MigrationHelper.ReCreateAllTableListener() {
+            @Override
+            public void onCreateAllTables(Database db, boolean ifNotExists) {
+                DaoMaster.createAllTables(db, ifNotExists);
+            }
+
+            @Override
+            public void onDropAllTables(Database db, boolean ifExists) {
+                DaoMaster.dropAllTables(db, ifExists);
+            }
+        }, ImageDao.class, EquipmentDbDao.class, EquipmentDataDbDao.class, RoomDbDao.class);
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        MigrationHelper.migrate(db, ImageDao.class, EquipmentDbDao.class, EquipmentDataDbDao.class, RoomDbDao.class);
-    }
 }

@@ -10,7 +10,7 @@ import android.os.Parcelable;
 public class RoomBean implements Parcelable {
     private long createTime;
     private int deleteState;
-    private int roomId;
+    private long roomId;
     private String roomName;
 
     public long getCreateTime() {
@@ -29,11 +29,11 @@ public class RoomBean implements Parcelable {
         this.deleteState = deleteState;
     }
 
-    public int getRoomId() {
+    public long getRoomId() {
         return roomId;
     }
 
-    public void setRoomId(int roomId) {
+    public void setRoomId(long roomId) {
         this.roomId = roomId;
     }
 
@@ -64,7 +64,7 @@ public class RoomBean implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(this.createTime);
         dest.writeInt(this.deleteState);
-        dest.writeInt(this.roomId);
+        dest.writeLong(this.roomId);
         dest.writeString(this.roomName);
         dest.writeString(this.roomRemark);
     }
@@ -75,7 +75,7 @@ public class RoomBean implements Parcelable {
     protected RoomBean(Parcel in) {
         this.createTime = in.readLong();
         this.deleteState = in.readInt();
-        this.roomId = in.readInt();
+        this.roomId = in.readLong();
         this.roomName = in.readString();
         this.roomRemark = in.readString();
     }
