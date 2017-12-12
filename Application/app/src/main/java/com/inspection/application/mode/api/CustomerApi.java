@@ -2,10 +2,12 @@ package com.inspection.application.mode.api;
 
 import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.customer.DepartmentBean;
+import com.inspection.application.mode.bean.customer.StandBean;
 
 import java.util.List;
 
 import retrofit2.http.GET;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -22,4 +24,7 @@ public interface CustomerApi {
      */
     @GET("dept/deptuser/list.json")
     Observable<Bean<List<DepartmentBean>>> getEmployeeList();
+
+    @GET("regulation/list.json")
+    Observable<Bean<StandBean>> getStandInfo(@Query("count") int pageSize);
 }

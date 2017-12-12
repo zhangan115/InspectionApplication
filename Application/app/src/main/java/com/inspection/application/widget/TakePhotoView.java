@@ -27,6 +27,7 @@ public class TakePhotoView extends LinearLayout implements View.OnClickListener,
     private ImageView takePhoto;
     private TakePhotoListener takePhotoListener;
     private String[] urls;
+    private static final int PHOTO_SIZE = 5;
 
     public TakePhotoView(Context context) {
         super(context);
@@ -57,14 +58,14 @@ public class TakePhotoView extends LinearLayout implements View.OnClickListener,
 
     public void setImages(List<Image> imageList) {
         int imageSize = imageList.size();
-        if (imageSize > 3) {
-            this.images = imageList.subList(imageSize - 3, imageSize);
+        if (imageSize > PHOTO_SIZE) {
+            this.images = imageList.subList(imageSize - PHOTO_SIZE, imageSize);
         } else {
             this.images = imageList;
         }
         photoViews.clear();
         imgListLayout.removeAllViews();
-        if (images.size() >= 3) {
+        if (images.size() >= PHOTO_SIZE) {
             takePhoto.setVisibility(View.GONE);
         } else {
             takePhoto.setVisibility(View.VISIBLE);

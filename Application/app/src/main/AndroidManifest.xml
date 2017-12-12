@@ -160,6 +160,14 @@
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.rule.RuleActivity"
+            android:allowTaskReparenting="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity="${TASK_AFFINITY_VALUE}"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

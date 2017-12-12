@@ -3,6 +3,7 @@ package com.inspection.application.mode.source.application;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.inspection.application.mode.bean.customer.StandBean;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.callback.IObjectCallBack;
 
@@ -16,6 +17,15 @@ import rx.Subscription;
  */
 
 public interface ApplicationDataSource {
+
+    /**
+     * 获取规章制度
+     *
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription getStandData(IObjectCallBack<StandBean> callBack);
 
     interface NewVersionCallBack {
 
