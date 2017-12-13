@@ -6,13 +6,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,20 +16,15 @@ import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
-import com.inspection.application.mode.bean.customer.EmployeeBean;
 import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.fault.DefaultFlowBean;
 import com.inspection.application.mode.bean.image.Image;
 import com.inspection.application.mode.bean.option.OptionBean;
-import com.inspection.application.mode.bean.user.User;
 import com.inspection.application.utils.PhotoUtils;
 import com.inspection.application.view.BaseActivity;
-import com.inspection.application.view.contact.ContactActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
-import com.inspection.application.widget.FlowLayout;
 import com.inspection.application.widget.TakePhotoView;
 import com.library.utils.ActivityUtils;
-import com.library.utils.DisplayUtil;
 
 import org.json.JSONObject;
 
@@ -56,9 +46,6 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
     private TakePhotoView mTakePhotoView;
     private TextView deviceNameTv, faultGradeTv, appointTv;
     private EditText describeFaultEt;
-    private LinearLayout addEmployeeLayout;
-    private LinearLayout mFlowLayout;
-    private HorizontalScrollView mHSView;
     //data
     private JSONObject uploadJson;//上传数据
     private File photoFile;//拍照
@@ -67,12 +54,9 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
     private EquipmentBean mEquipmentBean;//选择的设备
     private String INSPECTION_TAG;
     private int mFaultGrade = -1;
-    private String mNextUserId = "";
     private Long defaultFlowId;
     private List<OptionBean.ItemListBean> typeList;
     private List<DefaultFlowBean> mDefaultFlowBeen;
-    private List<FlowLayout> mFlowLayoutList;
-    private ArrayList<EmployeeBean> chooseEmployeeBeen;
 
     private static final int ACTION_START_CAMERA = 200;
     private static final int CHOOSE_EQUIPMENT = 110;
@@ -93,15 +77,11 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
     private void initView() {
         findViewById(R.id.tv_fault_submit).setOnClickListener(this);
         findViewById(R.id.id_fault_ll_grade).setOnClickListener(this);
-        findViewById(R.id.ib_add_user).setOnClickListener(this);
-        addEmployeeLayout = findViewById(R.id.ll_employee_add);
         describeFaultEt = findViewById(R.id.et_fault_describe);
         deviceNameTv = findViewById(R.id.id_fault_device_name);
         faultGradeTv = findViewById(R.id.tv_fault_grade);
         appointTv = findViewById(R.id.tv_appoint);
         mTakePhotoView = findViewById(R.id.take_photo_view);
-        mHSView = findViewById(R.id.id_hs_employee);
-        mFlowLayout = findViewById(R.id.ll_flow_layout);
         mTakePhotoView.setTakePhotoListener(new TakePhotoView.TakePhotoListener() {
 
             @Override
@@ -130,8 +110,6 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
 
     private void initData() {
         images = new ArrayList<>();
-        chooseEmployeeBeen = new ArrayList<>();
-        mFlowLayoutList = new ArrayList<>();
         List<OptionBean> list = App.getInstance().getOptionInfo();
         if (list != null && list.size() > 0) {
             typeList = new ArrayList<>();
@@ -142,8 +120,6 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
             }
         }
         if (App.getInstance().getCurrentUser().getCustomer().getIsOpen() == 1) {
-            mHSView.setVisibility(View.GONE);
-            mFlowLayout.setVisibility(View.VISIBLE);
             mPresenter.getUserFlowList();
         }
     }
@@ -230,25 +206,15 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                         return;
                     }
                     uploadJson.put("faultDescript", describeFaultEt.getText().toString());
-                    if (TextUtils.isEmpty(mNextUserId) && defaultFlowId == null) {
+                    if (defaultFlowId == null) {
                         App.getInstance().showToast("请选择指派人");
                         return;
                     }
-                    if (!TextUtils.isEmpty(mNextUserId)) {
-                        uploadJson.put("usersNext", mNextUserId);
-                    } else {
-                        uploadJson.put("defaultFlowId", String.valueOf(defaultFlowId));
-                    }
+                    uploadJson.put("defaultFlowId", String.valueOf(defaultFlowId));
                     mPresenter.uploadFaultData(uploadJson);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                break;
-            case R.id.ib_add_user:
-                Intent intentUser = new Intent(this, ContactActivity.class);
-                intentUser.putExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, true);
-                intentUser.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST, chooseEmployeeBeen);
-                startActivityForResult(intentUser, CHOOSE_USER_LIST);
                 break;
             case R.id.id_fault_ll_device:
                 Intent deviceInt = new Intent(this, EquipListActivity.class);
@@ -311,56 +277,8 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                     }
                 });
             }
-        } else if (requestCode == CHOOSE_USER_LIST && data != null) {
-            ArrayList<EmployeeBean> employeeBeen = data.getParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST);
-            chooseEmployeeBeen.clear();
-            mNextUserId = "";
-            if (employeeBeen != null && employeeBeen.size() > 0) {
-                chooseEmployeeBeen.addAll(employeeBeen);
-            }
-            for (int i = 0; i < chooseEmployeeBeen.size(); i++) {
-                mNextUserId = mNextUserId + chooseEmployeeBeen.get(i).getUser().getUserId() + ",";
-            }
-            if (!TextUtils.isEmpty(mNextUserId)) {
-                mNextUserId = mNextUserId.substring(0, mNextUserId.length() - 1);
-            }
-            addEmployee();
         }
     }
-
-    private void addEmployee() {
-        addEmployeeLayout.removeAllViews();
-        for (int i = 0; i < chooseEmployeeBeen.size(); i++) {
-            TextView textView = new TextView(this);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT
-                    , ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.setMargins(0, 0, DisplayUtil.dip2px(this, 10), 0);
-            textView.setLayoutParams(params);
-            textView.setBackground(findDrawById(R.drawable.bg_choose_employee));
-            textView.setText(chooseEmployeeBeen.get(i).getUser().getRealName());
-            textView.setTextSize(12);
-            textView.setTextColor(findColorById(R.color.colorWhite));
-            textView.setGravity(Gravity.CENTER);
-            addEmployeeLayout.addView(textView);
-        }
-        ImageView addIv = new ImageView(this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT
-                , LinearLayout.LayoutParams.WRAP_CONTENT);
-        params.gravity = Gravity.CENTER;
-        addIv.setLayoutParams(params);
-//        addIv.setImageDrawable(findDrawById(R.drawable.bg_choose_emp));
-        addIv.setOnClickListener(clickListener);
-        addEmployeeLayout.addView(addIv);
-    }
-
-    private View.OnClickListener clickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent = new Intent(FaultActivity.this, ContactActivity.class);
-            intent.putParcelableArrayListExtra(ConstantStr.KEY_BUNDLE_LIST, chooseEmployeeBeen);
-            startActivityForResult(intent, CHOOSE_USER_LIST);
-        }
-    };
 
     @Override
     public void showUploadProgress() {
@@ -405,47 +323,17 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
         App.getInstance().showToast("上传缺陷失败");
     }
 
-
     @Override
     public void showDefaultFlowData(@NonNull List<DefaultFlowBean> beans) {
-        mFlowLayoutList.clear();
         mDefaultFlowBeen = beans;
         appointTv.setText("故障审批人已由管理员预设");
         defaultFlowId = beans.get(0).getDefaultFlowId();
-        if (beans.size() == 1) {
-            FlowLayout flowLayout = new FlowLayout(this);
-            flowLayout.setContent(beans.get(0).getDefaultFlowName(), beans.get(0).getUsersN());
-            mFlowLayout.addView(flowLayout);
-        } else {
-            for (int i = 0; i < beans.size(); i++) {
-                FlowLayout flowLayout = new FlowLayout(this);
-                mFlowLayoutList.add(flowLayout);
-                flowLayout.setContent(beans.get(i).getDefaultFlowName(), beans.get(i).getUsersN(), i == 0);
-                flowLayout.setTag(R.id.tag_position, i);
-                flowLayout.setOnClickListener(flowClickListener);
-                mFlowLayout.addView(flowLayout);
-            }
-        }
     }
 
     @Override
     public void noDefaultFlowData() {
         appointTv.setText("未设置故障审批人，请去后台设置");
     }
-
-    private View.OnClickListener flowClickListener = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-            int position = (int) v.getTag(R.id.tag_position);
-            for (int i = 0; i < mFlowLayoutList.size(); i++) {
-                mFlowLayoutList.get(i).setChooseState(i == position);
-                if (i == position) {
-                    defaultFlowId = mDefaultFlowBeen.get(i).getDefaultFlowId();
-                }
-            }
-        }
-    };
 
     @Override
     public void showMessage(@Nullable String message) {

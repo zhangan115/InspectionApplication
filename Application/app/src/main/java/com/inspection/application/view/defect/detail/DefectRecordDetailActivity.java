@@ -77,6 +77,7 @@ public class DefectRecordDetailActivity extends BaseActivity implements DefectRe
         ((TextView) (findViewById(R.id.tv_report_user_name))).setText(String.format("上报人:%s", faultDetail.getUser().getRealName()));
         ((TextView) (findViewById(R.id.tv_report_time))).setText(String.format("上报时间:%s", faultDetail.getCreateTime()));
         ((TextView) (findViewById(R.id.tv_fault_des))).setText(faultDetail.getFaultDescript());
+        ((TextView) (findViewById(R.id.tv_fault_state))).setText(App.getInstance().getMapOption().get("9").get(String.valueOf(faultDetail.getFaultState())));
         ShowImageLayout showImageLayout = findViewById(R.id.show_image_layout);
         String[] images = new String[faultDetail.getFaultPics().size()];
         for (int i = 0; i < faultDetail.getFaultPics().size(); i++) {
