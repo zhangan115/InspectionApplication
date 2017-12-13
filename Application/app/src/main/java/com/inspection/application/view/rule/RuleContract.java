@@ -26,5 +26,8 @@ public interface RuleContract {
         void hideLoading();
 
         void noData();
+
+        void showMessage(String message);
+
     }
 }

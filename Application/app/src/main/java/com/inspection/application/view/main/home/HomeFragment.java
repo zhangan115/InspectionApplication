@@ -15,6 +15,7 @@ import com.inspection.application.view.equipment.EquipListActivity;
 import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
 import com.inspection.application.view.main.mine.MineFragment;
+import com.inspection.application.view.rule.RuleActivity;
 import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.task.TaskListActivity;
 
@@ -70,6 +71,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
             case R.id.tv_count:
                 break;
             case R.id.tv_work_manager:
+                startActivity(new Intent(getActivity(), RuleActivity.class));
                 break;
             case R.id.tv_customer:
                 startActivity(new Intent(getActivity(), ContactActivity.class));

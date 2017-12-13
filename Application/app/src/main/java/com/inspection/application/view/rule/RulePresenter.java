@@ -10,6 +10,7 @@ import com.inspection.application.mode.source.application.ApplicationDataSource;
 import rx.subscriptions.CompositeSubscription;
 
 /**
+ * 规章制度
  * Created by pingan on 2017/12/12.
  */
 
@@ -41,7 +42,7 @@ public class RulePresenter implements RuleContract.Presenter {
 
             @Override
             public void onError(@Nullable String message) {
-
+                mView.showMessage(message);
             }
 
             @Override

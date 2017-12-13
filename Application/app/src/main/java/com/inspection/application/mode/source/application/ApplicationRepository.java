@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.inspection.application.app.App;
+import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
@@ -13,6 +14,7 @@ import com.inspection.application.mode.api.ApplicationApi;
 import com.inspection.application.mode.api.UploadApi;
 import com.inspection.application.mode.api.UserApi;
 import com.inspection.application.mode.bean.Bean;
+import com.inspection.application.mode.bean.customer.StandBean;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.FilePartManager;
@@ -46,6 +48,41 @@ public class ApplicationRepository implements ApplicationDataSource {
         userSp = context.getSharedPreferences(ConstantStr.USER_INFO, Context.MODE_PRIVATE);
         dataSp = context.getSharedPreferences(ConstantStr.USER_DATA, Context.MODE_PRIVATE);
         mContext = context;
+    }
+
+    @NonNull
+    @Override
+    public Subscription getStandData(final IObjectCallBack<StandBean> callBack) {
+        return new ApiCallBackObject<StandBean>(Api.createRetrofit().create(ApplicationApi.class).getStandInfo(ConstantInt.MAX_PAGE_SIZE)) {
+            @Override
+            public void onData(@NonNull StandBean data) {
+                if (data.getList() == null || data.getList().size() == 0) {
+                    callBack.noData();
+                } else {
+                    callBack.onData(data);
+                }
+            }
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 
     @NonNull

@@ -25,6 +25,4 @@ public interface CustomerApi {
     @GET("dept/deptuser/list.json")
     Observable<Bean<List<DepartmentBean>>> getEmployeeList();
 
-    @GET("regulation/list.json")
-    Observable<Bean<StandBean>> getStandInfo(@Query("count") int pageSize);
 }

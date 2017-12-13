@@ -1,6 +1,7 @@
 package com.inspection.application.mode.api;
 
 import com.inspection.application.mode.bean.Bean;
+import com.inspection.application.mode.bean.customer.StandBean;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.bean.option.OptionBean;
 
@@ -10,6 +11,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -53,4 +55,9 @@ public interface ApplicationApi {
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("feedback/add.json")
     Observable<Bean<String>> postSuggest(@Body() String info);
+
+
+    @GET("regulation/list.json")
+    Observable<Bean<StandBean>> getStandInfo(@Query("count") int pageSize);
+
 }
