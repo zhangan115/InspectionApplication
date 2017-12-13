@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.bean.fault.DefaultFlowBean;
+import com.inspection.application.mode.bean.fault.FaultDetail;
+import com.inspection.application.mode.bean.fault.FaultList;
 import com.inspection.application.mode.bean.image.Image;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
@@ -69,6 +71,32 @@ public interface FaultDataSource {
      */
     void deleteImage(Image image);
 
+    /**
+     * 获取人员列表
+     *
+     * @param callBack 回调
+     * @return 订阅
+     */
     @NonNull
     Subscription getFlowUserList(@NonNull IListCallBack<DefaultFlowBean> callBack);
+
+    /**
+     * 获取故障列表
+     *
+     * @param info     参数
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription getFaultList(@NonNull String info, @NonNull IListCallBack<FaultList> callBack);
+
+    /**
+     * 获取故障详情
+     *
+     * @param id     参数
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription getFaultDetail(long id, @NonNull IObjectCallBack<FaultDetail> callBack);
 }

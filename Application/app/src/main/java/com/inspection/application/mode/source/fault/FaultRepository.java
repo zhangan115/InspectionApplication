@@ -14,6 +14,8 @@ import com.inspection.application.mode.api.FaultApi;
 import com.inspection.application.mode.api.UploadApi;
 import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.fault.DefaultFlowBean;
+import com.inspection.application.mode.bean.fault.FaultDetail;
+import com.inspection.application.mode.bean.fault.FaultList;
 import com.inspection.application.mode.bean.image.Image;
 import com.inspection.application.mode.bean.image.ImageDao;
 import com.inspection.application.mode.callback.IListCallBack;
@@ -164,6 +166,70 @@ public class FaultRepository implements FaultDataSource {
             @Override
             public void onData(List<DefaultFlowBean> data) {
                 callBack.onData(data);
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription getFaultList(@NonNull String info, @NonNull final IListCallBack<FaultList> callBack) {
+        Observable<Bean<List<FaultList>>> observable = Api.createRetrofit().create(FaultApi.class).getFaultList(info);
+        return new ApiCallBackList<FaultList>(observable) {
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onData(List<FaultList> data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription getFaultDetail(long id, @NonNull final IObjectCallBack<FaultDetail> callBack) {
+        Observable<Bean<FaultDetail>> observable = Api.createRetrofit().create(FaultApi.class).getFaultDetail(id);
+        return new ApiCallBackObject<FaultDetail>(observable) {
+            @Override
+            public void onData(@NonNull FaultDetail data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
             }
 
             @Override

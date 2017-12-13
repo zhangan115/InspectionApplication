@@ -26,6 +26,7 @@ import com.inspection.application.mode.bean.inject.InjectRoomBean;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.widget.InjectionView;
 import com.library.adapter.RVAdapter;
+import com.library.utils.DataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -89,16 +90,20 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
 //                        mImg.setImageDrawable(findDrawById(R.drawable.work_oil_red));
                         iv_oil.setVisibility(View.VISIBLE);
                     } else {
-                        long time = System.currentTimeMillis() - data.getInjectionOil().getCreateTime();
-                        if (time <= data.getCycle() * 24L * 60L * 60L * 1000L) {
-//                            mImg.setImageDrawable(findDrawById(R.drawable.work_oil_green));
-                            iv_oil.setVisibility(View.GONE);
-                        } else {
-//                            mImg.setImageDrawable(findDrawById(R.drawable.work_oil_red));
-                            iv_oil.setVisibility(View.VISIBLE);
-                        }
                         long t = (data.getInjectionOil().getCreateTime() + data.getCycle() * 24L * 60L * 60L * 1000L) - System.currentTimeMillis();
                         int d = (int) (t / (24L * 60L * 60L * 1000L));
+                        try {
+                            long aa = DataUtil.getDistanceDays(DataUtil.timeFormat(data.getInjectionOil().getCreateTime(), null), DataUtil.timeFormat(System.currentTimeMillis(), null));
+                            if (aa - data.getCycle() <= 0) {
+//                              mImg.setImageDrawable(findDrawById(R.drawable.work_oil_green));
+                                iv_oil.setVisibility(View.GONE);
+                            } else {
+//                              mImg.setImageDrawable(findDrawById(R.drawable.work_oil_red));
+                                iv_oil.setVisibility(View.VISIBLE);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
                         days = d + "天";
                     }
                 }

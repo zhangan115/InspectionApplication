@@ -29,7 +29,7 @@ public class WebActivity extends BaseActivity {
         // * 1、LayoutAlgorithm.NARROW_COLUMNS ： 适应内容大小
         // * 2、LayoutAlgorithm.SINGLE_COLUMN:适应屏幕，内容将自动缩放
         // */
-        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        ws.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         ws.setDefaultTextEncodingName("utf-8"); // 设置文本编码
         ws.setAppCacheEnabled(true);
         ws.setCacheMode(WebSettings.LOAD_DEFAULT);// 设置缓存模式</span>
