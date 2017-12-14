@@ -12,7 +12,9 @@ import com.inspection.application.mode.bean.inject.InjectResultBean;
 import com.inspection.application.mode.bean.inject.InjectRoomBean;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
+import com.library.utils.DataUtil;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -84,8 +86,24 @@ public class InjectRepository implements InjectDataSource {
             }
 
             @Override
-            public void onData(List<InjectEquipment> data) {
-                callBack.onData(data);
+            public void onData(List<InjectEquipment> injectEquipments) {
+                long sysTime = System.currentTimeMillis();
+                for (int i = 0; i < injectEquipments.size(); i++) {
+                    if (injectEquipments.get(i).getInjectionOil() != null) {
+                        try {
+                            long aa = DataUtil.getDistanceDays(DataUtil.timeFormat(injectEquipments.get(i).getInjectionOil().getCreateTime(), null), DataUtil.timeFormat(System.currentTimeMillis(), null));
+                            injectEquipments.get(i).setTime(aa - injectEquipments.get(i).getCycle());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            injectEquipments.get(i).setTime(sysTime);
+                        }
+
+                    } else {
+                        injectEquipments.get(i).setTime(sysTime);
+                    }
+                }
+                Collections.sort(injectEquipments);
+                callBack.onData(injectEquipments);
             }
 
             @Override

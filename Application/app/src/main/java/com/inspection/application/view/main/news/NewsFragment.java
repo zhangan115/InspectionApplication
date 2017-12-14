@@ -8,9 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.inspection.application.R;
 import com.inspection.application.view.MvpFragment;
+import com.library.utils.DataUtil;
 import com.library.widget.ExpendRecycleView;
 
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
@@ -26,6 +28,7 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
     private BGABadgeImageView mWorkBGView;
     private RelativeLayout noDataLayout;
     private ExpendRecycleView mExpendRecycleView;
+    private TextView newsTimeTv;
 
     public static NewsFragment newInstance() {
         Bundle args = new Bundle();
@@ -44,7 +47,10 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
         mFaultBGView = rootView.findViewById(R.id.bg_view_fault);
         mWorkBGView = rootView.findViewById(R.id.bg_view_work);
         noDataLayout = rootView.findViewById(R.id.layout_no_data);
-        mExpendRecycleView.setLayoutManager(new GridLayoutManager(getActivity(),1));
+        newsTimeTv = rootView.findViewById(R.id.tv_news_time);
+        TextView titleTv = rootView.findViewById(R.id.titleId);
+        titleTv.setText(findStrById(R.string.str_first_nav_2));
+        mExpendRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         return rootView;
     }
 
@@ -83,5 +89,9 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
 
                 break;
         }
+    }
+
+    private void setTimeToTv(long time) {
+        newsTimeTv.setText(String.format(getString(R.string.get_last_news_time), DataUtil.timeFormat(time, "HH:mm")));
     }
 }

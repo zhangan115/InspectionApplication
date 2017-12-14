@@ -75,37 +75,24 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
                     mId.setText(data.getEquipmentSn());
                 }
                 ImageView mImg = (ImageView) vHolder.getView(R.id.id_greas_item_img);
-                ImageView iv_oil = (ImageView) vHolder.getView(R.id.iv_oil);
+
                 String days;
-                if (data.isInject()) {
+                if (data.getInjectionOil() == null) {
                     days = "";
-                    iv_oil.setVisibility(View.VISIBLE);
-//                    mImg.setImageDrawable(findDrawById(R.drawable.view_injection));
-                    AnimationDrawable animationDrawable = (AnimationDrawable) mImg.getDrawable();
-                    animationDrawable.start();
+                    mImg.setImageDrawable(findDrawById(R.drawable.icon_lack_oil));
+                    mId.setTextColor(findColorById(R.color.text_red));
+                    tv_days.setTextColor(findColorById(R.color.text_red));
                 } else {
-                    mImg.clearAnimation();
-                    if (data.getInjectionOil() == null) {
-                        days = "";
-//                        mImg.setImageDrawable(findDrawById(R.drawable.work_oil_red));
-                        iv_oil.setVisibility(View.VISIBLE);
+                    if (data.getTime() <= 0) {
+                        mImg.setImageDrawable(findDrawById(R.drawable.icon_full_oil));
+                        mId.setTextColor(findColorById(R.color.text_green));
+                        tv_days.setTextColor(findColorById(R.color.colorWhite));
                     } else {
-                        long t = (data.getInjectionOil().getCreateTime() + data.getCycle() * 24L * 60L * 60L * 1000L) - System.currentTimeMillis();
-                        int d = (int) (t / (24L * 60L * 60L * 1000L));
-                        try {
-                            long aa = DataUtil.getDistanceDays(DataUtil.timeFormat(data.getInjectionOil().getCreateTime(), null), DataUtil.timeFormat(System.currentTimeMillis(), null));
-                            if (aa - data.getCycle() <= 0) {
-//                              mImg.setImageDrawable(findDrawById(R.drawable.work_oil_green));
-                                iv_oil.setVisibility(View.GONE);
-                            } else {
-//                              mImg.setImageDrawable(findDrawById(R.drawable.work_oil_red));
-                                iv_oil.setVisibility(View.VISIBLE);
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        days = d + "天";
+                        mImg.setImageDrawable(findDrawById(R.drawable.icon_lack_oil));
+                        mId.setTextColor(findColorById(R.color.text_red));
+                        tv_days.setTextColor(findColorById(R.color.text_red));
                     }
+                    days = (-1 * data.getTime()) + "天";
                 }
                 tv_days.setText(days);
             }
@@ -121,6 +108,7 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
 
     private void initView() {
         mExpendRecycleView = findViewById(R.id.recycleViewId);
+        mNoDataLayout = findViewById(R.id.layout_no_data);
         mExpendRecycleView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 4));
         mStation = findViewById(R.id.id_greasing_station);
         ll_choose_local = findViewById(R.id.ll_choose_local);
@@ -216,10 +204,12 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
     public void noData() {
         mEquipment.clear();
         mExpendRecycleView.getAdapter().notifyDataSetChanged();
+        mNoDataLayout.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showRoomList(List<InjectRoomBean> roomBeanList) {
+        mNoDataLayout.setVisibility(View.GONE);
         ll_choose_local.setVisibility(View.VISIBLE);
         this.mRoomBeanList = roomBeanList;
         for (int i = 0; i < roomBeanList.size(); i++) {

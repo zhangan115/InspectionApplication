@@ -53,6 +53,9 @@
     <string name="str_fault_des">缺陷描述:</string>
     <string name="str_check_record">审核记录</string>
     <string name="exit">退出</string>
+    <string name="exit_app">退出登陆</string>
+    <string name="get_last_news_time">上次消息获取时间:%s</string>
+    <string name="un_know_state">未知</string>
 
 
 </resources>

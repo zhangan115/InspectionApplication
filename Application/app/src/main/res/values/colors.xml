@@ -11,6 +11,7 @@
     <color name="green_btn_press">#06d194</color>
     <color name="color_bg_nav_normal">#8998A5</color>
     <color name="text_black">#333333</color>
+    <color name="text_black_666">#666666</color>
     <color name="text_blue">#0b86ff</color>
     <color name="text_light_gray">#cccccc</color>
     <color name="text_gray">#656565</color>
@@ -33,6 +34,8 @@
     <color name="color_month">#8786f8</color>
     <color name="color_day">#06d194</color>
     <color name="color_orange">#faa029</color>
+    <color name="text_red">#f75756</color>
+    <color name="text_green">#19d47e</color>
 
 
 </resources>

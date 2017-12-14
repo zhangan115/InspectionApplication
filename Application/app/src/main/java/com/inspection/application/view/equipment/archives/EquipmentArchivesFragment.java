@@ -16,6 +16,7 @@ import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.view.MvpFragment;
+import com.inspection.application.view.defect.DefectRecordActivity;
 import com.inspection.application.view.photo.ViewPagePhotoActivity;
 import com.library.utils.DataUtil;
 import com.library.utils.GlideUtils;
@@ -61,19 +62,23 @@ public class EquipmentArchivesFragment extends MvpFragment<EquipmentArchivesCont
     private void setData(View rootView) {
         rootView.findViewById(R.id.ll_1).setOnClickListener(this);
         rootView.findViewById(R.id.ll_2).setOnClickListener(this);
-        rootView.findViewById(R.id.ll_3).setOnClickListener(this);
         if (bean == null) {
             return;
         }
         if (bean.getRoom() != null) {
-            ((TextView) rootView.findViewById(R.id.tv_equipment_room)).setText(bean.getRoom().getRoomName());
+            ((TextView) rootView.findViewById(R.id.tv_0)).setText(bean.getRoom().getRoomName());
+        } else {
+            ((TextView) rootView.findViewById(R.id.tv_0)).setText(R.string.un_know_state);
         }
-        ((TextView) rootView.findViewById(R.id.tv_equipment_name)).setText(bean.getEquipmentName());
         if (!TextUtils.isEmpty(bean.getEquipmentSn())) {
             ((TextView) rootView.findViewById(R.id.tv_1)).setText(bean.getEquipmentSn());
+        } else {
+            ((TextView) rootView.findViewById(R.id.tv_1)).setText(R.string.un_know_state);
         }
         if (bean.getEquipmentType() != null) {
             ((TextView) rootView.findViewById(R.id.tv_2)).setText(bean.getEquipmentType().getEquipmentTypeName());
+        } else {
+            ((TextView) rootView.findViewById(R.id.tv_2)).setText(R.string.un_know_state);
         }
         if (!TextUtils.isEmpty(bean.getEquipmentFsn())) {
             ((TextView) rootView.findViewById(R.id.tv_3)).setText(bean.getEquipmentFsn());
@@ -93,30 +98,16 @@ public class EquipmentArchivesFragment extends MvpFragment<EquipmentArchivesCont
                     .getMapOption().get("14").get(String.valueOf(bean.getEquipmentState())));
         }
         if (bean.getInstallTime() != 0) {
-            ((TextView) rootView.findViewById(R.id.tv_8)).setText(DataUtil.timeFormat(bean.getInstallTime(), null));
+            ((TextView) rootView.findViewById(R.id.tv_8)).setText(DataUtil.timeFormat(bean.getInstallTime(), "yyyy.MM.dd"));
         }
         if (bean.getManufactureTime() != 0) {
-            ((TextView) rootView.findViewById(R.id.tv_9)).setText(DataUtil.timeFormat(bean.getManufactureTime(), null));
+            ((TextView) rootView.findViewById(R.id.tv_9)).setText(DataUtil.timeFormat(bean.getManufactureTime(), "yyyy.MM.dd"));
         }
         if (bean.getStartTime() != 0) {
-            ((TextView) rootView.findViewById(R.id.tv_10)).setText(DataUtil.timeFormat(bean.getStartTime(), null));
+            ((TextView) rootView.findViewById(R.id.tv_10)).setText(DataUtil.timeFormat(bean.getStartTime(), "yyyy.MM.dd"));
         }
-        if (!TextUtils.isEmpty(bean.getEquipmentAlias())) {
-            ((TextView) rootView.findViewById(R.id.tv_11)).setText(bean.getEquipmentAlias());
-        }
-        if (!TextUtils.isEmpty(bean.getNameplatePicUrl())) {
-            rootView.findViewById(R.id.iv_1).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (v.getId() == R.id.iv_1) {
-                        ViewPagePhotoActivity.startActivity(getActivity(), new String[]{bean.getNameplatePicUrl()}, 0);
-                    }
-                }
-            });
-        } else {
-            rootView.findViewById(R.id.iv_1).setVisibility(View.GONE);
-        }
-        GlideUtils.ShowImage(getActivity(), bean.getNameplatePicUrl(), ((ImageView) rootView.findViewById(R.id.iv_1)), R.drawable.picture_default);
+        ImageView equipmentImage = rootView.findViewById(R.id.image);
+        GlideUtils.ShowImage(getActivity(), bean.getNameplatePicUrl(), equipmentImage, R.drawable.icon_nameplate);
     }
 
     @Override
@@ -129,16 +120,11 @@ public class EquipmentArchivesFragment extends MvpFragment<EquipmentArchivesCont
         Intent intent = null;
         switch (v.getId()) {
             case R.id.ll_1:
-//                intent = new Intent(getActivity(), EquipmentAlarmActivity.class);
-//                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, bean.getEquipmentId());
+                intent = new Intent(getActivity(), DefectRecordActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, bean);
                 break;
             case R.id.ll_2:
-//                intent = new Intent(getActivity(), EquipmentRecordActivity.class);
-//                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, bean.getEquipmentId());
-                break;
-            case R.id.ll_3:
-//                intent = new Intent(getActivity(), EquipmentDataActivity.class);
-//                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, bean.getEquipmentId());
+
                 break;
         }
         if (intent != null) {

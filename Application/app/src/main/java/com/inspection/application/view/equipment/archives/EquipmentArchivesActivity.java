@@ -16,7 +16,6 @@ import com.library.utils.ActivityUtilsV4;
 
 public class EquipmentArchivesActivity extends BaseActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

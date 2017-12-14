@@ -6,6 +6,17 @@
 
     <include layout="@layout/toolbar" />
 
+    <TextView
+        android:id="@+id/tv_news_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#c8f0fd"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:textColor="@color/text_black"
+        android:textSize="15sp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,22 +27,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_btn_comm_white"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
             <cn.bingoogolapple.badgeview.BGABadgeImageView
                 android:id="@+id/bg_view_fault"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:background="@drawable/icon_audit" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="缺陷审核"
-                android:textColor="@color/color_text_normal"
+                android:textColor="@color/text_black_666"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -48,22 +61,24 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/bg_btn_comm_white"
             android:gravity="center"
             android:orientation="vertical"
+            android:paddingBottom="10dp"
             android:paddingTop="10dp">
 
             <cn.bingoogolapple.badgeview.BGABadgeImageView
                 android:id="@+id/bg_view_work"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher" />
+                android:background="@drawable/icon_work" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:text="缺陷审核"
-                android:textColor="@color/color_text_normal"
+                android:textColor="@color/text_black_666"
                 android:textSize="15sp" />
 
         </LinearLayout>
@@ -72,7 +87,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_weight="1"
+        android:background="@color/bg_normal">
 
         <com.library.widget.RecycleRefreshLoadLayout
             android:layout_width="match_parent"

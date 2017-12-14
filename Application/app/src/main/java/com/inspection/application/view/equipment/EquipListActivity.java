@@ -14,6 +14,7 @@ import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.equipment.RoomListBean;
 import com.inspection.application.view.BaseActivity;
+import com.inspection.application.view.equipment.archives.EquipmentArchivesActivity;
 import com.library.widget.PinnedHeaderExpandableListView;
 
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class EquipListActivity extends BaseActivity implements EquipListContract
                     intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, equipmentBean);
                     setResult(Activity.RESULT_OK, intent);
                     finish();
+                } else {
+                    Intent intent = new Intent(EquipListActivity.this, EquipmentArchivesActivity.class);
+                    intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, equipmentBean);
+                    startActivity(intent);
                 }
             }
         });

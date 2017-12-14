@@ -99,25 +99,12 @@ public class EquipListAdapter extends BaseExpandableListAdapter {
         }
         holder.mPlace.setText(data.get(groupPosition).getRoomName());
         holder.mCount.setText(String.valueOf(data.get(groupPosition).getEquipments().size()));
-        if (data.size() == 1) {
-            holder.mLine.setVisibility(View.VISIBLE);
-        } else if (groupPosition == 0) {
-            holder.mLine.setVisibility(View.VISIBLE);
-        } else if (groupPosition == data.size() - 1) {
-            holder.mLine.setVisibility(View.GONE);
-        } else {
-            holder.mLine.setVisibility(View.VISIBLE);
-
-        }
         if (isExpanded) {
-//            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.bg_employee_arrow_open));
-            if (groupPosition == data.size() - 1) {
-                holder.mLine.setVisibility(View.VISIBLE);
-            }
+            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_top_normal));
+            holder.mLine.setVisibility(View.VISIBLE);
         } else {
-            if (groupPosition == data.size() - 1) {
-                holder.mLine.setVisibility(View.GONE);
-            }
+            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_under_normal));
+            holder.mLine.setVisibility(View.GONE);
         }
         return convertView;
     }

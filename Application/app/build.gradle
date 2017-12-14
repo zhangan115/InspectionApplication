@@ -59,6 +59,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.afollestad.material-dialogs:core:0.9.6.0'
     compile "com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.1"
+    compile 'com.android.support:cardview-v7:27.0.1'
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.daggerVersion"
     // Dagger dependencies
     compile "com.google.dagger:dagger:$rootProject.daggerVersion"

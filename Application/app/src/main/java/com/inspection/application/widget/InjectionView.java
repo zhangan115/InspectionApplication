@@ -56,9 +56,9 @@ public abstract class InjectionView extends LinearLayout implements View.OnClick
             text_id.setText(String.format("%s\n(%s)", injectEquipment.getEquipmentName(), injectEquipment.getEquipmentSn()));
         }
         if (injectEquipment.getInjectionOil() != null && injectEquipment.getInjectionOil().getCreateTime() != 0) {
-            text_lastTime.setText(DataUtil.timeFormat(injectEquipment.getInjectionOil().getCreateTime(), "yyyy-MM-dd"));
+            text_lastTime.setText(DataUtil.timeFormat(injectEquipment.getInjectionOil().getCreateTime(), "yyyy.MM.dd"));
             text_nextTime.setText(DataUtil.timeFormat(injectEquipment.getInjectionOil().getCreateTime()
-                    + injectEquipment.getCycle() * 24L * 60L * 60L * 1000L, "yyyy-MM-dd"));
+                    + injectEquipment.getCycle() * 24L * 60L * 60L * 1000L, "yyyy.MM.dd"));
         }
         img_cancel.setOnClickListener(this);
         img_inject.setOnClickListener(this);

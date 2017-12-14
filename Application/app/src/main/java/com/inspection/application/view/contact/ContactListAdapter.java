@@ -15,6 +15,7 @@ import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.mode.bean.customer.DepartmentBean;
 import com.inspection.application.mode.bean.customer.EmployeeBean;
+import com.library.utils.GlideUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -123,15 +124,15 @@ class ContactListAdapter extends BaseExpandableListAdapter {
 //            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_centre));
         }
         if (isExpanded) {
-//            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.bg_employee_arrow_open));
+            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_top_normal));
         } else {
-//            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.bg_employee_arrow));
+            holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_under_normal));
         }
         holder.nameTv.setText(data.get(groupPosition).getDeptName());
         if (data.get(groupPosition).getUserList() != null) {
-            holder.countTv.setText(String.valueOf(data.get(groupPosition).getUserList().size()));
+            holder.countTv.setText(String.format("%s名", String.valueOf(data.get(groupPosition).getUserList().size())));
         } else {
-            holder.countTv.setText(String.valueOf(0));
+            holder.countTv.setText(String.format("%s名", String.valueOf(0)));
         }
         return convertView;
     }
@@ -165,6 +166,7 @@ class ContactListAdapter extends BaseExpandableListAdapter {
         holder.callTv.setText(data.get(groupPosition).getUserList().get(childPosition).getUser().getUserPhone());
         holder.ll_child_layout.setTag(R.id.tag_position, data.get(groupPosition).getUserList().get(childPosition).getUser().getUserPhone());
         holder.ll_child_layout.setOnClickListener(call);
+        GlideUtils.ShowCircleImage(context, data.get(groupPosition).getUserList().get(childPosition).getUser().getPortraitUrl(), holder.stateIv, R.drawable.icon_monitor);
         return convertView;
     }
 

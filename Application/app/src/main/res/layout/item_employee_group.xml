@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_item_group"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
@@ -18,6 +19,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:drawableLeft="@drawable/icon_class"
+            android:drawablePadding="10dp"
             android:paddingBottom="20dp"
             android:paddingTop="20dp"
             android:textColor="@color/text_black"
@@ -44,5 +47,6 @@
         android:id="@+id/division_id"
         android:layout_width="match_parent"
         android:layout_height="1px"
-        android:background="@color/login_name_pass_device" />
+        android:background="@color/color_division"
+        android:visibility="gone" />
 </LinearLayout>

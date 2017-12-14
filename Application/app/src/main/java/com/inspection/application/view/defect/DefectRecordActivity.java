@@ -3,6 +3,7 @@ package com.inspection.application.view.defect;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
+import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.fault.FaultList;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.defect.detail.DefectRecordDetailActivity;
@@ -42,11 +44,18 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
     private DefectRecordContract.Presenter mPresenter;
     private List<FaultList> mList;
     private boolean isRefresh;
+    @Nullable
+    private EquipmentBean equipmentBean;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setLayoutAndToolbar(R.layout.activity_defect_record, R.string.main_fault_record);
+        equipmentBean = getIntent().getParcelableExtra(ConstantStr.KEY_BUNDLE_OBJECT);
+        if (equipmentBean == null) {
+            setLayoutAndToolbar(R.layout.activity_defect_record, R.string.main_fault_record);
+        } else {
+            setLayoutAndToolbar(R.layout.activity_defect_record, equipmentBean.getEquipmentName());
+        }
         new DefectRecordPresenter(Injection.getIntent().provideFaultRepository(App.getInstance().getModule()), this);
         mList = new ArrayList<>();
         mRecycleRefreshLoadLayout = findViewById(R.id.refresh_layout);
@@ -60,6 +69,7 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
             @Override
             public void showData(ViewHolder vHolder, FaultList data, int position) {
                 TextView tv_room_name = (TextView) vHolder.getView(R.id.tv_room_name);
+                TextView tv_equip_name = (TextView) vHolder.getView(R.id.tv_equip_name);
                 TextView tv_fault_type = (TextView) vHolder.getView(R.id.tv_fault_type);
                 TextView tv_fault_des = (TextView) vHolder.getView(R.id.tv_fault_des);
                 TextView tv_report_user_name = (TextView) vHolder.getView(R.id.tv_report_user_name);
@@ -73,6 +83,12 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
                 tv_report_user_name.setText(String.format("上报人:%s", data.getUser().getRealName()));
                 tv_report_time.setText(DataUtil.timeFormat(data.getCreateTime(), null));
                 tv_fault_type.setText(App.getInstance().getMapOption().get("2").get(String.valueOf(data.getFaultType())));
+                if (equipmentBean != null) {
+                    tv_equip_name.setVisibility(View.GONE);
+                } else {
+                    tv_equip_name.setVisibility(View.VISIBLE);
+                    tv_equip_name.setText(data.getEquipment().getEquipmentName());
+                }
             }
         };
         mRecyclerView.setAdapter(adapter);
@@ -94,6 +110,9 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("count", ConstantInt.PAGE_SIZE);
+            if (equipmentBean != null) {
+                jsonObject.put("equipmentId", equipmentBean.getEquipmentId());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -117,6 +136,9 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
         try {
             jsonObject.put("lastId", mList.get(mList.size() - 1).getFaultId());
             jsonObject.put("count", ConstantInt.PAGE_SIZE);
+            if (equipmentBean != null) {
+                jsonObject.put("equipmentId", equipmentBean.getEquipmentId());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
