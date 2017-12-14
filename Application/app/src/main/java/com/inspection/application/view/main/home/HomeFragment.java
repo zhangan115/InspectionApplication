@@ -7,18 +7,23 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.inspection.application.R;
+import com.inspection.application.app.App;
 import com.inspection.application.view.MvpFragment;
 import com.inspection.application.view.contact.ContactActivity;
 import com.inspection.application.view.defect.DefectRecordActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
 import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
+import com.inspection.application.view.login.LoginActivity;
 import com.inspection.application.view.main.mine.MineFragment;
 import com.inspection.application.view.rule.RuleActivity;
 import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.task.TaskListActivity;
+import com.library.utils.GlideUtils;
 
 /**
  * 首页
@@ -47,6 +52,15 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
         rootView.findViewById(R.id.tv_work_manager).setOnClickListener(this);
         rootView.findViewById(R.id.tv_customer).setOnClickListener(this);
         rootView.findViewById(R.id.tv_fault_record).setOnClickListener(this);
+        if (App.getInstance().getCurrentUser() != null) {
+            ImageView userPhoto = rootView.findViewById(R.id.iv_user_photo);
+            GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getPortraitUrl(), userPhoto, R.drawable.icon_monitor);
+            TextView userName = rootView.findViewById(R.id.tv_user_name);
+            TextView userDept = rootView.findViewById(R.id.tv_user_dept);
+            userName.setText(String.format("欢迎,%s", App.getInstance().getCurrentUser().getRealName()));
+            userDept.setText(App.getInstance().getCurrentUser().getUserRoleNames());
+        }
+        rootView.findViewById(R.id.tv_quit).setOnClickListener(this);
         return rootView;
     }
 
@@ -80,6 +94,10 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
                 break;
             case R.id.tv_fault_record:
                 startActivity(new Intent(getActivity(), DefectRecordActivity.class));
+                break;
+            case R.id.tv_quit:
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+                getActivity().finish();
                 break;
         }
     }
