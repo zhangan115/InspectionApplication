@@ -3,6 +3,7 @@ package com.inspection.application.mode.source.task;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
@@ -10,7 +11,6 @@ import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.ApiCallBackObject;
-import com.inspection.application.mode.api.FaultApi;
 import com.inspection.application.mode.api.TaskApi;
 import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.equipment.db.RoomDb;
@@ -18,6 +18,8 @@ import com.inspection.application.mode.bean.equipment.db.RoomDbDao;
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
+import com.inspection.application.mode.bean.task.data.CheckBean;
+import com.inspection.application.mode.bean.task.data.InspectionDataBean;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.db.DbManager;
@@ -29,7 +31,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
-import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -88,6 +89,39 @@ public class TaskRepository implements TaskDataSource {
     public Subscription getTaskList(String date, @NonNull final IListCallBack<InspectionBean> callBack) {
         Observable<Bean<List<InspectionBean>>> observable = Api.createRetrofit().create(TaskApi.class)
                 .getInspectionList(ConstantInt.INSPECTION_TYPE, date, ConstantInt.MAX_PAGE_SIZE);
+        return new ApiCallBackList<InspectionBean>(observable) {
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onData(List<InspectionBean> data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription getMyTaskList(@Nullable Long lastId, @NonNull final IListCallBack<InspectionBean> callBack) {
+        Observable<Bean<List<InspectionBean>>> observable = Api.createRetrofit().create(TaskApi.class)
+                .getInspectionList(ConstantInt.INSPECTION_TYPE, ConstantInt.PAGE_SIZE, lastId);
         return new ApiCallBackList<InspectionBean>(observable) {
             @Override
             public void onSuccess() {
@@ -233,5 +267,67 @@ public class TaskRepository implements TaskDataSource {
         } else {
             callBack.onShowTask(position);
         }
+    }
+
+    @NonNull
+    @Override
+    public Subscription getCheckData(long taskId, @NonNull final IObjectCallBack<CheckBean> callBack) {
+        return new ApiCallBackObject<CheckBean>(Api.createRetrofit().create(TaskApi.class).getCheckInfo(taskId)) {
+            @Override
+            public void onData(@NonNull CheckBean data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription getTaskData(long taskId, @NonNull final IObjectCallBack<InspectionDataBean> callBack) {
+        return new ApiCallBackObject<InspectionDataBean>(Api.createRetrofit().create(TaskApi.class).getInspectionData(taskId)) {
+            @Override
+            public void onData(@NonNull InspectionDataBean data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
     }
 }

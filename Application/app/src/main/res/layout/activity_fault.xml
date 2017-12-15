@@ -26,14 +26,15 @@
                     android:id="@+id/id_fault_ll_device"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_whit_shadw_2"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
                         android:text="@string/equipment_name"
                         android:textColor="@color/text_black"
                         android:textSize="16sp" />
@@ -42,8 +43,10 @@
                         android:id="@+id/id_fault_device_name"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:drawablePadding="4dp"
+                        android:drawableRight="@drawable/icon_arrow"
                         android:gravity="right|center_vertical"
                         android:lines="1"
                         android:textColor="@color/text_gray_999"
@@ -52,23 +55,21 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#b9c9d5" />
 
                 <LinearLayout
                     android:id="@+id/id_fault_ll_grade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="15dp"
-                    android:paddingTop="15dp">
+                    android:background="@drawable/bg_whit_shadw_2"
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="15dp"
                         android:gravity="center_vertical"
+
                         android:text="@string/fault_grade"
                         android:textColor="@color/text_black"
                         android:textSize="16sp" />
@@ -77,28 +78,29 @@
                         android:id="@+id/tv_fault_grade"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:drawablePadding="4dp"
+                        android:drawableRight="@drawable/icon_arrow"
                         android:gravity="right|center_vertical"
                         android:textColor="@color/text_gray_999"
                         android:textSize="16sp" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#b9c9d5" />
 
                 <LinearLayout
                     android:id="@+id/id_fault_ll_describe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
+                    android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="8dp"
                         android:gravity="center_vertical"
                         android:text="@string/fault_describe"
                         android:textColor="@color/text_black"
@@ -108,6 +110,8 @@
                         android:id="@+id/et_fault_describe"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:layout_marginTop="8dp"
                         android:background="@color/colorWhite"
                         android:gravity="top|left"
@@ -117,19 +121,20 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="#b9c9d5" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="8dp"
                         android:text="@string/image_record"
                         android:textColor="#535761"
                         android:textSize="16sp" />
@@ -137,17 +142,32 @@
                     <com.inspection.application.widget.TakePhotoView
                         android:id="@+id/take_photo_view"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="6dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/tv_appoint"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_black"
-                android:textSize="16sp" />
+                android:background="@drawable/bg_whit_shadw_2"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_appoint"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/text_black"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"

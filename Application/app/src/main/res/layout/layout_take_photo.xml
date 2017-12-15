@@ -17,6 +17,6 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/photo_button" />
+        android:src="@drawable/icon_add" />
 
 </LinearLayout>

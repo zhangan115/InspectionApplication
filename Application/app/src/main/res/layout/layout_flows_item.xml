@@ -10,9 +10,9 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="26dp"
-            android:layout_height="26dp"
-            android:src="@mipmap/ic_launcher" />
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:background="@drawable/icon_time" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -22,7 +22,7 @@
             android:layout_marginLeft="8dp"
             android:text="2015"
             android:textColor="@color/color_orange"
-            android:textSize="14sp" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

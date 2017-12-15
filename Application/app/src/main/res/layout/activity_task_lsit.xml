@@ -8,257 +8,260 @@
 
     <include layout="@layout/toolbar" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:background="@drawable/bg_whit_shadw_2"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:orientation="vertical">
+            android:id="@+id/ll_choose_month_day"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="6dp"
+            android:gravity="center|left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="2017年"
+                android:textColor="@color/text_black"
+                android:textSize="34sp" />
 
             <LinearLayout
-                android:id="@+id/ll_choose_month_day"
+                android:id="@+id/ll_month_day"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
-                android:gravity="center|left"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/tv_year"
+                    android:id="@+id/tv_month"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="2017年"
+                    android:text="06/25"
                     android:textColor="@color/text_black"
-                    android:textSize="34sp" />
+                    android:textSize="14sp" />
 
-                <LinearLayout
-                    android:id="@+id/ll_month_day"
+                <TextView
+                    android:id="@+id/tv_day"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tv_month"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="06/25"
-                        android:textColor="@color/text_black"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_day"
-                        android:layout_width="wrap_content"
-                        android:layout_height="0dp"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:gravity="bottom"
-                        android:text="星期四"
-                        android:textColor="@color/text_black"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/ll_show_weak"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingBottom="10dp"
-                android:weightSum="7">
-
-                <LinearLayout
-                    android:id="@+id/ll_monday"
-                    style="@style/ChooseDayOfWeek"
-                    android:layout_marginLeft="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_sunday"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_1"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="11"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_tuesday"
-                    style="@style/ChooseDayOfWeek"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_monday"
-                        android:textColor="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_2"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="12"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_wednesday"
-                    style="@style/ChooseDayOfWeek"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_tuesday"
-                        android:textColor="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_3"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="13"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_thursday"
-                    style="@style/ChooseDayOfWeek"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_wednesday"
-                        android:textColor="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_4"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="14"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_friday"
-                    style="@style/ChooseDayOfWeek"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_thursday"
-                        android:textColor="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_5"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="15"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_saturday"
-                    style="@style/ChooseDayOfWeek"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_friday"
-                        android:textColor="@color/text_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_6"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="16"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_sunday"
-                    style="@style/ChooseDayOfWeek"
-                    android:layout_marginRight="10dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="@string/text_saturday"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/tv_7"
-                        android:layout_width="@dimen/task_data_size"
-                        android:layout_height="@dimen/task_data_size"
-                        android:gravity="center"
-                        android:text="17"
-                        android:textColor="@color/text_light_gray"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
+                    android:layout_height="0dp"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:text="星期四"
+                    android:textColor="@color/text_black"
+                    android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/ll_show_weak"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="10dp"
+            android:weightSum="7">
+
+            <LinearLayout
+                android:id="@+id/ll_monday"
+                style="@style/ChooseDayOfWeek"
+                android:layout_marginLeft="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_sunday"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="11"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_tuesday"
+                style="@style/ChooseDayOfWeek"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_monday"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="12"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_wednesday"
+                style="@style/ChooseDayOfWeek"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_tuesday"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="13"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_thursday"
+                style="@style/ChooseDayOfWeek"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_wednesday"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="14"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_friday"
+                style="@style/ChooseDayOfWeek"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_thursday"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_5"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="15"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_saturday"
+                style="@style/ChooseDayOfWeek"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_friday"
+                    android:textColor="@color/text_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_6"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="16"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_sunday"
+                style="@style/ChooseDayOfWeek"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="@string/text_saturday"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tv_7"
+                    android:layout_width="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size"
+                    android:gravity="center"
+                    android:text="17"
+                    android:textColor="@color/text_light_gray"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp">
 
         <com.library.widget.RecycleRefreshLoadLayout
             android:id="@+id/refresh_layout"

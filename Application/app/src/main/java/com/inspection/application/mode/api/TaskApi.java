@@ -4,6 +4,8 @@ import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
+import com.inspection.application.mode.bean.task.data.CheckBean;
+import com.inspection.application.mode.bean.task.data.InspectionDataBean;
 
 import java.util.List;
 
@@ -28,6 +30,9 @@ public interface TaskApi {
      */
     @GET("task/list.json")
     Observable<Bean<List<InspectionBean>>> getInspectionList(@Query("agentType") int type, @Query("time") String time, @Query("count") int pageSize);
+
+    @GET("task/list.json")
+    Observable<Bean<List<InspectionBean>>> getInspectionList(@Query("agentType") int type, @Query("count") int pageSize, @Query("lastId") Long lastId);
 
     /**
      * 领取任务
@@ -56,4 +61,17 @@ public interface TaskApi {
      */
     @GET("task/get/task.json")
     Observable<Bean<InspectionDetailBean>> getInspectionDetailList(@Query("taskId") long taskId);
+
+    /**
+     * 获取任务的巡检数据
+     *
+     * @param taskId id
+     * @return 订阅
+     */
+    @GET("task/get/task/data.json")
+    Observable<Bean<InspectionDataBean>> getInspectionData(@Query("taskId") Long taskId);
+
+    //巡检详情头部
+    @GET("task/taskinfo.json")
+    Observable<Bean<CheckBean>> getCheckInfo(@Query("taskId") long taskId);
 }

@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/bg_whit_shadw_2"
         android:orientation="vertical">
 
         <EditText
@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="160dp"
             android:layout_marginBottom="12dp"
-            android:background="@drawable/shape_list_bg"
+            android:background="@color/colorWhite"
             android:gravity="top"
             android:hint="请填写意见。"
             android:maxEms="10"

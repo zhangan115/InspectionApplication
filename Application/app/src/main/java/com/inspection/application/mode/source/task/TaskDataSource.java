@@ -1,10 +1,13 @@
 package com.inspection.application.mode.source.task;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
+import com.inspection.application.mode.bean.task.data.CheckBean;
+import com.inspection.application.mode.bean.task.data.InspectionDataBean;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 
@@ -38,6 +41,16 @@ public interface TaskDataSource {
     Subscription getTaskList(String date, @NonNull final IListCallBack<InspectionBean> callBack);
 
     /**
+     * 获取任务
+     *
+     * @param lastId   lastId
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription getMyTaskList(@Nullable Long lastId, @NonNull final IListCallBack<InspectionBean> callBack);
+
+    /**
      * 领取任务
      *
      * @param position 位置
@@ -51,7 +64,7 @@ public interface TaskDataSource {
     /**
      * 获取任务详情
      *
-     * @param taskId          任务id
+     * @param taskId   任务id
      * @param callBack 回调
      * @return 订阅
      */
@@ -83,4 +96,24 @@ public interface TaskDataSource {
      * @param callBack 回调
      */
     void checkSecure(int position, long taskId, @NonNull CheckSecureInfoCallBack callBack);
+
+    /**
+     * 获取任务的头部数据
+     *
+     * @param taskId   taskId
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription getCheckData(long taskId, @NonNull IObjectCallBack<CheckBean> callBack);
+
+    /**
+     * 获取任务数据
+     *
+     * @param taskId   taskId
+     * @param callBack 回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription getTaskData(long taskId, @NonNull IObjectCallBack<InspectionDataBean> callBack);
 }

@@ -20,6 +20,7 @@ import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
 import com.inspection.application.view.login.LoginActivity;
 import com.inspection.application.view.main.mine.MineFragment;
+import com.inspection.application.view.mytask.MyTaskActivity;
 import com.inspection.application.view.rule.RuleActivity;
 import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.task.TaskListActivity;
@@ -47,6 +48,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
         rootView.findViewById(R.id.tv_inject_manager).setOnClickListener(this);
         rootView.findViewById(R.id.tv_equipment_list).setOnClickListener(this);
         rootView.findViewById(R.id.tv_task).setOnClickListener(this);
+        rootView.findViewById(R.id.tv_my_task).setOnClickListener(this);
         rootView.findViewById(R.id.tv_fault_submit).setOnClickListener(this);
         rootView.findViewById(R.id.tv_count).setOnClickListener(this);
         rootView.findViewById(R.id.tv_work_manager).setOnClickListener(this);
@@ -98,6 +100,9 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
             case R.id.tv_quit:
                 startActivity(new Intent(getActivity(), LoginActivity.class));
                 getActivity().finish();
+                break;
+            case R.id.tv_my_task:
+                startActivity(new Intent(getActivity(), MyTaskActivity.class));
                 break;
         }
     }

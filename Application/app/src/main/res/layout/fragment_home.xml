@@ -18,11 +18,11 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="90dp"
             android:layout_gravity="bottom"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:background="@color/colorWhite"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:background="@drawable/bg_whit_shadw_2"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
@@ -80,9 +80,9 @@
         android:id="@+id/work"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="6dp"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,7 +96,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:gravity="center">
 
             <ImageView
@@ -118,9 +118,8 @@
             android:id="@+id/tv_fault_submit"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:gravity="center">
 
             <ImageView
@@ -145,9 +144,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:orientation="horizontal"
         android:weightSum="4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -162,7 +160,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_lubricate"
             android:text="@string/main_inject_manager" />
@@ -172,9 +170,8 @@
             style="@style/Main_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_alarm"
             android:text="@string/main_alarm_news" />
@@ -184,9 +181,8 @@
             style="@style/Main_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_lubricate"
             android:text="@string/main_fault_record" />
@@ -197,9 +193,8 @@
             style="@style/Main_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_lubricate"
             android:text="@string/main_equipment_list" />
@@ -211,9 +206,8 @@
         android:id="@+id/count"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
         android:orientation="horizontal"
         android:weightSum="4"
         app:layout_constraintEnd_toEndOf="parent"
@@ -228,7 +222,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_statistics"
             android:text="@string/main_count" />
@@ -238,9 +232,8 @@
             style="@style/Main_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_personnel"
             android:text="@string/main_customer" />
@@ -250,21 +243,19 @@
             style="@style/Main_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_standard"
             android:text="@string/main_work_manager" />
 
         <TextView
-            android:id="@+id/tv_my_setting"
+            android:id="@+id/tv_my_task"
             style="@style/Main_Text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:background="@color/colorWhite"
+            android:background="@drawable/bg_whit_shadw_2"
             android:drawablePadding="8dp"
             android:drawableTop="@drawable/icon_my_task"
             android:text="@string/main_my_task" />

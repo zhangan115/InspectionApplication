@@ -20,6 +20,7 @@ import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.secure.SecureActivity;
 import com.inspection.application.view.task.info.TaskInfoActivity;
+import com.inspection.application.view.taskdata.TaskDataActivity;
 import com.library.adapter.RVAdapter;
 import com.library.utils.CalendarUtil;
 import com.library.utils.DataUtil;
@@ -169,7 +170,10 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                Intent intent = new Intent(TaskListActivity.this, TaskDataActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_STR, mList.get(position).getTaskName());
+                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getTaskId());
+                startActivity(intent);
             }
         });
     }
