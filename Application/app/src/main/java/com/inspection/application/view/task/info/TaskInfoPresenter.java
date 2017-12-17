@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
+import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.task.TaskDataSource;
 
@@ -56,6 +57,38 @@ class TaskInfoPresenter implements TaskInfoContract.Presenter {
                 mView.hideLoading();
             }
         }));
+    }
+
+    @Override
+    public void startTask(RoomListBean data, long taskId) {
+        mSubscription.add(mTaskDataSource.startTask(data, taskId, new TaskDataSource.IStartTaskCallBack() {
+
+            @Override
+            public void onSuccess(RoomListBean roomListBean) {
+                mView.startWork(roomListBean);
+            }
+
+            @Override
+            public void onFail(String message) {
+                mView.showMessage(message);
+            }
+        }));
+    }
+
+    @Override
+    public void checkTaskFinish(final RoomListBean data, long taskId) {
+        mTaskDataSource.checkTaskFinish(data, taskId, new TaskDataSource.ICheckTaskCallBack() {
+            @Override
+            public void onFinish(RoomListBean roomListBean) {
+                mView.startWork(roomListBean);
+            }
+
+            @Override
+            public void onNotFinish(RoomListBean roomListBean) {
+                mView.showMessage("还没有完成点检任务");
+                mView.startWork(roomListBean);
+            }
+        });
     }
 
     @Override

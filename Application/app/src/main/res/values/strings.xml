@@ -57,5 +57,9 @@
     <string name="get_last_news_time">上次消息获取时间:%s</string>
     <string name="un_know_state">未知</string>
 
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_scan">扫二维码</string>
+    <string name="str_finish_task">完成巡检</string>
 
 </resources>

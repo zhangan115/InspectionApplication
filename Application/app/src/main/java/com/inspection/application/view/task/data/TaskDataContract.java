@@ -1,4 +1,4 @@
-package com.inspection.application.view.taskdata;
+package com.inspection.application.view.task.data;
 
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;

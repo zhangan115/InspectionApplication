@@ -9,7 +9,7 @@ import android.os.Parcelable;
 
 public class DataItemValueListBean implements Parcelable {
 
-    private int dataItemValueId;
+    private long dataItemValueId;
     private String lastValue;
     private DataItemBean dataItem;
 
@@ -21,11 +21,11 @@ public class DataItemValueListBean implements Parcelable {
         this.dataItem = dataItem;
     }
 
-    public int getDataItemValueId() {
+    public long getDataItemValueId() {
         return dataItemValueId;
     }
 
-    public void setDataItemValueId(int dataItemValueId) {
+    public void setDataItemValueId(long dataItemValueId) {
         this.dataItemValueId = dataItemValueId;
     }
 
@@ -38,6 +38,9 @@ public class DataItemValueListBean implements Parcelable {
     }
 
 
+    public DataItemValueListBean() {
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -45,16 +48,13 @@ public class DataItemValueListBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.dataItemValueId);
+        dest.writeLong(this.dataItemValueId);
         dest.writeString(this.lastValue);
         dest.writeParcelable(this.dataItem, flags);
     }
 
-    public DataItemValueListBean() {
-    }
-
     protected DataItemValueListBean(Parcel in) {
-        this.dataItemValueId = in.readInt();
+        this.dataItemValueId = in.readLong();
         this.lastValue = in.readString();
         this.dataItem = in.readParcelable(DataItemBean.class.getClassLoader());
     }

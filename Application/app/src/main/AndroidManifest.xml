@@ -154,14 +154,6 @@
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.task.data.TaskDataActivity"
-            android:allowTaskReparenting="true"
-            android:configChanges="orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:taskAffinity="${TASK_AFFINITY_VALUE}"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".view.rule.RuleActivity"
             android:allowTaskReparenting="true"
             android:configChanges="orientation|keyboardHidden"
@@ -202,13 +194,22 @@
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.taskdata.TaskDataActivity"
+            android:name=".view.task.data.TaskDataActivity"
             android:allowTaskReparenting="true"
             android:configChanges="orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:taskAffinity="${TASK_AFFINITY_VALUE}"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.task.work.TaskWorkActivity"
+            android:allowTaskReparenting="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity="${TASK_AFFINITY_VALUE}"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
             android:allowTaskReparenting="true"

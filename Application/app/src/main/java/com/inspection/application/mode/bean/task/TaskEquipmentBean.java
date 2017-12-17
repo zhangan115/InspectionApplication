@@ -20,6 +20,15 @@ public class TaskEquipmentBean implements Parcelable {
     private boolean isAlarm;//本地添加属性:判断当前设备是否异常上报过
     private boolean isTakePhoto;//本地添加属性:是否进行拍照
     private boolean isUpload;//本地添加属性:是否上传
+    private boolean isChoose;
+
+    public boolean isChoose() {
+        return isChoose;
+    }
+
+    public void setChoose(boolean choose) {
+        isChoose = choose;
+    }
 
     public boolean isTakePhoto() {
         return isTakePhoto;
@@ -94,6 +103,7 @@ public class TaskEquipmentBean implements Parcelable {
         dest.writeByte(this.isAlarm ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isTakePhoto ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isUpload ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isChoose ? (byte) 1 : (byte) 0);
     }
 
     protected TaskEquipmentBean(Parcel in) {
@@ -104,6 +114,7 @@ public class TaskEquipmentBean implements Parcelable {
         this.isAlarm = in.readByte() != 0;
         this.isTakePhoto = in.readByte() != 0;
         this.isUpload = in.readByte() != 0;
+        this.isChoose = in.readByte() != 0;
     }
 
     public static final Creator<TaskEquipmentBean> CREATOR = new Creator<TaskEquipmentBean>() {
@@ -117,5 +128,4 @@ public class TaskEquipmentBean implements Parcelable {
             return new TaskEquipmentBean[size];
         }
     };
-
 }

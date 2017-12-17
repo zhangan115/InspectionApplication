@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/bg_normal"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <LinearLayout
+        android:id="@+id/ll_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_type_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_value_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textSize="16sp"
+                tools:text="干式变压器应无裂痕无异物" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:id="@+id/ll_check_result"
+                    android:layout_width="170dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_speech_item"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_content_type_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="4dp"
+                        android:text="检查结果:"
+                        android:textColor="#aab5c9"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_check_result"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="#aab5c9"
+                        android:textSize="14sp"
+                        tools:text="正常" />
+
+                    <ImageView
+                        android:id="@+id/iv_list_arrow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="6dp"
+                        android:background="@drawable/icon_arrow" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/tv_last_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:textColor="#929db2"
+                    android:textSize="12sp"
+                    tools:text="上次记录:无" />
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/iv_division_1"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/color_division" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_type_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_value_title_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="15dp"
+                        android:textColor="#535862"
+                        android:textSize="16sp"
+                        tools:text="干式变压器应无裂痕无异物" />
+
+                    <TextView
+                        android:id="@+id/tv_norma_value"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:textColor="#929db2"
+                        android:textSize="12sp"
+                        tools:text="电流（mA）" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:descendantFocusability="beforeDescendants"
+                    android:orientation="horizontal"
+                    android:paddingBottom="15dp">
+
+                    <EditText
+                        android:id="@+id/et_value"
+                        android:layout_width="170dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/bg_speech_item"
+                        android:gravity="center_vertical"
+                        android:hint="请输入电流"
+                        android:paddingLeft="4dp"
+                        android:textColor="@color/text_gray_999"
+                        android:textColorHint="#aab5c9"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/iv_value"
+                        android:layout_width="170dp"
+                        android:layout_height="30dp"
+                        android:background="@drawable/bg_speech_item"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="4dp"
+                        android:textColor="@color/text_gray_999"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_last_value"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical"
+                        android:textColor="#929db2"
+                        android:textSize="12sp"
+                        tools:text="上次电流:30mA" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/iv_division_2"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/login_name_pass_device" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_type_3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_gray_999"
+                android:textSize="16sp"
+                tools:text="以设备为背景自拍一张" />
+
+            <ImageView
+                android:id="@+id/iv_take_photo"
+                android:layout_width="57dp"
+                android:layout_height="57dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/icon_add" />
+
+            <View
+                android:id="@+id/iv_division_3"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginTop="15dp"
+                android:background="@color/login_name_pass_device" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

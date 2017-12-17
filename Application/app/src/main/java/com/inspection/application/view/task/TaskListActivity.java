@@ -20,7 +20,7 @@ import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.secure.SecureActivity;
 import com.inspection.application.view.task.info.TaskInfoActivity;
-import com.inspection.application.view.taskdata.TaskDataActivity;
+import com.inspection.application.view.task.data.TaskDataActivity;
 import com.library.adapter.RVAdapter;
 import com.library.utils.CalendarUtil;
 import com.library.utils.DataUtil;

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="14dp"
+    android:layout_marginRight="14dp"
+    android:background="@drawable/bg_whit_shadw_2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_value_title_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp"
+                android:textColor="#535862"
+                android:textSize="16sp"
+                tools:text="干式变压器应无裂痕无异物" />
+
+            <TextView
+                android:id="@+id/tv_norma_value"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="#929db2"
+                android:textSize="12sp"
+                tools:text="电流（mA）" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="beforeDescendants"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_value"
+                android:layout_width="200dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_speech_item"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:textColor="@color/text_gray_999"
+                android:textColorHint="@color/text_gray_999"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/iv_value"
+                android:layout_width="170dp"
+                android:layout_height="40dp"
+                android:background="@drawable/bg_speech_item"
+                android:gravity="center_vertical"
+                android:paddingLeft="4dp"
+                android:textColor="@color/text_gray_999"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_last_value"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:textColor="#929db2"
+                android:textSize="12sp"
+                tools:text="上次电流:30mA" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

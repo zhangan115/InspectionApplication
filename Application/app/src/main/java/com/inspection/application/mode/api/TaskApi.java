@@ -74,4 +74,8 @@ public interface TaskApi {
     //巡检详情头部
     @GET("task/taskinfo.json")
     Observable<Bean<CheckBean>> getCheckInfo(@Query("taskId") long taskId);
+
+    //开始 结束
+    @GET("task/edit/roomstate.json")
+    Observable<Bean<String>> uploadStartOrEnd(@Query("taskId") long taskId, @Query("taskRoomId") long taskRoomId, @Query("operation") int operation);
 }

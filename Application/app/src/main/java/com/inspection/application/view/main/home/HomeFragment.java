@@ -19,10 +19,8 @@ import com.inspection.application.view.equipment.EquipListActivity;
 import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.inject.InjectActivity;
 import com.inspection.application.view.login.LoginActivity;
-import com.inspection.application.view.main.mine.MineFragment;
 import com.inspection.application.view.mytask.MyTaskActivity;
 import com.inspection.application.view.rule.RuleActivity;
-import com.inspection.application.view.setting.SettingActivity;
 import com.inspection.application.view.task.TaskListActivity;
 import com.library.utils.GlideUtils;
 

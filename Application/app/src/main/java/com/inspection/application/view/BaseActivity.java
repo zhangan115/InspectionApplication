@@ -184,6 +184,10 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
         return null;
     }
 
+    public TextView getTitleTv() {
+        return mTitleTv;
+    }
+
     public void toolBarClick() {
         if (onToolbarClickListener != null) {
             onToolbarClickListener.onToolBarBackClick();

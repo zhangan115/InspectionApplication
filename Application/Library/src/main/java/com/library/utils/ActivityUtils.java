@@ -81,4 +81,25 @@ public class ActivityUtils {
         fragment.startActivityForResult(intent, REQUEST_CODE);
     }
 
+    /**
+     * 启动相机拍摄照片
+     *
+     * @param fragment     fragment
+     * @param photoFile    文件
+     * @param REQUEST_CODE 请求code
+     */
+    public static void startCameraToPhotoV4(android.support.v4.app.Fragment fragment, File photoFile, int REQUEST_CODE) {
+        Intent intent = new Intent();
+        intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        ContentValues contentValues = new ContentValues(1);
+        contentValues.put(MediaStore.Images.Media.DATA, photoFile.getAbsolutePath());
+        if (fragment.getActivity() == null) {
+            return;
+        }
+        Uri uri = fragment.getActivity().getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+        fragment.startActivityForResult(intent, REQUEST_CODE);
+    }
+
 }

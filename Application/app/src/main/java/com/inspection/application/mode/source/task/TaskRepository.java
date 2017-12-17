@@ -12,18 +12,28 @@ import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.ApiCallBackObject;
 import com.inspection.application.mode.api.TaskApi;
+import com.inspection.application.mode.api.UploadApi;
 import com.inspection.application.mode.bean.Bean;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDataDb;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDataDbDao;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDb;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDbDao;
 import com.inspection.application.mode.bean.equipment.db.RoomDb;
 import com.inspection.application.mode.bean.equipment.db.RoomDbDao;
 import com.inspection.application.mode.bean.secure.SecureBean;
+import com.inspection.application.mode.bean.task.DataItemValueListBean;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
+import com.inspection.application.mode.bean.task.RoomListBean;
+import com.inspection.application.mode.bean.task.TaskEquipmentBean;
 import com.inspection.application.mode.bean.task.data.CheckBean;
 import com.inspection.application.mode.bean.task.data.InspectionDataBean;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.db.DbManager;
+import com.inspection.application.mode.source.FilePartManager;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -260,6 +270,87 @@ public class TaskRepository implements TaskDataSource {
         });
     }
 
+    @NonNull
+    @Override
+    public Subscription loadTaskEquipData(final long taskId, final long roomId, final TaskEquipmentBean taskEquipmentBean, final ILoadEquipmentDataCallBack callBack) {
+        return Observable.just(taskEquipmentBean).flatMap(new Func1<TaskEquipmentBean, Observable<TaskEquipmentBean>>() {
+            @Override
+            public Observable<TaskEquipmentBean> call(TaskEquipmentBean taskEquipmentBean) {
+                if (taskEquipmentBean.getEquipment().getEquipmentDb() == null) {
+                    try {
+                        EquipmentDb equipmentDb = DbManager.getDbManager().getDaoSession().getEquipmentDbDao().queryBuilder()
+                                .where(EquipmentDbDao.Properties.UserId.eq(App.getInstance().getCurrentUser().getUserId())
+                                        , EquipmentDbDao.Properties.EquipmentId.eq(taskEquipmentBean.getEquipment().getEquipmentId())
+                                        , EquipmentDbDao.Properties.TaskId.eq(taskId)
+                                        , EquipmentDbDao.Properties.RoomId.eq(roomId))
+                                .unique();
+                        if (equipmentDb == null) {
+                            equipmentDb = new EquipmentDb();
+                            equipmentDb.setEquipmentId(taskEquipmentBean.getEquipment().getEquipmentId());
+                            equipmentDb.setRoomId(roomId);
+                            equipmentDb.setTaskId(taskId);
+                            equipmentDb.setEquipmentName(taskEquipmentBean.getEquipment().getEquipmentName());
+                            DbManager.getDbManager().getDaoSession().getEquipmentDbDao().insertOrReplaceInTx(equipmentDb);
+                        }
+                        taskEquipmentBean.getEquipment().setEquipmentDb(equipmentDb);
+                    } catch (Exception e) {
+                        return Observable.just(null);
+                    }
+                }
+                List<EquipmentDataDb> equipmentDataDbToSave = new ArrayList<>();
+                for (int i = 0; i < taskEquipmentBean.getDataList().get(0).getDataItemValueList().size(); i++) {
+                    if (taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItem().getEquipmentDataDb() == null) {
+                        try {
+                            EquipmentDataDb equipmentData = DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao()
+                                    .queryBuilder().where(EquipmentDataDbDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())
+                                            , EquipmentDataDbDao.Properties.EquipmentId.eq(taskEquipmentBean.getEquipment().getEquipmentId())
+                                            , EquipmentDataDbDao.Properties.RoomId.eq(roomId)
+                                            , EquipmentDataDbDao.Properties.TaskId.eq(taskId)
+                                            , EquipmentDataDbDao.Properties.DataItemId.eq(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItemValueId())
+                                            , EquipmentDataDbDao.Properties.Type.eq(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItem().getInspectionType())).unique();
+                            if (equipmentData == null) {
+                                equipmentData = new EquipmentDataDb();
+                                equipmentData.setRoomId(roomId);
+                                equipmentData.setTaskId(taskId);
+                                equipmentData.setEquipmentId(taskEquipmentBean.getEquipment().getEquipmentId());
+                                equipmentData.setDataItemId(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItemValueId());
+                                equipmentData.setType(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItem().getInspectionType());
+                                equipmentDataDbToSave.add(equipmentData);
+                            }
+                            taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItem().setEquipmentDataDb(equipmentData);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            return Observable.just(null);
+                        }
+                    }
+                }
+                if (equipmentDataDbToSave.size() > 0) {
+                    DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao().insertOrReplaceInTx(equipmentDataDbToSave);
+                }
+                return Observable.just(taskEquipmentBean);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<TaskEquipmentBean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                callBack.onFail();
+            }
+
+            @Override
+            public void onNext(TaskEquipmentBean taskEquipmentBean) {
+                if (taskEquipmentBean == null) {
+                    callBack.onFail();
+                } else {
+                    callBack.success();
+                }
+            }
+        });
+    }
+
     @Override
     public void checkSecure(int position, long taskId, @NonNull CheckSecureInfoCallBack callBack) {
         if (!dataSp.getBoolean(String.valueOf(taskId), false)) {
@@ -329,5 +420,163 @@ public class TaskRepository implements TaskDataSource {
                 callBack.noData();
             }
         }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription startTask(final RoomListBean roomListBean, long taskId, final IStartTaskCallBack callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(TaskApi.class).uploadStartOrEnd(taskId, roomListBean.getTaskRoomId(), 1)) {
+
+            @Override
+            public void onData(@NonNull String data) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                roomListBean.setTaskRoomState(ConstantInt.ROOM_STATE_2);
+                callBack.onSuccess(roomListBean);
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onFail(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription finishTask(final RoomListBean roomListBean, long taskId, final IStartTaskCallBack callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(TaskApi.class).uploadStartOrEnd(taskId, roomListBean.getTaskRoomId(), 2)) {
+
+            @Override
+            public void onData(@NonNull String data) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                roomListBean.setTaskRoomState(ConstantInt.ROOM_STATE_3);
+                callBack.onSuccess(roomListBean);
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onFail(message);
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }.execute().subscribe();
+    }
+
+    @Override
+    public void checkTaskFinish(RoomListBean roomListBean, long taskId, ICheckTaskCallBack callBack) {
+
+    }
+
+    @NonNull
+    @Override
+    public Subscription uploadTaskPhoto(final DataItemValueListBean dataItemValueListBean, final IUploadPhotoCallBack callBack) {
+        Observable<Bean<List<String>>> observable = Api.createRetrofit().create(UploadApi.class)
+                .postFile(FilePartManager.getPostFileParts("task", "image", new File(dataItemValueListBean.getDataItem().getLocalFile())));
+        return new ApiCallBackList<String>(observable) {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(List<String> strings) {
+
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onFail();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+
+            }
+        }.execute().observeOn(Schedulers.io()).flatMap(new Func1<List<String>, Observable<DataItemValueListBean>>() {
+            @Override
+            public Observable<DataItemValueListBean> call(List<String> strings) {
+                boolean isSuccess;
+                if (strings != null && strings.size() > 0) {
+                    isSuccess = true;
+                    dataItemValueListBean.getDataItem().setLocalFile(strings.get(0));
+                    dataItemValueListBean.getDataItem().setValue(strings.get(0));
+                    dataItemValueListBean.getDataItem().getEquipmentDataDb().setValue(strings.get(0));
+                } else {
+                    isSuccess = false;
+                    dataItemValueListBean.getDataItem().setLocalFile("");
+                    dataItemValueListBean.getDataItem().setValue("");
+                    dataItemValueListBean.getDataItem().getEquipmentDataDb().setLocalPhoto("");
+                    dataItemValueListBean.getDataItem().getEquipmentDataDb().setValue("");
+                }
+                DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao().insertOrReplace(dataItemValueListBean.getDataItem().getEquipmentDataDb());
+                if (isSuccess) {
+                    return Observable.just(dataItemValueListBean);
+                } else {
+                    return Observable.just(null);
+                }
+
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<DataItemValueListBean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                callBack.onFail();
+            }
+
+            @Override
+            public void onNext(DataItemValueListBean dataItemValueListBean) {
+                if (dataItemValueListBean != null) {
+                    callBack.onSuccess();
+                } else {
+                    callBack.onFail();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void deletePhoto(DataItemValueListBean dataItemValueListBean) {
+        dataItemValueListBean.getDataItem().setLocalFile("");
+        dataItemValueListBean.getDataItem().setValue("");
+        if (dataItemValueListBean.getDataItem().getEquipmentDataDb() != null) {
+            dataItemValueListBean.getDataItem().getEquipmentDataDb().setLocalPhoto("");
+            dataItemValueListBean.getDataItem().getEquipmentDataDb().setValue("");
+            DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao().insertOrReplaceInTx(dataItemValueListBean.getDataItem().getEquipmentDataDb());
+        }
     }
 }

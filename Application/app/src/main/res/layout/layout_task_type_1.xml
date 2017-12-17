@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="14dp"
+    android:layout_marginRight="14dp"
+    android:background="@drawable/bg_whit_shadw_2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_type_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp">
+
+        <TextView
+            android:id="@+id/tv_value_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingTop="15dp"
+            android:textColor="@color/text_black"
+            android:textSize="16sp"
+            tools:text="干式变压器应无裂痕无异物" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_vertical">
+
+            <LinearLayout
+                android:id="@+id/ll_check_result"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:background="@drawable/bg_speech_item"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_content_type_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="4dp"
+                    android:text="检查结果:"
+                    android:textColor="#aab5c9"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/tv_check_result"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#aab5c9"
+                    android:textSize="15sp"
+                    tools:text="正常" />
+
+                <ImageView
+                    android:id="@+id/iv_list_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="6dp"
+                    android:background="@drawable/icon_arrow" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_last_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:textColor="@color/text_gray_999"
+                android:textSize="14sp"
+                tools:text="上次记录:无" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

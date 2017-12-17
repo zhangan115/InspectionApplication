@@ -11,9 +11,11 @@ import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
+import com.inspection.application.common.TaskStateUtils;
 import com.inspection.application.mode.bean.task.RoomListBean;
 import com.library.utils.DataUtil;
 import com.library.utils.SPHelper;
+import com.orhanobut.logger.Logger;
 
 
 /**
@@ -83,42 +85,35 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
 
     public void setRoomBean(RoomListBean data, int position) {
         roomListBean = data;
-        tv_equip_name.setText(data.getRoom().getRoomName());
-        if (data.getRoomDb() != null) {
-            startTime = SPHelper.readLong(context
-                    , ConstantStr.USER_DATA, App.getInstance().getCurrentUser().getUserId()
-                            + "_" + data.getRoomDb().getTaskId()
-                            + "_" + data.getRoomDb().getRoomId() + ConstantStr.ROOM_START_TIME);
-            finishTime = SPHelper.readLong(context
-                    , ConstantStr.USER_DATA, App.getInstance().getCurrentUser().getUserId()
-                            + "_" + data.getRoomDb().getTaskId()
-                            + "_" + data.getRoomDb().getRoomId() + ConstantStr.ROOM_FINISH_TIME);
-        }
+        tv_equip_name.setText("点检区域:" + data.getRoom().getRoomName());
         startTaskLayout.setTag(R.id.tag_position, position);
         startTaskLayout.setTag(R.id.tag_object, data);
         finishTaskLayout.setTag(R.id.tag_position, position);
         finishTaskLayout.setTag(R.id.tag_object, data);
+        startTime = data.getStartTime();
+        finishTime = data.getEndTime();
         if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
             tv_equip_time.setText(R.string.zero_time);
         } else if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_2) {
             if (startTime != 0) {
-                tv_equip_time.setText(DataUtil.timeFormat((System.currentTimeMillis() - startTime - 28800 * 1000), "HH:mm:ss"));
+                tv_equip_time.setText("用时:" + DataUtil.timeFormat((System.currentTimeMillis() - startTime - 28800 * 1000), "HH:mm:ss"));
             } else {
-                tv_equip_time.setText(R.string.zero_time);
+                tv_equip_time.setText("用时:" + context.getResources().getString(R.string.zero_time));
             }
         } else {
             if (startTime == 0 || finishTime == 0) {
                 tv_equip_time.setText(R.string.zero_time);
             } else {
-                tv_equip_time.setText(DataUtil.timeFormat((finishTime - startTime - 28800 * 1000), "HH:mm:ss"));
+                tv_equip_time.setText(("用时:" + DataUtil.timeFormat((finishTime - startTime - 28800 * 1000), "HH:mm:ss")));
             }
         }
-
+        int count = SPHelper.readInt(context, ConstantStr.USER_DATA, TaskStateUtils.getTag(data), 0);
+        tv_equip_count.setText(String.format("进度:%s", String.format("%d/%d", count, data.getTaskEquipment().size())));
     }
 
     public void timer() {
         if (startTime != 0 && roomListBean != null && roomListBean.getTaskRoomState() == ConstantInt.ROOM_STATE_2) {
-            tv_equip_time.setText(DataUtil.timeFormat((System.currentTimeMillis() - startTime - 28800 * 1000), "HH:mm:ss"));
+            tv_equip_time.setText(("用时:" + DataUtil.timeFormat((System.currentTimeMillis() - startTime - 28800 * 1000), "HH:mm:ss")));
         }
     }
 

@@ -1,4 +1,4 @@
-package com.inspection.application.view.taskdata;
+package com.inspection.application.view.task.data;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;

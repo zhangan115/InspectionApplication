@@ -37,5 +37,7 @@
     <color name="text_red">#f75756</color>
     <color name="text_green">#19d47e</color>
 
-
+    <color name="color4C8FE2">#4C8FE2</color>
+    <color name="colorAAB5C9">#aab5c9</color>
+    <color name="colorF05340">#F05340</color>
 </resources>

@@ -66,13 +66,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
-        bottomNavigation.setTitleTextSizeInSp(12f, 12f);
+        bottomNavigation.setTitleTextSizeInSp(14f, 14f);
         bottomNavigation.setBackgroundColor(findColorById(R.color.colorWhite));
         bottomNavigation.setDefaultBackgroundColor(findColorById(R.color.colorWhite));
         bottomNavigation.setForceTint(false);
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         bottomNavigation.setAccentColor(findColorById(R.color.colorPrimary));
-        bottomNavigation.setInactiveColor(findColorById(R.color.color_bg_nav_normal));
+        bottomNavigation.setInactiveColor(findColorById(R.color.text_gray_999));
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
 
             @Override

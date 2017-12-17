@@ -1,5 +1,6 @@
 package com.inspection.application.view.task.info;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -7,11 +8,13 @@ import android.widget.RelativeLayout;
 
 import com.inspection.application.R;
 import com.inspection.application.app.App;
+import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.view.BaseActivity;
+import com.inspection.application.view.task.work.TaskWorkActivity;
 import com.inspection.application.widget.RoomListLayout;
 
 import java.util.ArrayList;
@@ -84,6 +87,14 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     }
 
     @Override
+    public void startWork(RoomListBean data) {
+        Intent intent = new Intent(TaskInfoActivity.this, TaskWorkActivity.class);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, data);
+        startActivity(intent);
+    }
+
+    @Override
     public void setPresenter(TaskInfoContract.Presenter presenter) {
         mPresenter = presenter;
     }
@@ -115,14 +126,32 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private RoomListLayout.OnStartListener onStartListener = new RoomListLayout.OnStartListener() {
         @Override
         public void onStart(RoomListBean data, int position) {
-
+            if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
+                mPresenter.startTask(data, taskId);
+            } else {
+                startWork(data);
+            }
         }
     };
 
     private RoomListLayout.OnFinishListener onFinishListener = new RoomListLayout.OnFinishListener() {
         @Override
         public void onFinish(RoomListBean data, int position) {
-
+            if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
+                showMessage("请开始巡检");
+            } else if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_2) {
+                mPresenter.checkTaskFinish(data, taskId);
+            } else {
+                startWork(data);
+            }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (!subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
 }
