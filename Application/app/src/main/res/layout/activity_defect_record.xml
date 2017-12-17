@@ -18,7 +18,9 @@
             <com.library.widget.ExpendRecycleView
                 android:id="@+id/recycleViewId"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:clipToPadding="true"
+                android:paddingTop="14dp" />
 
         </com.library.widget.RecycleRefreshLoadLayout>
 

@@ -32,7 +32,7 @@
                 android:gravity="center"
                 android:text="2017年"
                 android:textColor="@color/text_black"
-                android:textSize="34sp" />
+                android:textSize="36sp" />
 
             <LinearLayout
                 android:id="@+id/ll_month_day"
@@ -51,7 +51,7 @@
                     android:gravity="center"
                     android:text="06/25"
                     android:textColor="@color/text_black"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_day"
@@ -62,7 +62,7 @@
                     android:gravity="bottom"
                     android:text="星期四"
                     android:textColor="@color/text_black"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -87,7 +87,7 @@
                     android:gravity="center"
                     android:text="@string/text_sunday"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_1"
@@ -96,7 +96,7 @@
                     android:gravity="center"
                     android:text="11"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -112,7 +112,7 @@
                     android:gravity="center"
                     android:text="@string/text_monday"
                     android:textColor="@color/text_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_2"
@@ -121,7 +121,7 @@
                     android:gravity="center"
                     android:text="12"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
 
             </LinearLayout>
@@ -139,7 +139,7 @@
                     android:gravity="center"
                     android:text="@string/text_tuesday"
                     android:textColor="@color/text_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_3"
@@ -148,7 +148,7 @@
                     android:gravity="center"
                     android:text="13"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -164,7 +164,7 @@
                     android:gravity="center"
                     android:text="@string/text_wednesday"
                     android:textColor="@color/text_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_4"
@@ -173,7 +173,7 @@
                     android:gravity="center"
                     android:text="14"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
 
             </LinearLayout>
@@ -190,7 +190,7 @@
                     android:gravity="center"
                     android:text="@string/text_thursday"
                     android:textColor="@color/text_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_5"
@@ -199,7 +199,7 @@
                     android:gravity="center"
                     android:text="15"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -215,7 +215,7 @@
                     android:gravity="center"
                     android:text="@string/text_friday"
                     android:textColor="@color/text_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_6"
@@ -224,7 +224,7 @@
                     android:gravity="center"
                     android:text="16"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
 
             </LinearLayout>
@@ -242,7 +242,7 @@
                     android:gravity="center"
                     android:text="@string/text_saturday"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/tv_7"
@@ -251,7 +251,7 @@
                     android:gravity="center"
                     android:text="17"
                     android:textColor="@color/text_light_gray"
-                    android:textSize="14sp" />
+                    android:textSize="20sp" />
             </LinearLayout>
 
         </LinearLayout>

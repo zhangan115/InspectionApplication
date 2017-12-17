@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_item_child"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_item_child"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_btn_comm_white"
@@ -16,12 +16,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingBottom="15dp"
-            android:paddingLeft="45dp"
-            android:paddingTop="15dp"
+            android:paddingBottom="30dp"
+            android:paddingLeft="65dp"
+            android:paddingTop="30dp"
             android:text="1#配电室"
             android:textColor="@color/text_black"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
     </LinearLayout>
 
 </LinearLayout>

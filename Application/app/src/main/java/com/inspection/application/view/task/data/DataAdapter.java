@@ -80,9 +80,11 @@ class DataAdapter extends BaseExpandableListAdapter {
         holder.tv_equipment_count.setText(String.valueOf(getChildrenCount(groupPosition)));
         if (isExpanded) {
             holder.iv_state.setImageDrawable(mContext.getResources().getDrawable(R.drawable.list_narrow_top_normal));
+            holder.bgLayout.setBackground(mContext.getResources().getDrawable(R.drawable.bg_top));
             holder.division.setVisibility(View.VISIBLE);
         } else {
             holder.iv_state.setImageDrawable(mContext.getResources().getDrawable(R.drawable.list_narrow_under_normal));
+            holder.bgLayout.setBackground(mContext.getResources().getDrawable(R.drawable.bg_whit_shadw_2));
             holder.division.setVisibility(View.GONE);
         }
         return convertView;
@@ -95,6 +97,7 @@ class DataAdapter extends BaseExpandableListAdapter {
             holder = new ChildViewHolder();
             convertView = LayoutInflater.from(mContext).inflate(R.layout.child_inspection_data, null);
             holder.ll_item = convertView.findViewById(R.id.ll_item);
+            holder.ll_child_layout = convertView.findViewById(R.id.ll_child_layout);
             holder.tv_equipment = convertView.findViewById(R.id.tv_equipment);
             convertView.setTag(holder);
         } else {
@@ -113,6 +116,11 @@ class DataAdapter extends BaseExpandableListAdapter {
             } else {
                 holder.ll_item.addView(new InspectionType1(mContext).setValue(inspectionName, value));
             }
+        }
+        if (isLastChild) {
+            holder.ll_child_layout.setBackground(mContext.getResources().getDrawable(R.drawable.bg_bottom));
+        } else {
+            holder.ll_child_layout.setBackground(mContext.getResources().getDrawable(R.drawable.bg_center));
         }
         return convertView;
     }
@@ -139,6 +147,7 @@ class DataAdapter extends BaseExpandableListAdapter {
     private class ChildViewHolder {
         TextView tv_equipment;
         LinearLayout ll_item;
+        LinearLayout ll_child_layout;
     }
 
 }

@@ -101,9 +101,11 @@ public class EquipListAdapter extends BaseExpandableListAdapter {
         holder.mCount.setText(String.valueOf(data.get(groupPosition).getEquipments().size()));
         if (isExpanded) {
             holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_top_normal));
+            holder.mGroup.setBackground(context.getResources().getDrawable(R.drawable.bg_top));
             holder.mLine.setVisibility(View.VISIBLE);
         } else {
             holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_under_normal));
+            holder.mGroup.setBackground(context.getResources().getDrawable(R.drawable.bg_whit_shadw_2));
             holder.mLine.setVisibility(View.GONE);
         }
         return convertView;
@@ -116,10 +118,12 @@ public class EquipListAdapter extends BaseExpandableListAdapter {
             holder = new ChildViewHolder();
             convertView = LayoutInflater.from(context).inflate(childLayout, null);
             holder.mName = (TextView) convertView.findViewById(R.id.id_item_equip_name);
+            holder.mChild = (LinearLayout) convertView.findViewById(R.id.ll_item_child);
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
         }
+
         holder.mName.setText(String.format("%s%s", data.get(groupPosition).getEquipments().get(childPosition).getEquipmentName()
                 , TextUtils.isEmpty(data.get(groupPosition).getEquipments().get(childPosition).getEquipmentSn()) ? ""
                         : "(" + data.get(groupPosition).getEquipments().get(childPosition).getEquipmentSn() + ")"));
@@ -132,6 +136,11 @@ public class EquipListAdapter extends BaseExpandableListAdapter {
                 listener.onItemClick(data.get(groupPosition).getEquipments().get(childPosition));
             }
         });
+        if (isLastChild) {
+            holder.mChild.setBackground(context.getResources().getDrawable(R.drawable.bg_bottom));
+        } else {
+            holder.mChild.setBackground(context.getResources().getDrawable(R.drawable.bg_center));
+        }
         return convertView;
     }
 

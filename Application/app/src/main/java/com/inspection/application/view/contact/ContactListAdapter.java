@@ -107,26 +107,14 @@ class ContactListAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
-        if (data.size() == 0) {
-            holder.division.setVisibility(View.GONE);
-//            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg));
-        } else if (groupPosition == 0) {
-            holder.division.setVisibility(View.VISIBLE);
-//            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_up));
-        } else if (groupPosition == data.size() - 1) {
-            holder.division.setVisibility(View.GONE);
-//            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_down));
-            if (isExpanded) {
-//                holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_centre));
-            }
-        } else {
-            holder.division.setVisibility(View.VISIBLE);
-//            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_centre));
-        }
         if (isExpanded) {
             holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_top_normal));
+            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_top));
+            holder.division.setVisibility(View.VISIBLE);
         } else {
             holder.stateIv.setImageDrawable(context.getResources().getDrawable(R.drawable.list_narrow_under_normal));
+            holder.bgLayout.setBackground(context.getResources().getDrawable(R.drawable.bg_whit_shadw_2));
+            holder.division.setVisibility(View.GONE);
         }
         holder.nameTv.setText(data.get(groupPosition).getDeptName());
         if (data.get(groupPosition).getUserList() != null) {
@@ -154,11 +142,11 @@ class ContactListAdapter extends BaseExpandableListAdapter {
         }
         holder.nameTv.setText(data.get(groupPosition).getUserList().get(childPosition).getUser().getRealName());
         if (data.get(groupPosition).getUserList().get(childPosition).getUser().getUserId() == App.getInstance().getCurrentUser().getUserId()) {
-//            GlideUtils.ShowCircleImage(context, App.getInstance().getCurrentUser().getPortraitUrl()
-//                    , holder.stateIv, R.drawable.mine_head_default);
+            GlideUtils.ShowCircleImage(context, App.getInstance().getCurrentUser().getPortraitUrl()
+                    , holder.stateIv, R.drawable.icon_monitor);
         } else {
-//            GlideUtils.ShowCircleImage(context, data.get(groupPosition).getUserList().get(childPosition).getUser().getPortraitUrl()
-//                    , holder.stateIv, R.drawable.mine_head_default);
+            GlideUtils.ShowCircleImage(context, data.get(groupPosition).getUserList().get(childPosition).getUser().getPortraitUrl()
+                    , holder.stateIv, R.drawable.icon_monitor);
         }
         holder.ll_child_layout.setTag(R.id.tag_group_position, groupPosition);
         holder.ll_child_layout.setTag(R.id.tag_child_position, childPosition);
@@ -167,6 +155,11 @@ class ContactListAdapter extends BaseExpandableListAdapter {
         holder.ll_child_layout.setTag(R.id.tag_position, data.get(groupPosition).getUserList().get(childPosition).getUser().getUserPhone());
         holder.ll_child_layout.setOnClickListener(call);
         GlideUtils.ShowCircleImage(context, data.get(groupPosition).getUserList().get(childPosition).getUser().getPortraitUrl(), holder.stateIv, R.drawable.icon_monitor);
+        if (isLastChild) {
+            holder.ll_child_layout.setBackground(context.getResources().getDrawable(R.drawable.bg_bottom));
+        } else {
+            holder.ll_child_layout.setBackground(context.getResources().getDrawable(R.drawable.bg_center));
+        }
         return convertView;
     }
 

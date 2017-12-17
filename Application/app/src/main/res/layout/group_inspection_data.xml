@@ -1,65 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_item_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="6dp"
-    android:layout_marginRight="6dp"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_item_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_whit_shadw_2"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_room_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textColor="@color/text_black"
-            android:textSize="15sp" />
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_equipment_count"
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_room_name"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:textColor="@color/text_blue"
-                android:textSize="15sp" />
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/icon_switch_room"
+                android:drawablePadding="20dp"
+                android:paddingBottom="20dp"
+                android:paddingTop="20dp"
+                android:textColor="@color/text_black"
+                android:textSize="20sp" />
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:text="台"
-                android:textColor="@color/text_blue"
-                android:textSize="15sp" />
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_equipment_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_blue"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:text="台"
+                    android:textColor="@color/text_blue"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/iv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+
+
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/iv_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-
+        <View
+            android:id="@+id/division_id"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_division"
+            android:visibility="gone" />
     </LinearLayout>
-
-    <View
-        android:id="@+id/division_id"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/login_name_pass_device"
-        android:visibility="gone" />
-
 </LinearLayout>

@@ -31,4 +31,7 @@ public interface ConstantInt {
     int ROOM_STATE_1 = 1;//未开始
     int ROOM_STATE_2 = 2;//进行中
     int ROOM_STATE_3 = 3;//已完成
+    int DEFECT_TYPE_A = 1;
+    int DEFECT_TYPE_B = 2;
+    int DEFECT_TYPE_C = 3;
 }

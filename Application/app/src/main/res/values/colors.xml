@@ -6,7 +6,7 @@
     <color name="color_text_normal">#7C92AF</color>
     <color name="color_text_content">#97AAC3</color>
     <color name="color_submit_normal">#19d47e</color>
-    <color name="color_submit_press">#19d47e</color>
+    <color name="color_submit_press">#aa19d47e</color>
     <color name="green_btn_normal">#06d194</color>
     <color name="green_btn_press">#06d194</color>
     <color name="color_bg_nav_normal">#8998A5</color>
@@ -40,4 +40,7 @@
     <color name="color4C8FE2">#4C8FE2</color>
     <color name="colorAAB5C9">#aab5c9</color>
     <color name="colorF05340">#F05340</color>
+    <color name="color_defect_a">#0c9bfb</color>
+    <color name="color_defect_b">#8885f8</color>
+    <color name="color_defect_c">#f99f2a</color>
 </resources>

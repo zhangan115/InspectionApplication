@@ -54,12 +54,12 @@
     </style>
 
     <style name="Equipment_TEXT_TITLE_STYLE">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/text_gray_999</item>
     </style>
 
     <style name="Equipment_TEXT_CONTENT_STYLE">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">17sp</item>
         <item name="android:textColor">@color/text_black</item>
         <item name="android:layout_marginLeft">10dp</item>
     </style>

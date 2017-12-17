@@ -72,8 +72,8 @@ public class ShowImageLayout extends LinearLayout {
 
     private ImageView createImage(final int position, String path) {
         final ImageView imageView = new ImageView(mContext);
-        int width = DisplayUtil.dip2px(mContext, 60);
-        int height = DisplayUtil.dip2px(mContext, 60);
+        int width = DisplayUtil.dip2px(mContext, 90);
+        int height = DisplayUtil.dip2px(mContext, 90);
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(width, height);
         imageView.setLayoutParams(params);
         if (position != 0) {

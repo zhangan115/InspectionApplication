@@ -10,32 +10,34 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:src="@drawable/icon_switch_room" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
+
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -49,7 +51,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:textColor="@color/text_black"
-                            android:textSize="15sp" />
+                            android:textSize="20sp" />
 
                         <TextView
                             android:id="@+id/tv_fault_state"
@@ -58,7 +60,7 @@
                             android:background="@drawable/bg_sharp_fault_state"
                             android:gravity="center"
                             android:textColor="@color/colorWhite"
-                            android:textSize="14sp" />
+                            android:textSize="20sp" />
 
                     </LinearLayout>
 
@@ -66,48 +68,48 @@
                         android:id="@+id/tv_report_user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="20dp"
                         android:lines="1"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="14sp" />
+                        android:textSize="17sp" />
 
 
                     <TextView
                         android:id="@+id/tv_report_time"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="20dp"
                         android:lines="1"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="14sp" />
+                        android:textSize="17sp" />
 
 
                     <TextView
                         android:id="@+id/tv_fault_type"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="20dp"
                         android:lines="1"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="14sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="20dp"
                         android:text="@string/str_fault_des"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="14sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tv_fault_des"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
+                        android:layout_marginTop="20dp"
                         android:ellipsize="end"
                         android:maxLines="2"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="14sp" />
+                        android:textSize="17sp" />
 
                     <com.inspection.application.widget.ShowImageLayout
                         android:id="@+id/show_image_layout"
@@ -121,15 +123,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="20dp"
                     android:text="@string/str_check_record"
                     android:textColor="@color/text_black"
                     android:textSize="17sp" />
@@ -138,6 +141,7 @@
                     android:id="@+id/container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
                     android:orientation="vertical">
 
                 </LinearLayout>

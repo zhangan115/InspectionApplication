@@ -7,15 +7,15 @@
     <LinearLayout
         android:id="@+id/id_fault_img_list"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="90dp"
         android:orientation="horizontal">
 
     </LinearLayout>
 
     <ImageView
         android:id="@+id/id_fault_take_photo"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:layout_gravity="center_vertical"
         android:src="@drawable/icon_add" />
 

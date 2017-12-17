@@ -82,6 +82,16 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
                 tv_fault_des.setText(data.getFaultDescript());
                 tv_report_user_name.setText(String.format("上报人:%s", data.getUser().getRealName()));
                 tv_report_time.setText(DataUtil.timeFormat(data.getCreateTime(), null));
+                if (data.getFaultType() == ConstantInt.DEFECT_TYPE_A) {
+                    tv_fault_type.setTextColor(findColorById(R.color.color_defect_a));
+                    tv_fault_type.setBackground(findDrawById(R.drawable.bg_defect_a));
+                } else if (data.getFaultType() == ConstantInt.DEFECT_TYPE_B) {
+                    tv_fault_type.setTextColor(findColorById(R.color.color_defect_b));
+                    tv_fault_type.setBackground(findDrawById(R.drawable.bg_defect_b));
+                } else {
+                    tv_fault_type.setTextColor(findColorById(R.color.color_defect_c));
+                    tv_fault_type.setBackground(findDrawById(R.drawable.bg_defect_c));
+                }
                 tv_fault_type.setText(App.getInstance().getMapOption().get("2").get(String.valueOf(data.getFaultType())));
                 if (equipmentBean != null) {
                     tv_equip_name.setVisibility(View.GONE);

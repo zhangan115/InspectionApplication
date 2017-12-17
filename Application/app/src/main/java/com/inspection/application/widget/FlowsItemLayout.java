@@ -41,9 +41,8 @@ public class FlowsItemLayout extends LinearLayout {
         tv_des.post(new Runnable() {
             @Override
             public void run() {
-                Logger.d(tv_des.getLineCount() + "==");
                 setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT
-                        , DisplayUtil.dip2px(mContext, 110 + (40 * (tv_des.getLineCount() - 1)))));
+                        , DisplayUtil.dip2px(mContext, 110 + (50 * (tv_des.getLineCount() - 1)))));
             }
         });
     }
