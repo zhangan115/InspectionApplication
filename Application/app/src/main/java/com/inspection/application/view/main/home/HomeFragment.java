@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.view.MvpFragment;
+import com.inspection.application.view.alarm.AlarmActivity;
 import com.inspection.application.view.contact.ContactActivity;
 import com.inspection.application.view.defect.DefectRecordActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
@@ -71,6 +72,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
         }
         switch (view.getId()) {
             case R.id.tv_alarm_news:
+                startActivity(new Intent(getActivity(), AlarmActivity.class));
                 break;
             case R.id.tv_inject_manager:
                 startActivity(new Intent(getActivity(), InjectActivity.class));

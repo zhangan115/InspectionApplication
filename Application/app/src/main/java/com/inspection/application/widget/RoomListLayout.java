@@ -12,7 +12,9 @@ import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.common.TaskStateUtils;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDbDao;
 import com.inspection.application.mode.bean.task.RoomListBean;
+import com.inspection.application.mode.db.DbManager;
 import com.library.utils.DataUtil;
 import com.library.utils.SPHelper;
 import com.orhanobut.logger.Logger;
@@ -83,7 +85,7 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
         this.onFinishListener = onFinishListener;
     }
 
-    public void setRoomBean(RoomListBean data, int position) {
+    public void setRoomBean(long taskId, RoomListBean data, int position) {
         roomListBean = data;
         tv_equip_name.setText("点检区域:" + data.getRoom().getRoomName());
         startTaskLayout.setTag(R.id.tag_position, position);
@@ -107,8 +109,12 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
                 tv_equip_time.setText(("用时:" + DataUtil.timeFormat((finishTime - startTime - 28800 * 1000), "HH:mm:ss")));
             }
         }
-        int count = SPHelper.readInt(context, ConstantStr.USER_DATA, TaskStateUtils.getTag(data), 0);
-        tv_equip_count.setText(String.format("进度:%s", String.format("%d/%d", count, data.getTaskEquipment().size())));
+        long count = DbManager.getDbManager().getDaoSession().getEquipmentDbDao().queryBuilder()
+                .where(EquipmentDbDao.Properties.UserId.eq(App.getInstance().getCurrentUser().getUserId())
+                        , EquipmentDbDao.Properties.TaskId.eq(taskId)
+                        , EquipmentDbDao.Properties.UploadState.eq(true)
+                        , EquipmentDbDao.Properties.RoomId.eq(data.getRoom().getRoomId())).count();
+        tv_equip_count.setText("进度:" + count + "/" + data.getTaskEquipment().size());
     }
 
     public void timer() {

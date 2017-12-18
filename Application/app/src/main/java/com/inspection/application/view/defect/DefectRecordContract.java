@@ -13,7 +13,7 @@ import java.util.List;
  * Created by pingan on 2017/12/13.
  */
 
-public interface DefectRecordContract {
+interface DefectRecordContract {
 
     interface Presenter extends BasePresenter {
 

@@ -280,6 +280,11 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
                     alertDialog.dismiss();
                 }
             }
+
+            @Override
+            public void onPick(int position) {
+                App.getInstance().showToast("选中了" + position);
+            }
         };
         alertDialog = new AlertDialog.Builder(this, R.style.dialog)
                 .setView(injectionView)

@@ -17,6 +17,7 @@ import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.view.MvpFragment;
 import com.inspection.application.view.defect.DefectRecordActivity;
+import com.inspection.application.view.equipment.data.EquipmentDataActivity;
 import com.inspection.application.view.photo.ViewPagePhotoActivity;
 import com.library.utils.DataUtil;
 import com.library.utils.GlideUtils;
@@ -124,7 +125,10 @@ public class EquipmentArchivesFragment extends MvpFragment<EquipmentArchivesCont
                 intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, bean);
                 break;
             case R.id.ll_2:
-
+                if (bean != null) {
+                    intent = new Intent(getActivity(), EquipmentDataActivity.class);
+                    intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, bean.getEquipmentId());
+                }
                 break;
         }
         if (intent != null) {

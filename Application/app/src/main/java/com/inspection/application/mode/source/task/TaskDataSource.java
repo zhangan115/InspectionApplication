@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.bean.secure.SecureBean;
+import com.inspection.application.mode.bean.task.AlarmList;
 import com.inspection.application.mode.bean.task.DataItemValueListBean;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
@@ -11,6 +12,7 @@ import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.bean.task.TaskEquipmentBean;
 import com.inspection.application.mode.bean.task.data.CheckBean;
 import com.inspection.application.mode.bean.task.data.InspectionDataBean;
+import com.inspection.application.mode.bean.task.upload.UploadTaskInfo;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 
@@ -90,6 +92,8 @@ public interface TaskDataSource {
     @NonNull
     Subscription loadTaskEquipData(final long taskId, final long roomId, TaskEquipmentBean taskEquipmentBean, ILoadEquipmentDataCallBack callBack);
 
+    void loadTaskEquipData(final long taskId, RoomListBean roomListBean, ILoadEquipmentDataCallBack callBack);
+
     interface GetTaskCallBack {
 
         void onSuccess(int position);
@@ -154,17 +158,6 @@ public interface TaskDataSource {
     }
 
 
-    /**
-     * 开始一个任务
-     *
-     * @param roomListBean 数据
-     * @param taskId       taskId
-     * @return 订阅
-     */
-    @NonNull
-    Subscription finishTask(RoomListBean roomListBean, long taskId, IStartTaskCallBack callBack);
-
-
     void checkTaskFinish(RoomListBean roomListBean, long taskId, ICheckTaskCallBack callBack);
 
     interface ICheckTaskCallBack {
@@ -197,4 +190,45 @@ public interface TaskDataSource {
      * @param dataItemValueListBean 数据
      */
     void deletePhoto(DataItemValueListBean dataItemValueListBean);
+
+    interface IUploadTaskDataCallBack {
+
+        void onSuccess();
+
+        void onFail();
+
+    }
+
+    /**
+     * 上传任务数据
+     *
+     * @param roomListBean 完成
+     * @param callBack     回调
+     * @param position     设备位置
+     * @return 完成
+     */
+    @NonNull
+    Subscription uploadTaskData(@NonNull UploadTaskInfo uploadTaskInfo, RoomListBean roomListBean, int position, @NonNull IUploadTaskDataCallBack callBack);
+
+    interface IFinishTaskDataCallBack {
+
+        void onSuccess();
+
+        void onFail(String message);
+
+    }
+
+    /**
+     * 完成任务
+     *
+     * @param roomListBean 数据
+     * @param callBack     回调
+     * @return 订阅
+     */
+    @NonNull
+    Subscription finishTaskData(long taskId, RoomListBean roomListBean, @NonNull IFinishTaskDataCallBack callBack);
+
+    @NonNull
+    Subscription getAlarmList(String info, @NonNull IListCallBack<AlarmList> callBack);
+
 }

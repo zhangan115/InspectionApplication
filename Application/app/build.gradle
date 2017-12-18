@@ -22,6 +22,7 @@ android {
             dimension "default"
             resValue "string", "app_name", "点检"
             buildConfigField "String", "HOST", '"https://www.ewaypro.cn/euvtest/api"'
+//            buildConfigField "String", "HOST", '"http://121.42.8.188/sitopeuv/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
                     GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",
@@ -70,4 +71,6 @@ dependencies {
     compile 'com.wdullaer:materialdatetimepicker:3.4.0'
     //zxing
     compile(name: 'ZxingLibrary', ext: 'aar')
+    compile 'com.google.zxing:core:3.3.1'
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

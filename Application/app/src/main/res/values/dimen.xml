@@ -72,7 +72,7 @@
     <dimen name="SP_20">20dp</dimen>
 
     <dimen name="app_bar_height">200dp</dimen>
-    <dimen name="item_width">300dp</dimen>
+    <dimen name="item_width">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="task_data_size">40dp</dimen>

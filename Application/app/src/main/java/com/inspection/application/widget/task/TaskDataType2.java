@@ -169,6 +169,9 @@ public class TaskDataType2 extends LinearLayout {
             try {
                 String lower = dataItemBean.getQuantityLowlimit();
                 String upper = dataItemBean.getQuantityUplimit();
+                if (TextUtils.isEmpty(dataItemBean.getValue())) {
+                    return true;
+                }
                 if (TextUtils.isEmpty(lower) && TextUtils.isEmpty(upper)) {
                     return true;
                 } else if (TextUtils.isEmpty(lower) && !TextUtils.isEmpty(upper)) {

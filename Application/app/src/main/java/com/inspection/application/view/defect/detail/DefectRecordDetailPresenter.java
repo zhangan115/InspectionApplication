@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import com.inspection.application.mode.bean.fault.FaultDetail;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.fault.FaultDataSource;
-import com.inspection.application.view.defect.DefectRecordContract;
 
 import rx.subscriptions.CompositeSubscription;
 

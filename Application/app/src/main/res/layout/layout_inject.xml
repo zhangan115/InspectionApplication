@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
@@ -16,7 +17,7 @@
 
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="400dp"
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
@@ -25,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:paddingBottom="10dp"
+                android:paddingBottom="20dp"
                 android:paddingTop="16dp"
                 android:textColor="@color/text_black"
                 android:textSize="16sp" />
@@ -35,7 +36,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:gravity="center|left"
                 android:orientation="vertical">
 
 
@@ -49,8 +49,9 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="16dp"
                         android:layout_weight="1"
-                        android:text="上次注油"
+                        android:text="上次注油:"
                         android:textColor="@color/text_black"
                         android:textSize="16sp" />
 
@@ -73,7 +74,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="预计注油"
+                        android:layout_marginRight="16dp"
+                        android:text="预计注油:"
                         android:textColor="@color/text_black"
                         android:textSize="16sp" />
 
@@ -96,7 +98,8 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="注油周期"
+                        android:layout_marginRight="16dp"
+                        android:text="注油周期:"
                         android:textColor="@color/text_black"
                         android:textSize="16sp" />
 
@@ -112,14 +115,36 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/ll_items"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:orientation="vertical">
 
+                <com.inspection.application.widget.StringScrollPicker
+                    android:id="@+id/str_scroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    app:spv_alignment="center"
+                    app:spv_center_item_background="@drawable/bg_inject"
+                    app:spv_disallow_intercept_touch="true"
+                    app:spv_draw_bitmap_height="40dp"
+                    app:spv_draw_bitmap_mode="size"
+                    app:spv_draw_bitmap_width="80dp"
+                    app:spv_is_circulation="true"
+                    app:spv_max_line_width="300dp"
+                    app:spv_max_text_size="15sp"
+                    app:spv_min_text_size="15sp"
+                    app:spv_orientation="horizontal"
+                    app:spv_visible_item_count="3" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 

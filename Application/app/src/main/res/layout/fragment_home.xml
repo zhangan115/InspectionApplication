@@ -63,8 +63,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -90,7 +90,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_black"
-                        android:textSize="20sp" />
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tv_user_dept"
@@ -116,7 +116,7 @@
                     android:paddingTop="7dp"
                     android:text="@string/exit"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
             </LinearLayout>
         </FrameLayout>
 
@@ -125,8 +125,8 @@
             android:id="@+id/work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -157,15 +157,15 @@
                     android:paddingBottom="50dp"
                     android:paddingTop="50dp"
                     android:text="@string/main_task"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/tv_fault_submit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:layout_marginRight="14dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center">
@@ -183,7 +183,7 @@
                     android:paddingBottom="50dp"
                     android:paddingTop="50dp"
                     android:text="@string/main_fault_submit"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
             </LinearLayout>
 
 
@@ -193,9 +193,9 @@
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal"
             android:weightSum="4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -232,7 +232,7 @@
                 android:id="@+id/tv_alarm_news"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -258,7 +258,7 @@
                 android:id="@+id/tv_fault_record"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -284,7 +284,7 @@
                 android:id="@+id/tv_equipment_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -314,9 +314,9 @@
             android:id="@+id/count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="6dp"
             android:orientation="horizontal"
             android:weightSum="4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -353,7 +353,7 @@
                 android:id="@+id/tv_customer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -378,7 +378,7 @@
                 android:id="@+id/tv_work_manager"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -403,7 +403,7 @@
                 android:id="@+id/tv_my_task"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="6dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"

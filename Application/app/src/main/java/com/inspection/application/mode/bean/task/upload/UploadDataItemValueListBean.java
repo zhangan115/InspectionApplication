@@ -5,22 +5,22 @@ package com.inspection.application.mode.bean.task.upload;
  */
 
 public class UploadDataItemValueListBean {
-    private int dataItemValueId;
+    private long dataItemValueId;
     private String value;
 
     public UploadDataItemValueListBean() {
     }
 
-    public UploadDataItemValueListBean(int dataItemValueId, String value) {
+    public UploadDataItemValueListBean(long dataItemValueId, String value) {
         this.dataItemValueId = dataItemValueId;
         this.value = value;
     }
 
-    public int getDataItemValueId() {
+    public long getDataItemValueId() {
         return dataItemValueId;
     }
 
-    public void setDataItemValueId(int dataItemValueId) {
+    public void setDataItemValueId(long dataItemValueId) {
         this.dataItemValueId = dataItemValueId;
     }
 

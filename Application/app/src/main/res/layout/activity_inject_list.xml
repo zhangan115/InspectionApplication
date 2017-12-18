@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:ellipsize="end"
-                        android:gravity="center"
+                        android:gravity="center|right"
                         android:lines="1"
                         android:paddingBottom="10dp"
                         android:paddingTop="10dp"
@@ -175,7 +175,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
+                        android:layout_marginLeft="10dp"
                         android:src="@drawable/list_narrow_under_normal" />
                 </LinearLayout>
 

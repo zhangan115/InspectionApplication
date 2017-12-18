@@ -2,6 +2,7 @@ package com.inspection.application.mode.api;
 
 import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.secure.SecureBean;
+import com.inspection.application.mode.bean.task.AlarmList;
 import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.bean.task.data.CheckBean;
@@ -9,7 +10,10 @@ import com.inspection.application.mode.bean.task.data.InspectionDataBean;
 
 import java.util.List;
 
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
 
@@ -78,4 +82,13 @@ public interface TaskApi {
     //开始 结束
     @GET("task/edit/roomstate.json")
     Observable<Bean<String>> uploadStartOrEnd(@Query("taskId") long taskId, @Query("taskRoomId") long taskRoomId, @Query("operation") int operation);
+
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("task/upload/inspection.json")
+    Observable<Bean<String>> uploadInspection(@Body() String taskInfo);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("inspectionData/alarm/list.json")
+    Observable<Bean<List<AlarmList>>> getAlarmList(@Body() String info);
 }

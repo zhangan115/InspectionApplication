@@ -13,6 +13,7 @@ import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.bean.task.RoomListBean;
+import com.inspection.application.mode.bean.task.upload.UploadTaskInfo;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.view.task.work.TaskWorkActivity;
 import com.inspection.application.widget.RoomListLayout;
@@ -40,6 +41,8 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
     private RelativeLayout noDataLayout;
     private LinearLayout mRoomsLayout;
+    private UploadTaskInfo uploadTaskInfo;
+    private InspectionDetailBean inspectionBeen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,9 +83,12 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
     @Override
     public void showData(InspectionDetailBean inspectionBeen) {
+        this.inspectionBeen = inspectionBeen;
         noDataLayout.setVisibility(View.GONE);
         mList.clear();
         mList.addAll(inspectionBeen.getRoomList());
+        uploadTaskInfo = new UploadTaskInfo(inspectionBeen.getEndTime(), inspectionBeen.getIsManualCreated(), inspectionBeen.getPlanEndTime(), inspectionBeen.getPlanStartTime()
+                , inspectionBeen.getStartTime(), inspectionBeen.getTaskId(), inspectionBeen.getTaskName(), inspectionBeen.getTaskState());
         addRoomToLayout();
     }
 
@@ -91,6 +97,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         Intent intent = new Intent(TaskInfoActivity.this, TaskWorkActivity.class);
         intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
         intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, data);
+        intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT_1, uploadTaskInfo);
         startActivity(intent);
     }
 
@@ -104,7 +111,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         roomListLayouts.clear();
         for (int i = 0; i < mList.size(); i++) {
             RoomListLayout roomListLayout = new RoomListLayout(this);
-            roomListLayout.setRoomBean(mList.get(i), i);
+            roomListLayout.setRoomBean(taskId, mList.get(i), i);
             roomListLayout.setListener(onStartListener, onFinishListener);
             roomListLayouts.add(roomListLayout);
             mRoomsLayout.addView(roomListLayout);
@@ -150,8 +157,14 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (!subscription.isUnsubscribed()) {
+        if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        addRoomToLayout();
     }
 }
