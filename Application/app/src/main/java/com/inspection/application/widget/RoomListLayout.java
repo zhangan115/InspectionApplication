@@ -27,7 +27,7 @@ import com.orhanobut.logger.Logger;
 public class RoomListLayout extends LinearLayout implements View.OnClickListener {
 
     private ImageView iv_state, iv_end;
-    private TextView tv_equip_count, tv_equip_time, tv_equip_name;
+    private TextView tv_equip_count, tv_equip_time, tv_equip_name, tv_state;
     private LinearLayout startTaskLayout, finishTaskLayout;
     private Context context;
     private OnStartListener onStartListener;
@@ -52,6 +52,7 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
         startTaskLayout = findViewById(R.id.ll_start_task);
         startTaskLayout.setOnClickListener(this);
         finishTaskLayout = findViewById(R.id.ll_finish_task);
+        tv_state = findViewById(R.id.tv_state);
         finishTaskLayout.setOnClickListener(this);
         iv_state = findViewById(R.id.iv_start);
         iv_end = findViewById(R.id.iv_end);
@@ -87,6 +88,13 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
 
     public void setRoomBean(long taskId, RoomListBean data, int position) {
         roomListBean = data;
+        if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
+            tv_state.setText("任务状态:未开始");
+        } else if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_2) {
+            tv_state.setText("任务状态:进行中");
+        } else {
+            tv_state.setText("任务状态:已完成");
+        }
         tv_equip_name.setText("点检区域:" + data.getRoom().getRoomName());
         startTaskLayout.setTag(R.id.tag_position, position);
         startTaskLayout.setTag(R.id.tag_object, data);

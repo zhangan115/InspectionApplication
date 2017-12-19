@@ -61,5 +61,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_scan">扫二维码</string>
     <string name="str_finish_task">完成巡检</string>
+    <string name="str_choose_employee">选择人员</string>
 
 </resources>

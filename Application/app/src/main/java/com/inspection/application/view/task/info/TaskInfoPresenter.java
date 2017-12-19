@@ -92,6 +92,36 @@ class TaskInfoPresenter implements TaskInfoContract.Presenter {
     }
 
     @Override
+    public void finishAllTask(long taskId, String info) {
+        mTaskDataSource.finishAllTask(taskId, info, new IObjectCallBack<String>() {
+            @Override
+            public void onSuccess() {
+                mView.finishAll();
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
+
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        });
+    }
+
+    @Override
     public void subscribe() {
 
     }

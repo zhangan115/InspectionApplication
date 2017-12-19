@@ -110,7 +110,6 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                         }
                     }
                 }
-                mRecyclerView.getAdapter().notifyDataSetChanged();
                 mCurrentPosition = position;
                 showTaskEquipData();
             }
@@ -156,7 +155,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 }
                 break;
             case R.id.tv_finish:
-
+                mPresenter.finishTask(uploadTaskInfo, mRoomListBean);
                 break;
         }
     }
@@ -217,21 +216,32 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     }
 
     private void scanResult(long scanId) {
+        boolean findEquipment = false;
         if (scanId != mTaskEquipmentBean.getEquipment().getEquipmentId()) {
             for (int i = 0; i < mRoomListBean.getTaskEquipment().size(); i++) {
                 if (scanId == mRoomListBean.getTaskEquipment().get(i).getEquipment().getEquipmentId()) {
-                    mRoomListBean.getTaskEquipment().get(i).setChoose(true);
-                    mTaskEquipmentBean = mRoomListBean.getTaskEquipment().get(i);
-                } else {
-                    mRoomListBean.getTaskEquipment().get(i).setChoose(false);
+                    mCurrentPosition = i;
+                    findEquipment = true;
+                    break;
                 }
             }
-            mRecyclerView.getAdapter().notifyDataSetChanged();
-            showTaskEquipData();
+            if (findEquipment) {
+                mRecyclerView.getAdapter().notifyDataSetChanged();
+                showTaskEquipData();
+            } else {
+                App.getInstance().showToast("没有找到设备");
+            }
         }
     }
 
     private void showTaskEquipData() {
+        for (int i = 0; i < mRoomListBean.getTaskEquipment().size(); i++) {
+            if (i != mCurrentPosition) {
+                mRoomListBean.getTaskEquipment().get(i).setChoose(false);
+            } else {
+                mRoomListBean.getTaskEquipment().get(i).setChoose(true);
+            }
+        }
         mTaskEquipmentBean = mRoomListBean.getTaskEquipment().get(mCurrentPosition);
         getTitleTv().setText(mTaskEquipmentBean.getEquipment().getEquipmentName());
         if (!mTwoPane) {
@@ -243,6 +253,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         if (equipmentChangeListener != null) {
             equipmentChangeListener.equipmentChange(mTaskEquipmentBean, mRoomListBean.getTaskRoomState() != ConstantInt.OPERATION_STATE_3);
         }
+        mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -276,8 +287,8 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     }
 
     @Override
-    public void finishFail() {
-        App.getInstance().showToast("完成失败");
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
     }
 
     @Override

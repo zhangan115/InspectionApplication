@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="点检人员:"
+                android:text="点检部门:"
                 android:textColor="@color/text_gray_999"
                 android:textSize="17sp" />
 

@@ -49,7 +49,7 @@ class TaskWorkPresenter implements TaskWorkContract.Presenter {
 
             @Override
             public void onFail(String message) {
-                mView.finishFail();
+                mView.showMessage(message);
             }
         }));
     }

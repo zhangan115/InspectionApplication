@@ -54,8 +54,8 @@ public class ContactFragment extends MvpFragment<ContactContract.Presenter> impl
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fmg_employee, container, false);
-        mListView = rootView.findViewById(R.id.expandableListView);
         mContactAdapter = new ContactListAdapter(getActivity(), R.layout.item_employee_group, R.layout.item_employee_child_call);
+        mListView = rootView.findViewById(R.id.expandableListView);
         noDataLayout = rootView.findViewById(R.id.layout_no_data);
         return rootView;
     }

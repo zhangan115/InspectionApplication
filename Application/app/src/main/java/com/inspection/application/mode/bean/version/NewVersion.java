@@ -14,6 +14,7 @@ public class NewVersion {
     private boolean openGetData;
     private String time;
     private String url;
+    private String versionString;
     private int version;
 
     public int getFlag() {
@@ -78,5 +79,13 @@ public class NewVersion {
 
     public void setVersion(int version) {
         this.version = version;
+    }
+
+    public String getVersionString() {
+        return versionString;
+    }
+
+    public void setVersionString(String versionString) {
+        this.versionString = versionString;
     }
 }

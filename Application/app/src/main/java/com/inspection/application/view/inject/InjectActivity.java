@@ -178,10 +178,10 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
             case R.id.ll_choose_type:
                 needInject = !needInject;
                 if (needInject) {
-//                    needInjectIB.setBackground(findDrawById(R.drawable.choose_select));
+                    needInjectIB.setImageDrawable(findDrawById(R.drawable.choose_select));
                     mPresenter.getNeedInjectEqu(mAllEquipment);
                 } else {
-//                    needInjectIB.setBackground(findDrawById(R.drawable.choose_normal));
+                    needInjectIB.setImageDrawable(findDrawById(R.drawable.choose_normal));
                     showNeedInjectEqu(mAllEquipment);
                 }
                 break;

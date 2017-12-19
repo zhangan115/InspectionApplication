@@ -28,6 +28,7 @@ public interface TaskInfoContract {
 
         void startWork(RoomListBean data);
 
+        void finishAll();
     }
 
     interface Presenter extends BasePresenter {
@@ -37,6 +38,8 @@ public interface TaskInfoContract {
         void startTask(RoomListBean data, long taskId);
 
         void checkTaskFinish(RoomListBean data, long taskId);
+
+        void finishAllTask(long taskId,String info);
     }
 
 }

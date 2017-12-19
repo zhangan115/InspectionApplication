@@ -30,7 +30,7 @@ public interface TaskWorkContract {
 
         void finishSuccess();
 
-        void finishFail();
+        void showMessage(String message);
 
         void loadEquipFail();
 

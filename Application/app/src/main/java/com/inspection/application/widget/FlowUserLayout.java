@@ -40,7 +40,7 @@ public class FlowUserLayout extends LinearLayout {
     }
 
     public FlowUserLayout setUser(User user) {
-        GlideUtils.ShowCircleImage(context, user.getPortraitUrl(), iv_user_icon, R.drawable.set_head_default);
+        GlideUtils.ShowCircleImage(context, user.getPortraitUrl(), iv_user_icon, R.drawable.icon_monitor);
         tv_user_name.setText(user.getRealName());
         return this;
     }

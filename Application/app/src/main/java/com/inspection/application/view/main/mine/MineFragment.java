@@ -66,7 +66,7 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
             tv_user_name.setText(App.getInstance().getCurrentUser().getRealName());
             tv_customer.setText(App.getInstance().getCurrentUser().getUserRoleNames());
             GlideUtils.ShowCircleImage(getActivity(), App.getInstance().getCurrentUser().getPortraitUrl()
-                    , iv_user_photo, R.drawable.mine_head_default);
+                    , iv_user_photo, R.drawable.icon_monitor);
         }
         return rootView;
     }

@@ -22,8 +22,8 @@
             android:layout_weight="1"
             android:drawableLeft="@drawable/icon_class"
             android:drawablePadding="20dp"
-            android:paddingBottom="30dp"
-            android:paddingTop="30dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="20dp"
             android:textColor="@color/text_black"
             android:textSize="25sp"
             tools:text="技术部" />

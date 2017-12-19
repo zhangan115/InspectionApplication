@@ -91,4 +91,8 @@ public interface TaskApi {
     @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
     @POST("inspectionData/alarm/list.json")
     Observable<Bean<List<AlarmList>>> getAlarmList(@Body() String info);
+
+    //列表全部完成
+    @GET("task/edit/state.json")
+    Observable<Bean<String>> finishTaskAll(@Query("taskId") long taskId, @Query("operation") int operation, @Query("userIds") String userIds);
 }

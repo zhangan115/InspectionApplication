@@ -502,6 +502,7 @@ public class TaskRepository implements TaskDataSource {
             @Override
             public void onSuccess() {
                 roomListBean.setTaskRoomState(ConstantInt.ROOM_STATE_2);
+                roomListBean.setStartTime(System.currentTimeMillis());
                 callBack.onSuccess(roomListBean);
             }
 
@@ -763,6 +764,7 @@ public class TaskRepository implements TaskDataSource {
             @Override
             public void onSuccess() {
                 roomDataList.setTaskRoomState(ConstantInt.ROOM_STATE_3);
+                roomDataList.setEndTime(System.currentTimeMillis());
                 callBack.onSuccess();
             }
 
@@ -810,6 +812,37 @@ public class TaskRepository implements TaskDataSource {
             @Override
             public void noData() {
                 callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription finishAllTask(long taskId, String userIds, final IObjectCallBack<String> callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(TaskApi.class).finishTaskAll(taskId, 3, userIds)) {
+            @Override
+            public void onData(@NonNull String data) {
+
+            }
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+
             }
         }.execute().subscribe();
     }

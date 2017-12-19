@@ -36,6 +36,13 @@ public class CustomerRepository implements CustomerDataSource {
     @Override
     public Subscription getEmployeeList(@NonNull final IListCallBack<DepartmentBean> callBack) {
         if (departmentBeans != null) {
+            for (int i = 0; i < departmentBeans.size(); i++) {
+                if (departmentBeans.get(i).getUserList() != null) {
+                    for (int j = 0; j < departmentBeans.get(i).getUserList().size(); j++) {
+                        departmentBeans.get(i).getUserList().get(j).setSelect(false);
+                    }
+                }
+            }
             return Observable.just(departmentBeans).subscribe(new Action1<List<DepartmentBean>>() {
                 @Override
                 public void call(List<DepartmentBean> departmentBeans) {

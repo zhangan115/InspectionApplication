@@ -3,6 +3,7 @@ package com.inspection.application.mode.source.task;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.inspection.application.mode.api.ApiCallBackObject;
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.mode.bean.task.AlarmList;
 import com.inspection.application.mode.bean.task.DataItemValueListBean;
@@ -230,5 +231,8 @@ public interface TaskDataSource {
 
     @NonNull
     Subscription getAlarmList(String info, @NonNull IListCallBack<AlarmList> callBack);
+
+    @NonNull
+    Subscription finishAllTask(long taskId, String userIds, IObjectCallBack<String> callBack);
 
 }
