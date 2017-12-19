@@ -21,8 +21,8 @@ android {
             applicationId "com.inspection.application"
             dimension "default"
             resValue "string", "app_name", "点检"
-            buildConfigField "String", "HOST", '"https://www.ewaypro.cn/euvtest/api"'
-//            buildConfigField "String", "HOST", '"http://121.42.8.188/sitopeuv/api"'
+//            buildConfigField "String", "HOST", '"https://www.ewaypro.cn/euvtest/api"'
+            buildConfigField "String", "HOST", '"http://121.42.8.188/sitopeuv/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
                     GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",

@@ -1,11 +1,13 @@
 package com.inspection.application.view.inject;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.inspection.application.mode.bean.inject.InjectEquipment;
 import com.inspection.application.mode.bean.inject.InjectResultBean;
 import com.inspection.application.mode.bean.inject.InjectRoomBean;
+import com.inspection.application.mode.bean.inject.OilList;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
 import com.inspection.application.mode.source.inject.InjectDataSource;
@@ -129,17 +131,17 @@ final class InjectPresenter implements InjectContract.Presenter {
     }
 
     @Override
-    public void injectionEquipment(long equipmentId, Integer cycle, final int position) {
-        mSubscriptions.add(mInjectDataSource.injectEquipmentList(equipmentId, cycle, new IObjectCallBack<InjectResultBean>() {
+    public void injectionEquipment(long equipmentId, Integer cycle, Long oriId, final int position) {
+        mSubscriptions.add(mInjectDataSource.injectEquipmentList(equipmentId, cycle, oriId, new IObjectCallBack<InjectResultBean>() {
 
             @Override
             public void onSuccess() {
-
+                mView.injectSuccess(position);
             }
 
             @Override
             public void onData(@NonNull InjectResultBean injectResultBean) {
-                mView.injectSuccess(position);
+
             }
 
             @Override
@@ -155,6 +157,36 @@ final class InjectPresenter implements InjectContract.Presenter {
             @Override
             public void onFinish() {
 
+            }
+        }));
+    }
+
+    @Override
+    public void getOilList() {
+        mSubscriptions.add(mInjectDataSource.getOilList(new IListCallBack<OilList>() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onData(@NonNull List<OilList> list) {
+                mView.showOilList(list);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.noOilList();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+
+            @Override
+            public void noData() {
+                mView.noOilList();
             }
         }));
     }

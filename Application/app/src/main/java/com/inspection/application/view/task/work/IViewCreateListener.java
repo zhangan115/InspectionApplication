@@ -6,4 +6,6 @@ package com.inspection.application.view.task.work;
 
 public interface IViewCreateListener {
     void viewCreate();
+
+    void equipmentStateChange();
 }

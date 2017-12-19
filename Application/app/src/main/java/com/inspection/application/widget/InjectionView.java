@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.inspection.application.R;
 import com.inspection.application.mode.bean.inject.InjectEquipment;
+import com.inspection.application.mode.bean.inject.OilList;
 import com.library.utils.DataUtil;
 
 import java.util.ArrayList;
@@ -28,27 +29,32 @@ public abstract class InjectionView extends LinearLayout implements View.OnClick
     private Integer cycle;
     private InjectEquipment injectEquipment;
     private boolean canEdit = true;
+    private List<OilList> oilLists;
     private LinearLayout ll_items;
+    private Long OriId;
 
-    public InjectionView(Context context, InjectEquipment injectEquipment, int position) {
+    public InjectionView(Context context, InjectEquipment injectEquipment, int position, List<OilList> newLis) {
         super(context);
         this.position = position;
         this.injectEquipment = injectEquipment;
+        this.oilLists = newLis;
         init(context);
         initData();
     }
 
     private void initData() {
         StringScrollPicker scrollPicker = findViewById(R.id.str_scroll);
-        List<CharSequence> newList = new ArrayList<>();
-        for (int i = 0; i < 8; i++) {
-            newList.add("我是第" + i);
+        List<CharSequence> texts = new ArrayList<>();
+        for (int i = 0; i < oilLists.size(); i++) {
+            texts.add(oilLists.get(i).getOilName());
         }
-        scrollPicker.setData(newList);
+        scrollPicker.setData(texts);
+        scrollPicker.setSelectedPosition(0);
+        OriId = oilLists.get(0).getId();
         scrollPicker.setOnSelectedListener(new ScrollPickerView.OnSelectedListener() {
             @Override
             public void onSelected(ScrollPickerView scrollPickerView, int position) {
-                onPick(position);
+                OriId = oilLists.get(position).getId();
             }
         });
     }
@@ -95,15 +101,13 @@ public abstract class InjectionView extends LinearLayout implements View.OnClick
                 } catch (NumberFormatException exception) {
                     exception.printStackTrace();
                 }
-                injectEquipment(position, cycle);
+                injectEquipment(position, cycle, OriId);
                 cancel();
                 break;
         }
     }
 
-    public abstract void injectEquipment(int position, Integer cycle);
+    public abstract void injectEquipment(int position, Integer cycle, Long oriId);
 
     public abstract void cancel();
-
-    public abstract void onPick(int position);
 }

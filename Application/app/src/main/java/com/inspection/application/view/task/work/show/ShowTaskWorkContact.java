@@ -23,6 +23,8 @@ public interface ShowTaskWorkContact {
 
         void uploadPhotoSuccess();
 
+        void uploadPhotoFail();
+
         void showMessage(String message);
 
         void deletePhoto();

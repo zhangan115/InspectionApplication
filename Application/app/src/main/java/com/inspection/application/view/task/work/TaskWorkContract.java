@@ -16,7 +16,7 @@ public interface TaskWorkContract {
 
         void uploadTaskData(UploadTaskInfo uploadTaskInfo, RoomListBean roomListBean, int position);
 
-        void finishTask(long taskId, RoomListBean roomListBean);
+        void finishTask(UploadTaskInfo uploadTaskInfo, RoomListBean roomListBean);
 
         void loadEquipmentDb(long taskId, RoomListBean roomListBean);
 

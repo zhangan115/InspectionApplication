@@ -9,6 +9,7 @@ import java.util.List;
 
 public class InspectionDataBean {
 
+    private int count;
     private long taskId;
     private int taskState;
     private String taskName;
@@ -53,6 +54,14 @@ public class InspectionDataBean {
 
     public void setRoomList(List<RoomListBean> roomList) {
         this.roomList = roomList;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
     }
 
     public static class RoomListBean {

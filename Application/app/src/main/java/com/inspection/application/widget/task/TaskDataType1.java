@@ -14,6 +14,7 @@ import com.inspection.application.mode.bean.equipment.db.EquipmentDb;
 import com.inspection.application.mode.bean.task.DataItemBean;
 import com.inspection.application.mode.bean.task.DataItemValueListBean;
 import com.inspection.application.mode.db.DbManager;
+import com.inspection.application.view.task.work.IEquipmentChangeListener;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -31,6 +32,8 @@ public class TaskDataType1 extends LinearLayout implements View.OnClickListener 
     private DataItemBean dataItemBean;
     private EquipmentDb equipmentDb;
     private EquipmentDataDb equipmentDataDb;
+    private IEquipmentStateChange iEquipmentStateChange;
+
 
     public TaskDataType1(Context context) {
         super(context);
@@ -42,7 +45,8 @@ public class TaskDataType1 extends LinearLayout implements View.OnClickListener 
         inflate(context, R.layout.layout_task_type_1, this);
     }
 
-    public void setTaskData(DataItemValueListBean dataItemValueListBean, EquipmentDb equipmentDb, boolean caEdit) {
+    public void setTaskData(DataItemValueListBean dataItemValueListBean, EquipmentDb equipmentDb, boolean caEdit, IEquipmentStateChange listener) {
+        this.iEquipmentStateChange = listener;
         this.canEdit = caEdit;
         this.equipmentDb = equipmentDb;
         ((TextView) findViewById(R.id.tv_value_title)).setText(dataItemValueListBean.getDataItem().getInspectionName());
@@ -102,6 +106,9 @@ public class TaskDataType1 extends LinearLayout implements View.OnClickListener 
                                     equipmentDb.setUploadState(false);
                                     DbManager.getDbManager().getDaoSession().getEquipmentDbDao()
                                             .insertOrReplace(equipmentDb);
+                                    if (iEquipmentStateChange != null) {
+                                        iEquipmentStateChange.equipmentState();
+                                    }
                                 }
                                 DbManager.getDbManager().getDaoSession()
                                         .getEquipmentDataDbDao().insertOrReplaceInTx(dataDb);

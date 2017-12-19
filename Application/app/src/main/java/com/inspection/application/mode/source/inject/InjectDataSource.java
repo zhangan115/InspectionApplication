@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.inspection.application.mode.bean.inject.InjectEquipment;
 import com.inspection.application.mode.bean.inject.InjectResultBean;
 import com.inspection.application.mode.bean.inject.InjectRoomBean;
+import com.inspection.application.mode.bean.inject.OilList;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.callback.IObjectCallBack;
@@ -42,19 +43,24 @@ public interface InjectDataSource {
      *
      * @param equipmentId 设备id
      * @param cycle       注油周期
+     * @param oriId       油料Id
      * @param callBack    回调
      * @return 订阅
      */
     @NonNull
-    Subscription injectEquipmentList(long equipmentId, Integer cycle, @NonNull IObjectCallBack<InjectResultBean> callBack);
+    Subscription injectEquipmentList(long equipmentId, Integer cycle, Long oriId, @NonNull IObjectCallBack<InjectResultBean> callBack);
 
     /**
      * 对设备进行注油
+     *
      * @param equipmentId 设备id
-     * @param oilType 注油那种油
-     * @param callBack 回调
+     * @param oilType     注油那种油
+     * @param callBack    回调
      * @return 订阅
      */
     @NonNull
     Subscription injectEquipmentList(long equipmentId, int oilType, @NonNull IObjectCallBack<InjectResultBean> callBack);
+
+    @NonNull
+    Subscription getOilList(@NonNull IListCallBack<OilList> callBack);
 }

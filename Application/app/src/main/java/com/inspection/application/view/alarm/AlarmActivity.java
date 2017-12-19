@@ -1,5 +1,6 @@
 package com.inspection.application.view.alarm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -13,10 +14,16 @@ import android.widget.TextView;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
+import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.task.AlarmList;
 import com.inspection.application.view.BaseActivity;
+import com.inspection.application.view.equipment.EquipListActivity;
+import com.inspection.application.view.equipment.archives.EquipmentArchivesActivity;
+import com.inspection.application.view.equipment.data.EquipmentDataActivity;
+import com.inspection.application.view.task.data.TaskDataActivity;
 import com.library.adapter.RVAdapter;
+import com.library.utils.DataUtil;
 import com.library.widget.ExpendRecycleView;
 import com.library.widget.RecycleRefreshLoadLayout;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -67,7 +74,6 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
         mRecycleRefreshLoadLayout.setOnLoadListener(this);
         mRecycleRefreshLoadLayout.setOnRefreshListener(this);
         mCurrentDay = Calendar.getInstance(Locale.CHINA);
-        getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH));
         RVAdapter<AlarmList> adapter = new RVAdapter<AlarmList>(mRecyclerView, mList, R.layout.item_alarm) {
             @Override
             public void showData(ViewHolder vHolder, AlarmList data, int position) {
@@ -76,14 +82,48 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
                 TextView tv_type = (TextView) vHolder.getView(R.id.tv_type);
                 TextView tv_value = (TextView) vHolder.getView(R.id.tv_value);
                 TextView tv_des = (TextView) vHolder.getView(R.id.tv_des);
+                TextView tv_time = (TextView) vHolder.getView(R.id.tv_time);
                 vHolder.getView(R.id.tv_task).setTag(R.id.tag_object, data);
                 vHolder.getView(R.id.tv_equipment).setTag(R.id.tag_object, data);
                 vHolder.getView(R.id.tv_task).setOnClickListener(taskListener);
                 vHolder.getView(R.id.tv_equipment).setOnClickListener(equipmentListener);
+                //time
+                tv_time.setText(DataUtil.timeFormat(data.getCommitTime(), "yyyy.MM.dd HH:mm"));
+                //room
+                if (data.getRoom() != null) {
+                    tv_room_name.setText(data.getRoom().getRoomName());
+                }
+                //equipment
+                if (data.getRoom() != null) {
+                    tv_equip_name.setText(data.getEquipment().getEquipmentName());
+                }
+                //value
+                tv_type.setText(data.getDataItem().getInspectionName());
+                tv_value.setText(data.getValue());
+                if (data.getDataItem().getInspectionType() == ConstantInt.DATA_VALUE_TYPE_2) {
+                    String lowerStr = "";
+                    if (!TextUtils.isEmpty(String.valueOf(data.getDataItem().getQuantityLowlimit()))) {
+                        lowerStr = String.valueOf(data.getDataItem().getQuantityLowlimit());
+                    }
+                    String upperStr = "";
+                    if (!TextUtils.isEmpty(String.valueOf(data.getDataItem().getQuantityUplimit()))) {
+                        upperStr = String.valueOf(data.getDataItem().getQuantityUplimit());
+                    }
+                    if (!TextUtils.isEmpty(lowerStr) || !TextUtils.isEmpty(upperStr)) {
+                        tv_des.setVisibility(View.VISIBLE);
+                        tv_des.setVisibility(View.VISIBLE);
+                        tv_des.setText(String.format("正常范围 [%s~%s ]", lowerStr, upperStr));
+                    } else {
+                        tv_des.setVisibility(View.GONE);
+                        tv_des.setVisibility(View.GONE);
+                    }
+                } else {
+                    tv_des.setVisibility(View.GONE);
+                }
             }
         };
         mRecyclerView.setAdapter(adapter);
-        requestAlarm();
+        getDate(mCurrentDay.get(Calendar.YEAR), mCurrentDay.get(Calendar.MONTH) + 1, mCurrentDay.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
@@ -139,10 +179,10 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
             sb.append(MessageFormat.format("{0}", String.valueOf(dayOfMonth)));
             time.append(String.valueOf(dayOfMonth));
         }
-        if (!TextUtils.isEmpty(currentDate) && currentDate.equals(sb.toString())) {
-        } else {
+        if (TextUtils.isEmpty(currentDate) || !currentDate.equals(sb.toString())) {
             mDate = sb.toString();
             tv_time.setText(time.toString());
+            onRefresh();
         }
     }
 
@@ -150,7 +190,13 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
         @Override
         public void onClick(View view) {
             AlarmList data = (AlarmList) view.getTag(R.id.tag_object);
-
+            if (data.getTask() == null) {
+                return;
+            }
+            Intent intent = new Intent(AlarmActivity.this, TaskDataActivity.class);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_STR, data.getTask().getTaskName());
+            intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, data.getTask().getTaskId());
+            startActivity(intent);
         }
     };
 
@@ -158,6 +204,12 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
         @Override
         public void onClick(View view) {
             AlarmList data = (AlarmList) view.getTag(R.id.tag_object);
+            if (data.getEquipment() == null) {
+                return;
+            }
+            Intent intent = new Intent(AlarmActivity.this, EquipmentArchivesActivity.class);
+            intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, data.getEquipment());
+            startActivity(intent);
 
         }
     };
@@ -221,7 +273,7 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
         isRefresh = true;
         mList.clear();
         mRecyclerView.getAdapter().notifyDataSetChanged();
-        isRefresh = true;
+        requestAlarm();
     }
 
     @Override
@@ -231,7 +283,9 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
         }
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("equipmentName", searchStr);
+            if (!TextUtils.isEmpty(searchStr)) {
+                jsonObject.put("equipmentName", searchStr);
+            }
             jsonObject.put("count", ConstantInt.PAGE_SIZE);
             jsonObject.put("time", mDate);
         } catch (JSONException e) {

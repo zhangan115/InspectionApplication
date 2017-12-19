@@ -1,5 +1,6 @@
 package com.inspection.application.view.main;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -176,8 +177,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @Override
     public void showNewVersion(final NewVersion newVersion) {
-        if (!EasyPermissions.hasPermissions(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                , android.Manifest.permission.RECORD_AUDIO)) {
+        if (!EasyPermissions.hasPermissions(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             new AppSettingsDialog.Builder(MainActivity.this)
                     .setTitle(getString(R.string.request_permissions))
                     .setRationale(getString(R.string.need_save_setting))

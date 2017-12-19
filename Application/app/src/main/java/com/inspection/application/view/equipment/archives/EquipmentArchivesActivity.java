@@ -24,7 +24,7 @@ public class EquipmentArchivesActivity extends BaseActivity {
             finish();
             return;
         }
-        setLayoutAndToolbar(R.layout.activity_container_toolbar, "设备详情");
+        setLayoutAndToolbar(R.layout.activity_container_toolbar, bean.getEquipmentName());
         EquipmentArchivesFragment fragment = (EquipmentArchivesFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = EquipmentArchivesFragment.newInstance(bean);

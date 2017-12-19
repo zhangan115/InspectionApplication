@@ -20,6 +20,7 @@ import com.inspection.application.utils.PhotoUtils;
 import com.inspection.application.view.MvpFragment;
 import com.inspection.application.view.task.work.IEquipmentChangeListener;
 import com.inspection.application.view.task.work.IViewCreateListener;
+import com.inspection.application.widget.task.IEquipmentStateChange;
 import com.inspection.application.widget.task.TaskDataType1;
 import com.inspection.application.widget.task.TaskDataType2;
 import com.inspection.application.widget.task.TaskDataType3;
@@ -34,7 +35,7 @@ import java.util.List;
  * Created by pingan on 2017/12/17.
  */
 
-public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presenter> implements IEquipmentChangeListener, ShowTaskWorkContact.View, TaskDataType3.OnTakePhotoListener {
+public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presenter> implements IEquipmentChangeListener, ShowTaskWorkContact.View, TaskDataType3.OnTakePhotoListener, IEquipmentStateChange {
 
     private LinearLayout ll_equipment_data;
     private LinearLayout loadingLL;
@@ -109,11 +110,11 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
                 int dataType = dataItemValueListBean.getDataItem().getInspectionType();
                 if (dataType == ConstantInt.DATA_VALUE_TYPE_1) {
                     TaskDataType1 taskDataType1 = new TaskDataType1(getActivity());
-                    taskDataType1.setTaskData(dataItemValueListBean, mTaskEquipmentBean.getEquipment().getEquipmentDb(), canEdit);
+                    taskDataType1.setTaskData(dataItemValueListBean, mTaskEquipmentBean.getEquipment().getEquipmentDb(), canEdit, this);
                     ll_equipment_data.addView(taskDataType1);
                 } else if (dataType == ConstantInt.DATA_VALUE_TYPE_2) {
                     TaskDataType2 taskDataType2 = new TaskDataType2(getActivity());
-                    taskDataType2.setTaskData(dataItemValueListBean, mTaskEquipmentBean.getEquipment().getEquipmentDb(), canEdit);
+                    taskDataType2.setTaskData(dataItemValueListBean, mTaskEquipmentBean.getEquipment().getEquipmentDb(), canEdit, this);
                     ll_equipment_data.addView(taskDataType2);
                 } else if (dataType == ConstantInt.DATA_VALUE_TYPE_3) {
                     TaskDataType3 taskDataType3 = new TaskDataType3(getActivity());
@@ -122,7 +123,7 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
                     photoTypeList.add(taskDataType3);
                 } else if (dataType == ConstantInt.DATA_VALUE_TYPE_4) {
                     TaskDataType2 taskDataType4 = new TaskDataType2(getActivity());
-                    taskDataType4.setTaskData(dataItemValueListBean, mTaskEquipmentBean.getEquipment().getEquipmentDb(), canEdit);
+                    taskDataType4.setTaskData(dataItemValueListBean, mTaskEquipmentBean.getEquipment().getEquipmentDb(), canEdit, this);
                     ll_equipment_data.addView(taskDataType4);
                 }
             }
@@ -149,6 +150,12 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
         for (int i = 0; i < photoTypeList.size(); i++) {
             photoTypeList.get(i).notifyUi();
         }
+        equipmentState();
+    }
+
+    @Override
+    public void uploadPhotoFail() {
+        equipmentState();
     }
 
     @Override
@@ -201,6 +208,13 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
             });
         } else if (requestCode == ACTION_START_ALARM && resultCode == Activity.RESULT_OK) {
 
+        }
+    }
+
+    @Override
+    public void equipmentState() {
+        if (createListener != null) {
+            createListener.equipmentStateChange();
         }
     }
 }

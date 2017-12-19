@@ -5,6 +5,7 @@ import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
 import com.inspection.application.mode.bean.inject.InjectEquipment;
 import com.inspection.application.mode.bean.inject.InjectRoomBean;
+import com.inspection.application.mode.bean.inject.OilList;
 
 import java.util.List;
 
@@ -24,7 +25,9 @@ interface InjectContract {
 
         void getNeedInjectEqu(List<InjectEquipment> injectEquipments);
 
-        void injectionEquipment(long equipmentId, Integer cycle, int position);
+        void injectionEquipment(long equipmentId, Integer cycle,Long oriId, int position);
+
+        void getOilList();
     }
 
     interface View extends BaseView<Presenter> {
@@ -48,6 +51,10 @@ interface InjectContract {
         void injectFail(int position);
 
         void showNeedInjectEqu(List<InjectEquipment> injectEquipments);
+
+        void showOilList(List<OilList> data);
+
+        void noOilList();
     }
 
 }

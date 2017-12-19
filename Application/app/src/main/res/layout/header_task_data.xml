@@ -55,12 +55,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:textColor="@color/text_black"
-                android:textSize="1sp" />
+                android:textSize="17sp" />
 
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_time_work"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
@@ -134,107 +135,114 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="19dp"
-            android:background="@drawable/bg_task_data_header"
-            android:weightSum="4">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-            <TextView
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="18dp"
-                android:paddingTop="18dp"
-                android:text="实检设备"
-                android:textColor="@color/text_black"
-                android:textSize="17sp" />
+                android:layout_marginTop="19dp"
+                android:background="@drawable/bg_task_data_header"
+                android:weightSum="4">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="18dp"
-                android:paddingTop="18dp"
-                android:text="漏检设备"
-                android:textColor="@color/text_black"
-                android:textSize="17sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="18dp"
+                    android:paddingTop="18dp"
+                    android:text="实检设备"
+                    android:textColor="@color/text_black"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="18dp"
-                android:paddingTop="18dp"
-                android:text="漏检项"
-                android:textColor="@color/text_black"
-                android:textSize="17sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="18dp"
+                    android:paddingTop="18dp"
+                    android:text="漏检设备"
+                    android:textColor="@color/text_black"
+                    android:textSize="17sp" />
 
-            <TextView
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="18dp"
+                    android:paddingTop="18dp"
+                    android:text="漏检项"
+                    android:textColor="@color/text_black"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="18dp"
+                    android:paddingTop="18dp"
+                    android:text="报警项"
+                    android:textColor="@color/text_black"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="18dp"
-                android:paddingTop="18dp"
-                android:text="报警项"
-                android:textColor="@color/text_black"
-                android:textSize="17sp" />
+                android:weightSum="4">
+
+                <TextView
+                    android:id="@+id/tv_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_blue"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_blue"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_3"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_blue"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_blue"
+                    android:textSize="17sp" />
+            </LinearLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="4">
-
-            <TextView
-                android:id="@+id/tv_1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/text_blue"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tv_2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/text_blue"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tv_3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/text_blue"
-                android:textSize="17sp" />
-
-            <TextView
-                android:id="@+id/tv_4"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="15dp"
-                android:textColor="@color/text_blue"
-                android:textSize="17sp" />
-        </LinearLayout>
-
     </LinearLayout>
 
     <TextView

@@ -226,7 +226,7 @@ public interface TaskDataSource {
      * @return 订阅
      */
     @NonNull
-    Subscription finishTaskData(long taskId, RoomListBean roomListBean, @NonNull IFinishTaskDataCallBack callBack);
+    Subscription finishTaskData(@NonNull UploadTaskInfo uploadTaskInfo, RoomListBean roomListBean, @NonNull IFinishTaskDataCallBack callBack);
 
     @NonNull
     Subscription getAlarmList(String info, @NonNull IListCallBack<AlarmList> callBack);

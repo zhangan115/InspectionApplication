@@ -164,6 +164,21 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
                 }
                 TextView tv_equipment_count = (TextView) vHolder.getView(R.id.tv_equipment_count);
                 tv_equipment_count.setText(String.format("%s/%s", String.valueOf(data.getUploadCount()), String.valueOf(data.getCount())));
+                //点检部门
+                TextView tv_inspection_dept = (TextView) vHolder.getView(R.id.tv_inspection_dept);
+                if (data.getExecutorDeptList() != null && data.getExecutorDeptList().size() > 0) {
+                    tv_inspection_dept.setVisibility(View.VISIBLE);
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < data.getExecutorDeptList().size(); i++) {
+                        sb.append(data.getExecutorDeptList().get(i).getDeptBean().getDeptName());
+                        if (i != data.getExecutorDeptList().size() - 1) {
+                            sb.append("、");
+                        }
+                    }
+                    tv_inspection_dept.setText(sb.toString());
+                } else {
+                    tv_inspection_dept.setVisibility(View.GONE);
+                }
             }
         };
         mExpendRecycleView.setAdapter(adapter);

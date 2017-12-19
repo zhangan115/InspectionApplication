@@ -1,6 +1,5 @@
 package com.inspection.application.view.inject;
 
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,10 +22,10 @@ import com.inspection.application.app.App;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.inject.InjectEquipment;
 import com.inspection.application.mode.bean.inject.InjectRoomBean;
+import com.inspection.application.mode.bean.inject.OilList;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.widget.InjectionView;
 import com.library.adapter.RVAdapter;
-import com.library.utils.DataUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +47,9 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
     private InjectRoomBean currentRoomBean;
     private List<InjectEquipment> mEquipment;
     private List<InjectEquipment> mAllEquipment;
+    private List<OilList> oilLists;
+    private int mPosition;
+    private AlertDialog alertDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +103,12 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                createDialog(position).show();
+                mPosition = position;
+                if (oilLists == null || oilLists.size() == 0) {
+                    mPresenter.getOilList();
+                } else {
+                    createDialog(position).show();
+                }
             }
         });
     }
@@ -263,15 +270,24 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
         mExpendRecycleView.getAdapter().notifyDataSetChanged();
     }
 
-    private AlertDialog alertDialog;
+    @Override
+    public void showOilList(List<OilList> data) {
+        this.oilLists = data;
+        createDialog(mPosition).show();
+    }
+
+    @Override
+    public void noOilList() {
+        App.getInstance().showToast("没有油料");
+    }
 
     private AlertDialog createDialog(int position) {
-        InjectionView injectionView = new InjectionView(InjectActivity.this, mEquipment.get(position), position) {
+        InjectionView injectionView = new InjectionView(InjectActivity.this, mEquipment.get(position), position, oilLists) {
             @Override
-            public void injectEquipment(int position, Integer cycle) {
+            public void injectEquipment(int position, Integer cycle, Long oilId) {
                 mEquipment.get(position).setInject(true);
                 mExpendRecycleView.getAdapter().notifyItemChanged(position);
-                mPresenter.injectionEquipment(mEquipment.get(position).getEquipmentId(), cycle, position);
+                mPresenter.injectionEquipment(mEquipment.get(position).getEquipmentId(), cycle, oilId, position);
             }
 
             @Override
@@ -279,11 +295,6 @@ public class InjectActivity extends BaseActivity implements View.OnClickListener
                 if (alertDialog != null) {
                     alertDialog.dismiss();
                 }
-            }
-
-            @Override
-            public void onPick(int position) {
-                App.getInstance().showToast("选中了" + position);
             }
         };
         alertDialog = new AlertDialog.Builder(this, R.style.dialog)

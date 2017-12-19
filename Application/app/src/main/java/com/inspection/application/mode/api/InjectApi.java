@@ -4,6 +4,7 @@ import com.inspection.application.mode.bean.Bean;
 import com.inspection.application.mode.bean.inject.InjectEquipment;
 import com.inspection.application.mode.bean.inject.InjectResultBean;
 import com.inspection.application.mode.bean.inject.InjectRoomBean;
+import com.inspection.application.mode.bean.inject.OilList;
 
 import java.util.List;
 
@@ -24,7 +25,10 @@ public interface InjectApi {
     @GET("room/get/equipments.json")
     Observable<Bean<List<InjectEquipment>>> getInjectEquipment(@Query("roomId") long roomId);
 
-    @GET("oil//injection.json")
-    Observable<Bean<InjectResultBean>> injectEquipment(@Query("equipmentId") long equipmentId, @Query("cycle") int cycle);
+    @GET("oil/listAll.json")
+    Observable<Bean<List<OilList>>> getOilList();
+
+    @GET("oil/injection.json")
+    Observable<Bean<InjectResultBean>> injectEquipment(@Query("equipmentId") long equipmentId, @Query("cycle") int cycle, @Query("oilId") Long oriId);
 
 }

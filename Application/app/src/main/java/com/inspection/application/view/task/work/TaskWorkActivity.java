@@ -251,6 +251,11 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     }
 
     @Override
+    public void equipmentStateChange() {
+        mRecyclerView.getAdapter().notifyItemChanged(mCurrentPosition);
+    }
+
+    @Override
     public void uploadTaskDataSuccess() {
         isUploadingData = false;
         if (mRecyclerView.getAdapter() != null) {

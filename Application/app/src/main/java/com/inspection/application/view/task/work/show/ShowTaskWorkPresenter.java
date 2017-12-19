@@ -52,6 +52,7 @@ public class ShowTaskWorkPresenter implements ShowTaskWorkContact.Presenter {
 
             @Override
             public void onFail() {
+                mView.uploadPhotoFail();
                 mView.showMessage("上传失败");
             }
         }));

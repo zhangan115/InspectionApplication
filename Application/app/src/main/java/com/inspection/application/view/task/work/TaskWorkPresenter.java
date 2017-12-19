@@ -40,8 +40,8 @@ class TaskWorkPresenter implements TaskWorkContract.Presenter {
     }
 
     @Override
-    public void finishTask(long taskId, RoomListBean roomListBean) {
-        mSubscription.add(mTaskDataSource.finishTaskData(taskId, roomListBean, new TaskDataSource.IFinishTaskDataCallBack() {
+    public void finishTask(UploadTaskInfo uploadTaskInfo, RoomListBean roomListBean) {
+        mSubscription.add(mTaskDataSource.finishTaskData(uploadTaskInfo, roomListBean, new TaskDataSource.IFinishTaskDataCallBack() {
             @Override
             public void onSuccess() {
                 mView.finishSuccess();

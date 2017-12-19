@@ -67,6 +67,7 @@ import rx.schedulers.Schedulers;
 public class TaskRepository implements TaskDataSource {
 
     private SharedPreferences dataSp;
+    private List<TaskEquipmentBean> needUploadEquip;
 
     @Inject
     TaskRepository(Context context) {
@@ -675,8 +676,84 @@ public class TaskRepository implements TaskDataSource {
 
     @NonNull
     @Override
-    public Subscription finishTaskData(long taskId, final RoomListBean roomListBean, @NonNull final IFinishTaskDataCallBack callBack) {
-        return new ApiCallBackObject<String>(Api.createRetrofit().create(TaskApi.class).uploadStartOrEnd(taskId, roomListBean.getTaskRoomId(), 2)) {
+    public Subscription finishTaskData(@NonNull final UploadTaskInfo uploadTaskInfo, final RoomListBean roomDataList, @NonNull final IFinishTaskDataCallBack callBack) {
+        needUploadEquip = new ArrayList<>();
+        for (int i = 0; i < roomDataList.getTaskEquipment().size(); i++) {
+            if (!roomDataList.getTaskEquipment().get(i).getEquipment().getEquipmentDb().getUploadState()) {
+                needUploadEquip.add(roomDataList.getTaskEquipment().get(i));
+            }
+        }
+        if (needUploadEquip.size() == 0) {
+            return geFinishRoom(uploadTaskInfo, roomDataList, callBack);
+        } else {
+            List<UploadTaskEquipmentBean> uploadEquipList = new ArrayList<>();
+            for (int i = 0; i < needUploadEquip.size(); i++) {
+                TaskEquipmentBean taskEquipmentBean = needUploadEquip.get(i);
+                List<UploadDataListBean> uploadDataListBeen = new ArrayList<>();
+                for (int j = 0; j < taskEquipmentBean.getDataList().size(); j++) {
+                    List<UploadDataItemValueListBean> dataItemValueList = new ArrayList<>();
+                    for (int k = 0; k < taskEquipmentBean.getDataList().get(j).getDataItemValueList().size(); k++) {
+                        DataItemValueListBean dataItemValueListBean = taskEquipmentBean.getDataList().get(j).getDataItemValueList().get(k);
+                        DataItemBean dataItemBean = dataItemValueListBean.getDataItem();
+                        UploadDataItemBean uploadDataItemBean = new UploadDataItemBean(dataItemBean.getInspectionId(),
+                                dataItemBean.getCreateTime(), dataItemBean.getDeleteState(), dataItemBean.getDeleteTime()
+                                , dataItemBean.getInspectionName(), dataItemBean.getInspectionType(), dataItemBean.getQuantityLowlimit(),
+                                dataItemBean.getQuantityUplimit(), dataItemBean.getQuantityUnit(), dataItemBean.getValue());
+                        dataItemValueList.add(new UploadDataItemValueListBean(dataItemValueListBean.getDataItemValueId(), uploadDataItemBean.getValue()));
+                    }
+                    uploadDataListBeen.add(new UploadDataListBean(taskEquipmentBean.getDataList().get(j).getDataId(), dataItemValueList));
+                }
+                uploadEquipList.add(new UploadTaskEquipmentBean(taskEquipmentBean.getTaskEquipmentId(), taskEquipmentBean.getTaskEquipmentState()
+                        , new UploadEquipmentBean(taskEquipmentBean.getEquipment().getDeleteState(), taskEquipmentBean.getEquipment().getEquipmentId()
+                        , taskEquipmentBean.getEquipment().getEquipmentName(), taskEquipmentBean.getEquipment().getEquipmentNumber()
+                        , taskEquipmentBean.getEquipment().getEquipmentRemark(), taskEquipmentBean.getEquipment().getManufactureTime()
+                        , taskEquipmentBean.getEquipment().getManufacturer(), taskEquipmentBean.getEquipment().getSupplier()), uploadDataListBeen));
+            }
+            List<UploadRoomListBean> uploadRoomList = new ArrayList<>();
+            uploadRoomList.add(new UploadRoomListBean(roomDataList.getRoom(), roomDataList.getStartTime(), roomDataList.getTaskRoomId()
+                    , roomDataList.getTaskRoomState(), roomDataList.getEndTime(), uploadEquipList));
+            uploadTaskInfo.setRoomList(uploadRoomList);
+            String json = new Gson().toJson(new UploadInspectionBean(uploadTaskInfo));
+            return new ApiCallBackObject<String>(Api.createRetrofit().create(TaskApi.class).uploadInspection(json)) {
+
+                @Override
+                public void onData(@NonNull String data) {
+
+                }
+
+                @Override
+                public void onSuccess() {
+                    List<EquipmentDb> equipmentDataDbs = new ArrayList<>();
+                    for (int i = 0; i < needUploadEquip.size(); i++) {
+                        needUploadEquip.get(i).getEquipment().getEquipmentDb().setUploadState(true);
+                        equipmentDataDbs.add(needUploadEquip.get(i).getEquipment().getEquipmentDb());
+                    }
+                    DbManager.getDbManager().getDaoSession().getEquipmentDbDao().insertOrReplaceInTx(equipmentDataDbs);
+                    geFinishRoom(uploadTaskInfo, roomDataList, callBack);
+                }
+
+                @Override
+                public void onFail(@NonNull String message) {
+                    callBack.onFail(message);
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+
+                @Override
+                public void noData() {
+
+                }
+            }.execute().subscribe();
+        }
+
+
+    }
+
+    private Subscription geFinishRoom(@NonNull final UploadTaskInfo uploadTaskInfo, final RoomListBean roomDataList, @NonNull final IFinishTaskDataCallBack callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(TaskApi.class).uploadStartOrEnd(uploadTaskInfo.getTaskId(), roomDataList.getTaskRoomId(), 2)) {
 
             @Override
             public void onData(@NonNull String data) {
@@ -685,7 +762,7 @@ public class TaskRepository implements TaskDataSource {
 
             @Override
             public void onSuccess() {
-                roomListBean.setTaskRoomState(ConstantInt.ROOM_STATE_3);
+                roomDataList.setTaskRoomState(ConstantInt.ROOM_STATE_3);
                 callBack.onSuccess();
             }
 

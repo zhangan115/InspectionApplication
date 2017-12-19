@@ -27,6 +27,7 @@ public class InspectionBean {
     private User receiveUser;
     private List<User> users;
     private List<ExecutorUserList> executorUserList;//指定的执行人
+    private List<ExecutorDeptList> executorDeptList;//指定的执行人
 
     public List<ExecutorUserList> getExecutorUserList() {
         return executorUserList;
@@ -196,5 +197,13 @@ public class InspectionBean {
 
     public void setRooms(List<String> rooms) {
         this.rooms = rooms;
+    }
+
+    public List<ExecutorDeptList> getExecutorDeptList() {
+        return executorDeptList;
+    }
+
+    public void setExecutorDeptList(List<ExecutorDeptList> executorDeptList) {
+        this.executorDeptList = executorDeptList;
     }
 }

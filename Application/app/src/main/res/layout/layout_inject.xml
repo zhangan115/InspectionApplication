@@ -133,7 +133,7 @@
                     app:spv_draw_bitmap_height="40dp"
                     app:spv_draw_bitmap_mode="size"
                     app:spv_draw_bitmap_width="80dp"
-                    app:spv_is_circulation="true"
+                    app:spv_is_circulation="false"
                     app:spv_max_line_width="300dp"
                     app:spv_max_text_size="15sp"
                     app:spv_min_text_size="15sp"

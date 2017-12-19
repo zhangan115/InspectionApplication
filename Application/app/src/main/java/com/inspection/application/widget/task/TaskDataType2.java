@@ -31,6 +31,7 @@ public class TaskDataType2 extends LinearLayout {
     private DataItemValueListBean dataItemValueListBean;
     private EquipmentDb equipmentDb;
     private EditText editText;
+    private IEquipmentStateChange iEquipmentStateChange;
 
     public TaskDataType2(Context context) {
         super(context);
@@ -42,8 +43,9 @@ public class TaskDataType2 extends LinearLayout {
         inflate(context, R.layout.layout_task_type_2, this);
     }
 
-    public void setTaskData(DataItemValueListBean dataItemValueListBean, EquipmentDb equipmentDb, boolean canEdit) {
+    public void setTaskData(DataItemValueListBean dataItemValueListBean, EquipmentDb equipmentDb, boolean canEdit, IEquipmentStateChange listener) {
         this.equipmentDb = equipmentDb;
+        this.iEquipmentStateChange = listener;
         this.dataItemValueListBean = dataItemValueListBean;
         this.editText = findViewById(R.id.et_value);
         if (!TextUtils.isEmpty(dataItemValueListBean.getDataItem().getEquipmentDataDb().getValue())) {
@@ -153,6 +155,9 @@ public class TaskDataType2 extends LinearLayout {
                     if (equipmentDb.getUploadState()) {
                         equipmentDb.setUploadState(false);
                         DbManager.getDbManager().getDaoSession().getEquipmentDbDao().insertOrReplaceInTx(equipmentDb);
+                        if (iEquipmentStateChange != null) {
+                            iEquipmentStateChange.equipmentState();
+                        }
                     }
                     if (isNormal(dataItemValueListBean.getDataItem())) {
                         editText.setTextColor(context.getResources().getColor(R.color.color4C8FE2));
