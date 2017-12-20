@@ -50,7 +50,7 @@ android {
         }
     }
     greendao {
-        schemaVersion 2//版本号
+        schemaVersion 3//版本号
     }
 }
 

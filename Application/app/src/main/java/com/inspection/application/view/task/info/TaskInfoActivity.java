@@ -114,7 +114,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
         intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, data);
         intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT_1, uploadTaskInfo);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_WORK);
     }
 
     @Override
@@ -254,6 +254,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     }
 
     private int REQUEST_CODE = 200;
+    private int REQUEST_CODE_WORK = 201;
 
     private View.OnClickListener addEmployeeClickListener = new View.OnClickListener() {
 
@@ -275,6 +276,17 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
                 chooseEmployeeBeen.addAll(been);
             }
             addEmployee();
+        } else if (requestCode == REQUEST_CODE_WORK && resultCode == Activity.RESULT_OK && data != null) {
+            long taskRoomId = data.getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
+            if (taskRoomId == -1) {
+                return;
+            }
+            for (int i = 0; i < mList.size(); i++) {
+                if (mList.get(i).getTaskRoomId() == taskRoomId) {
+                    mList.get(i).setTaskRoomState(ConstantInt.ROOM_STATE_3);
+                }
+            }
+            addRoomToLayout();
         }
     }
 

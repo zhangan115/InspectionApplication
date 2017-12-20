@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.mode.source.application.ApplicationDataSource;
 import com.inspection.application.mode.source.application.ApplicationRepository;
+import com.inspection.application.mode.source.news.NewsDataSource;
 
 import rx.subscriptions.CompositeSubscription;
 
@@ -16,12 +17,14 @@ import rx.subscriptions.CompositeSubscription;
 public class MainPresenter implements MainContract.Presenter {
 
     private final ApplicationDataSource mAppDataSource;
+    private final NewsDataSource mDataSource;
     private final MainContract.View mView;
     private CompositeSubscription mSubscriptions;
 
-    MainPresenter(ApplicationDataSource mAppDataSource, MainContract.View mView) {
+    MainPresenter(ApplicationDataSource mAppDataSource, NewsDataSource mDataSource, MainContract.View mView) {
         this.mAppDataSource = mAppDataSource;
         this.mView = mView;
+        this.mDataSource = mDataSource;
         mView.setPresenter(this);
         mSubscriptions = new CompositeSubscription();
     }
@@ -42,12 +45,22 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void getMessage() {
+        if (mDataSource != null) {
+            mDataSource.startAutoGetMessage();
+        }
+    }
+
+    @Override
     public void subscribe() {
 
     }
 
     @Override
     public void unSubscribe() {
+        if (mDataSource != null) {
+            mDataSource.cleanSub();
+        }
         mSubscriptions.clear();
     }
 }

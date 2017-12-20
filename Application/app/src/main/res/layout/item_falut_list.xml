@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
+    android:layout_marginLeft="12dp"
+    android:layout_marginRight="12dp"
     android:background="@drawable/bg_whit_shadw_2"
     android:orientation="vertical">
 
@@ -11,7 +11,7 @@
         android:id="@+id/tv_equip_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="14dp"
         android:ellipsize="end"
         android:lines="1"
         android:textColor="@color/text_black"
@@ -20,8 +20,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -53,7 +53,9 @@
                     android:id="@+id/tv_fault_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
                     android:layout_marginRight="10dp"
+                    android:layout_marginTop="3dp"
                     android:gravity="center"
                     android:textSize="17sp" />
             </LinearLayout>
@@ -61,7 +63,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="14dp"
                 android:text="@string/str_fault_des"
                 android:textColor="@color/text_gray_999"
                 android:textSize="17sp" />
@@ -79,7 +81,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="14dp"
                 android:orientation="horizontal">
 
                 <TextView

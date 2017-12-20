@@ -13,6 +13,7 @@ import com.inspection.application.R;
 import com.inspection.application.base.AbsBaseApp;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
+import com.inspection.application.mode.bean.news.db.NewsBean;
 import com.inspection.application.mode.bean.option.OptionBean;
 import com.inspection.application.mode.bean.user.User;
 import com.inspection.application.mode.db.DbManager;
@@ -178,5 +179,9 @@ public class App extends AbsBaseApp {
             applicationModule = new ApplicationModule(this);
         }
         return applicationModule;
+    }
+
+    public void getNewsMessage() {
+
     }
 }

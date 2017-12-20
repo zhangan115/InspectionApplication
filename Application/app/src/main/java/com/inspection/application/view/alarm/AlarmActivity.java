@@ -281,12 +281,16 @@ public class AlarmActivity extends BaseActivity implements DatePickerDialog.OnDa
         if (isRefresh) {
             return;
         }
+        if (mList == null || mList.size() == 0) {
+            return;
+        }
         JSONObject jsonObject = new JSONObject();
         try {
             if (!TextUtils.isEmpty(searchStr)) {
                 jsonObject.put("equipmentName", searchStr);
             }
             jsonObject.put("count", ConstantInt.PAGE_SIZE);
+            jsonObject.put("lastId", mList.get(mList.size() - 1).getAlarmId());
             jsonObject.put("time", mDate);
         } catch (JSONException e) {
             e.printStackTrace();

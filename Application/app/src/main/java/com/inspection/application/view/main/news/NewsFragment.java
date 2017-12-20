@@ -3,17 +3,22 @@ package com.inspection.application.view.main.news;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.inspection.application.R;
+import com.inspection.application.app.App;
+import com.inspection.application.mode.Injection;
+import com.inspection.application.mode.bean.news.db.NewsBean;
 import com.inspection.application.view.MvpFragment;
+import com.inspection.application.view.main.news.show.NewsContract;
+import com.inspection.application.view.main.news.show.NewsPresenter;
+import com.inspection.application.view.main.news.show.ShowMessageFragment;
 import com.library.utils.DataUtil;
-import com.library.widget.ExpendRecycleView;
+
+import java.util.List;
 
 import cn.bingoogolapple.badgeview.BGABadgeImageView;
 
@@ -22,12 +27,10 @@ import cn.bingoogolapple.badgeview.BGABadgeImageView;
  * Created by pingan on 2017/12/8.
  */
 
-public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements NewsContract.View, View.OnClickListener {
+public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements View.OnClickListener {
 
     private BGABadgeImageView mFaultBGView;
     private BGABadgeImageView mWorkBGView;
-    private RelativeLayout noDataLayout;
-    private ExpendRecycleView mExpendRecycleView;
     private TextView newsTimeTv;
 
     public static NewsFragment newInstance() {
@@ -43,41 +46,20 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         rootView.findViewById(R.id.ll_fault).setOnClickListener(this);
         rootView.findViewById(R.id.ll_work).setOnClickListener(this);
-        mExpendRecycleView = rootView.findViewById(R.id.recycleViewId);
         mFaultBGView = rootView.findViewById(R.id.bg_view_fault);
         mWorkBGView = rootView.findViewById(R.id.bg_view_work);
-        noDataLayout = rootView.findViewById(R.id.layout_no_data);
         newsTimeTv = rootView.findViewById(R.id.tv_news_time);
         TextView titleTv = rootView.findViewById(R.id.titleId);
         titleTv.setText(findStrById(R.string.str_first_nav_2));
-        mExpendRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
+        ShowMessageFragment fragment = (ShowMessageFragment) getChildFragmentManager().findFragmentById(R.id.frame_container);
+        if (fragment == null) {
+            fragment = ShowMessageFragment.newInstance(0);
+        }
+        new NewsPresenter(Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), fragment);
+        getChildFragmentManager().beginTransaction().add(R.id.frame_container, fragment).commit();
         return rootView;
     }
 
-    @Override
-    public void showMessageList() {
-        noDataLayout.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
-    public void noData() {
-        noDataLayout.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void setPresenter(NewsContract.Presenter presenter) {
-
-    }
 
     @Override
     public void onClick(View view) {

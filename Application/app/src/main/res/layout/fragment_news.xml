@@ -90,18 +90,11 @@
         android:layout_weight="1"
         android:background="@color/bg_normal">
 
-        <com.library.widget.RecycleRefreshLoadLayout
+        <FrameLayout
+            android:id="@+id/frame_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <com.library.widget.ExpendRecycleView
-                android:id="@+id/recycleViewId"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </com.library.widget.RecycleRefreshLoadLayout>
-
-        <include layout="@layout/layout_no_data" />
     </RelativeLayout>
 
 </LinearLayout>

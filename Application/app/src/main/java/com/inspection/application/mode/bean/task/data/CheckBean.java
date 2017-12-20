@@ -27,6 +27,42 @@ public class CheckBean {
     private long endTime;
     private List<User> users;
     private List<String> rooms;
+    private int missEquipmentCount;
+    private int actualCount;
+    private int alarmCount;
+    private int missDateCount;
+
+    public int getMissEquipmentCount() {
+        return missEquipmentCount;
+    }
+
+    public void setMissEquipmentCount(int missEquipmentCount) {
+        this.missEquipmentCount = missEquipmentCount;
+    }
+
+    public int getActualCount() {
+        return actualCount;
+    }
+
+    public void setActualCount(int actualCount) {
+        this.actualCount = actualCount;
+    }
+
+    public int getAlarmCount() {
+        return alarmCount;
+    }
+
+    public void setAlarmCount(int alarmCount) {
+        this.alarmCount = alarmCount;
+    }
+
+    public int getMissDateCount() {
+        return missDateCount;
+    }
+
+    public void setMissDateCount(int missDateCount) {
+        this.missDateCount = missDateCount;
+    }
 
     public String getTaskName() {
         return taskName;

@@ -100,4 +100,8 @@ public interface ConstantStr {
 
     String ROOM_START_TIME = "start_time";
     String ROOM_FINISH_TIME = "finish_time";
+
+    String NEWS_TYPE_ALARM = "news_type_alarm";
+    String NEWS_TYPE_WORK = "news_type_work";
+
 }

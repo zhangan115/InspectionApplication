@@ -1,6 +1,5 @@
 package com.inspection.application.view.main;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -21,18 +19,12 @@ import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.utils.DownloadAppUtils;
 import com.inspection.application.view.BaseActivity;
-import com.inspection.application.view.contact.ContactActivity;
-import com.inspection.application.view.equipment.EquipListActivity;
-import com.inspection.application.view.fault.FaultActivity;
-import com.inspection.application.view.inject.InjectActivity;
 import com.inspection.application.view.main.home.HomeFragment;
 import com.inspection.application.view.main.mine.MineFragment;
 import com.inspection.application.view.main.mine.MinePresenter;
 import com.inspection.application.view.main.news.NewsFragment;
-import com.inspection.application.view.main.news.NewsPresenter;
-import com.inspection.application.view.setting.SettingActivity;
+import com.inspection.application.view.main.news.show.NewsPresenter;
 import com.inspection.application.view.splash.SplashActivity;
-import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +44,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        new MainPresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule()), this);
+        new MainPresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule())
+                , Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), this);
         initView();
         checkPermission();
+        mPresenter.unSubscribe();
         mPresenter.getNewVersion();
+        mPresenter.getMessage();
     }
 
     private void initView() {
@@ -111,7 +106,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (newsFragment == null) {
             newsFragment = NewsFragment.newInstance();
         }
-        new NewsPresenter(Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), newsFragment);
         MineFragment mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
         if (mineFragment == null) {
             mineFragment = MineFragment.newInstance();

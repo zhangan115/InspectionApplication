@@ -94,10 +94,10 @@ public class TaskDataActivity extends BaseActivity implements TaskDataContract.V
                         , DataUtil.timeFormat(mCheckBean.getEndTime(), "yyyy.MM.dd HH:mm")));
                 headerView.findViewById(R.id.ll_time_work).setVisibility(View.VISIBLE);
                 headerView.findViewById(R.id.ll_count).setVisibility(View.VISIBLE);
-                ((TextView) headerView.findViewById(R.id.tv_1)).setText("");
-                ((TextView) headerView.findViewById(R.id.tv_2)).setText("");
-                ((TextView) headerView.findViewById(R.id.tv_3)).setText("");
-                ((TextView) headerView.findViewById(R.id.tv_4)).setText("");
+                ((TextView) headerView.findViewById(R.id.tv_1)).setText(mCheckBean.getActualCount() + "台");
+                ((TextView) headerView.findViewById(R.id.tv_2)).setText(mCheckBean.getMissEquipmentCount() + "台");
+                ((TextView) headerView.findViewById(R.id.tv_3)).setText(mCheckBean.getMissDateCount() + "个");
+                ((TextView) headerView.findViewById(R.id.tv_4)).setText(mCheckBean.getAlarmCount() + "个");
             }
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < mInspectionDataBean.getRoomList().size(); i++) {
@@ -107,7 +107,7 @@ public class TaskDataActivity extends BaseActivity implements TaskDataContract.V
                 }
             }
             ((TextView) headerView.findViewById(R.id.tv_room_list)).setText(sb.toString());
-            ((TextView) headerView.findViewById(R.id.tv_equipment_count)).setText(String.format("%d台", mInspectionDataBean.getCount()));
+            ((TextView) headerView.findViewById(R.id.tv_equipment_count)).setText(String.format("%d台", mCheckBean.getCount()));
 
         }
     }

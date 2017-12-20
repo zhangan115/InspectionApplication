@@ -19,6 +19,8 @@ public interface MainContract {
          */
         void getNewVersion();
 
+        void getMessage();
+
     }
 
     interface View extends BaseView<Presenter> {

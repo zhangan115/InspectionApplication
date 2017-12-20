@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.bean.task.TaskEquipmentBean;
 import com.inspection.application.mode.bean.task.upload.UploadTaskInfo;
 import com.inspection.application.view.BaseActivity;
+import com.inspection.application.view.fault.FaultActivity;
 import com.inspection.application.view.task.work.show.ShowTaskWorkFragment;
 import com.inspection.application.view.task.work.show.ShowTaskWorkPresenter;
 import com.library.adapter.RVAdapter;
@@ -59,6 +61,18 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         uploadTaskInfo = getIntent().getParcelableExtra(ConstantStr.KEY_BUNDLE_OBJECT_1);
         mRoomListBean.getTaskEquipment().get(mCurrentPosition).setChoose(true);
         setLayoutAndToolbar(R.layout.activity_task_work, mRoomListBean.getRoom().getRoomName());
+        FloatingActionButton floatingActionButton = findViewById(R.id.float_btn);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(TaskWorkActivity.this, FaultActivity.class);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
+                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG_1, mRoomListBean.getRoom().getRoomId());
+                intent.putExtra(ConstantStr.KEY_BUNDLE_LONG_2, mTaskEquipmentBean.getEquipment().getEquipmentId());
+                intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, mTaskEquipmentBean.getEquipment());
+                startActivity(intent);
+            }
+        });
         new TaskWorkPresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer != null) {
@@ -282,6 +296,8 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
 
     @Override
     public void finishSuccess() {
+        Intent intent = new Intent();
+        intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, mRoomListBean.getTaskRoomId());
         setResult(Activity.RESULT_OK);
         finish();
     }

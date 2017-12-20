@@ -6,13 +6,25 @@
 
     <include layout="@layout/toolbar" />
 
-
     <FrameLayout
-        android:id="@+id/frame_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </FrameLayout>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/float_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="26dp"
+            android:layout_marginRight="16dp" />
     </FrameLayout>
 
     <LinearLayout

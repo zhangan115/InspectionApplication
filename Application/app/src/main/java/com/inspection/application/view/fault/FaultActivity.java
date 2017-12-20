@@ -47,7 +47,6 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
     private TextView deviceNameTv, faultGradeTv, appointTv;
     private EditText describeFaultEt;
     //data
-    private Long taskId;
     private JSONObject uploadJson;//上传数据
     private File photoFile;//拍照
     private Image mImage;//当前拍照对象
@@ -212,6 +211,9 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                         return;
                     }
                     uploadJson.put("defaultFlowId", String.valueOf(defaultFlowId));
+                    if (mTaskId != null) {
+                        uploadJson.put("taskId", String.valueOf(mTaskId));
+                    }
                     mPresenter.uploadFaultData(uploadJson);
                 } catch (Exception e) {
                     e.printStackTrace();

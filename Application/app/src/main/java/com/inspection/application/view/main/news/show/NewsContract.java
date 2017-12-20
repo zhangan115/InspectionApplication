@@ -1,7 +1,10 @@
-package com.inspection.application.view.main.news;
+package com.inspection.application.view.main.news.show;
 
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
+import com.inspection.application.mode.bean.news.db.NewsBean;
+
+import java.util.List;
 
 /**
  * 消息逻辑
@@ -12,16 +15,14 @@ public interface NewsContract {
 
     interface Presenter extends BasePresenter {
 
-        void getMessageState();
+        void getMessageList(int type, long message);
 
-        void getMessageList();
-
-        void getMoreMessageList();
+        void getMessageList(int type);
     }
 
     interface View extends BaseView<Presenter> {
 
-        void showMessageList();
+        void showMessageList(List<NewsBean> newsBeans);
 
         void showLoading();
 
