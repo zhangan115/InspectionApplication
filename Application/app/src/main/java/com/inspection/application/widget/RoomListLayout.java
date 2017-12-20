@@ -27,7 +27,7 @@ import com.orhanobut.logger.Logger;
 public class RoomListLayout extends LinearLayout implements View.OnClickListener {
 
     private ImageView iv_state, iv_end;
-    private TextView tv_equip_count, tv_equip_time, tv_equip_name, tv_state;
+    private TextView tv_equip_count, tv_equip_time, tv_equip_name, tv_state,tv_start_inspection;
     private LinearLayout startTaskLayout, finishTaskLayout;
     private Context context;
     private OnStartListener onStartListener;
@@ -53,6 +53,7 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
         startTaskLayout.setOnClickListener(this);
         finishTaskLayout = findViewById(R.id.ll_finish_task);
         tv_state = findViewById(R.id.tv_state);
+        tv_start_inspection = findViewById(R.id.tv_state);
         finishTaskLayout.setOnClickListener(this);
         iv_state = findViewById(R.id.iv_start);
         iv_end = findViewById(R.id.iv_end);
