@@ -24,11 +24,19 @@ public interface NewsContract {
 
         void showMessageList(List<NewsBean> newsBeans);
 
+        void showMessageListMore(List<NewsBean> newsBeans);
+
         void showLoading();
 
         void hideLoading();
 
         void noData();
+
+        void showMessage(String message);
+
+        void noMoreData();
+
+        void hideLoadingMore();
 
     }
 }

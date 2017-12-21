@@ -153,11 +153,7 @@ public class UserRepository implements UserDataSource {
     @NonNull
     @Override
     public Subscription autoLogin(@NonNull final AutoLoginCallBack callBack) {
-        boolean showWelcome = userSp.getBoolean(ConstantStr.USE_APP, false);
-        if (!showWelcome) {
-            callBack.showWelcome();
-            return Observable.just(false).subscribe();
-        }
+        final long startTime = System.currentTimeMillis();
         String userInfo = userSp.getString(ConstantStr.USER_INFO, null);
         if (TextUtils.isEmpty(userInfo)) {
             return Observable.just(null).delaySubscription(WELCOME_TIME, TimeUnit.MILLISECONDS)
@@ -177,7 +173,7 @@ public class UserRepository implements UserDataSource {
             }
             Observable<Bean<User>> observable = Api.createRetrofit().create(UserApi.class)
                     .userLogin(decryptStr);
-            final long startTime = System.currentTimeMillis();
+
             return observable.subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(new Action1<Throwable>() {

@@ -4,6 +4,8 @@ import android.support.annotation.NonNull;
 
 import com.inspection.application.mode.source.application.ApplicationRepository;
 import com.inspection.application.mode.source.application.DaggerApplicationRepositoryComponent;
+import com.inspection.application.mode.source.count.CountRepository;
+import com.inspection.application.mode.source.count.DaggerCountRepositoryComponent;
 import com.inspection.application.mode.source.customer.CustomerRepository;
 import com.inspection.application.mode.source.customer.DaggerCustomerRepositoryComponent;
 import com.inspection.application.mode.source.equipment.DaggerEquipmentRepositoryComponent;
@@ -138,6 +140,18 @@ public class Injection {
             taskRepository = DaggerTaskRepositoryComponent.builder().applicationModule(module).build().getRepository();
         }
         return taskRepository;
+    }
+
+    private CountRepository countRepository;
+
+    /**
+     * @return CountRepository
+     */
+    public CountRepository provideCountRepository() {
+        if (countRepository == null) {
+            countRepository = DaggerCountRepositoryComponent.builder().build().getRepository();
+        }
+        return countRepository;
     }
 
 }

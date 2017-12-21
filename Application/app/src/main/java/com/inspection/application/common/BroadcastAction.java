@@ -12,4 +12,5 @@ public interface BroadcastAction {
     String MESSAGE_UN_READ_COUNT = "action_message_un_read_count";
     String MESSAGE_UN_READ_STATE = "action_un_read_state";
     String NEWS_MESSAGE = "action_new_message";//新消息提示
+    String NEWS_MESSAGE_TIME = "action_new_message_time";//新消息提示
 }

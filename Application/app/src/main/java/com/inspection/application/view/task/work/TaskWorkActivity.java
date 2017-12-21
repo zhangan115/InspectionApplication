@@ -204,7 +204,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         int id = item.getItemId();
         if (id == R.id.action_scan) {
             Intent intent = new Intent(this, CaptureActivity.class);
-            intent.putExtra(CaptureActivity.SHOW_LIGHT, true);
+            intent.putExtra(CaptureActivity.SHOW_LIGHT, false);
             intent.putExtra(CaptureActivity.PLAY_SOUND, true);
             startActivityForResult(intent, SCAN_CODE);
             return true;

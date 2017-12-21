@@ -4,23 +4,30 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
+import com.google.gson.Gson;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.NewsApi;
+import com.inspection.application.mode.bean.news.ContentBean;
+import com.inspection.application.mode.bean.news.FuckNews;
 import com.inspection.application.mode.bean.news.MessageContent;
 import com.inspection.application.mode.bean.news.db.NewsBean;
 import com.inspection.application.mode.bean.news.db.NewsBeanDao;
 import com.inspection.application.mode.callback.IListCallBack;
 import com.inspection.application.mode.db.DbManager;
 import com.library.utils.DataUtil;
+import com.orhanobut.logger.Logger;
 
 import org.greenrobot.greendao.query.WhereCondition;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -48,25 +55,25 @@ public class NewsRepository implements NewsDataSource {
 
     @Inject
     public NewsRepository(Context context) {
-        dataSp = context.getSharedPreferences(ConstantStr.SECURE_INFO, Context.MODE_PRIVATE);
+        dataSp = context.getSharedPreferences(ConstantStr.USER_DATA, Context.MODE_PRIVATE);
     }
 
     @NonNull
     @Override
     public Subscription getNewsData(String info) {
-        return new ApiCallBackList<MessageContent>(Api.createRetrofit().create(NewsApi.class).getNewsContent(info)) {
+        return new ApiCallBackList<FuckNews>(Api.createRetrofit().create(NewsApi.class).getNewsContent(info)) {
             @Override
             public void onSuccess() {
             }
 
             @Override
-            public void onData(List<MessageContent> data) {
+            public void onData(List<FuckNews> data) {
 
             }
 
             @Override
             public void onFail(@NonNull String message) {
-
+                Logger.d(message);
             }
 
             @Override
@@ -77,7 +84,29 @@ public class NewsRepository implements NewsDataSource {
             public void noData() {
 
             }
-        }.execute().observeOn(Schedulers.io()).flatMap(new Func1<List<MessageContent>, Observable<List<NewsBean>>>() {
+        }.execute().observeOn(Schedulers.io()).flatMap(new Func1<List<FuckNews>, Observable<List<MessageContent>>>() {
+            @Override
+            public Observable<List<MessageContent>> call(List<FuckNews> fuckNews) {
+                List<MessageContent> messageContents = new ArrayList<>();
+                if (fuckNews != null && fuckNews.size() > 0) {
+                    for (int i = 0; i < fuckNews.size(); i++) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(fuckNews.get(i).getContent());
+                            MessageContent contentBean = new Gson().fromJson(jsonObject.toString(), MessageContent.class);
+                            if (contentBean != null) {
+                                contentBean.setLogId(fuckNews.get(i).getLogId());
+                                contentBean.setMessageTime(fuckNews.get(i).getCreateTime());
+                                messageContents.add(contentBean);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                return Observable.just(messageContents);
+            }
+        }).flatMap(new Func1<List<MessageContent>, Observable<List<NewsBean>>>() {
             @Override
             public Observable<List<NewsBean>> call(List<MessageContent> messageContents) {
                 if (messageContents == null || messageContents.size() == 0) {
@@ -93,7 +122,9 @@ public class NewsRepository implements NewsDataSource {
                     }
                     newsBeans.add(bean);
                 }
-                DbManager.getDbManager().getDaoSession().getNewsBeanDao().insertOrReplaceInTx(newsBeans);
+                if (newsBeans.size() > 0) {
+                    DbManager.getDbManager().getDaoSession().getNewsBeanDao().insertOrReplaceInTx(newsBeans);
+                }
                 return Observable.just(newsBeans);
             }
         }).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<List<NewsBean>>() {
@@ -104,7 +135,7 @@ public class NewsRepository implements NewsDataSource {
 
             @Override
             public void onError(Throwable e) {
-
+                e.printStackTrace();
             }
 
             @Override
@@ -112,9 +143,13 @@ public class NewsRepository implements NewsDataSource {
                 if (App.getInstance() != null && newsBeans != null && newsBeans.size() > 0) {
                     App.getInstance().getNewsMessage();
                 }
+                if (App.getInstance() != null) {
+                    App.getInstance().updateMessageTime();
+                }
             }
         });
     }
+
 
     @NonNull
     @Override
@@ -128,17 +163,21 @@ public class NewsRepository implements NewsDataSource {
                     @Override
                     public void call(Long aLong) {
                         List<NewsBean> newsBeans = DbManager.getDbManager().getDaoSession().getNewsBeanDao()
-                                .queryBuilder().where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())).limit(1).list();
+                                .queryBuilder().where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())).limit(1)
+                                .orderDesc(NewsBeanDao.Properties._id)
+                                .list();
                         Long messageId = null;
                         JSONObject jsonObject = new JSONObject();
                         try {
                             if (newsBeans != null && newsBeans.size() > 0) {
-                                messageId = newsBeans.get(0).getMessageId();
-
+                                messageId = newsBeans.get(0).get_id();
                             }
                             if (messageId == null) {
-                                String time = DataUtil.timeFormat(System.currentTimeMillis(), "yyyy-MM-dd");
-                                jsonObject.put("time", "2017-12-20");
+                                Calendar calendar = new GregorianCalendar();
+                                calendar.setTime(new Date());
+                                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 7);
+                                Logger.d(DataUtil.timeFormat(calendar.getTimeInMillis(), "yyyy-MM-dd"));
+                                jsonObject.put("time", DataUtil.timeFormat(calendar.getTimeInMillis(), "yyyy-MM-dd"));
                             } else {
                                 jsonObject.put("lastId", messageId);
                             }
@@ -172,8 +211,10 @@ public class NewsRepository implements NewsDataSource {
         return DbManager.getDbManager().getDaoSession().getNewsBeanDao().queryBuilder()
                 .where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId()), whereCondition, whereCondition1)
                 .limit(50)
+                .orderDesc(NewsBeanDao.Properties._id)
                 .rx()
                 .list()
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<NewsBean>>() {
                     @Override
                     public void onCompleted() {
@@ -182,13 +223,18 @@ public class NewsRepository implements NewsDataSource {
 
                     @Override
                     public void onError(Throwable e) {
+                        callBack.onFinish();
+                        callBack.noData();
                         callBack.onError(e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<NewsBean> newsBeans) {
+                        callBack.onFinish();
                         if (newsBeans != null) {
                             callBack.onData(newsBeans);
+                        } else {
+                            callBack.noData();
                         }
                     }
                 });
@@ -199,5 +245,12 @@ public class NewsRepository implements NewsDataSource {
         if (mSubscription != null) {
             mSubscription.clear();
         }
+    }
+
+    @Override
+    public long getUnReadCount() {
+        return DbManager.getDbManager().getDaoSession().getNewsBeanDao().queryBuilder().where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())
+                , NewsBeanDao.Properties.IsMe.eq(true)
+                , NewsBeanDao.Properties.HasRead.eq(false)).count();
     }
 }

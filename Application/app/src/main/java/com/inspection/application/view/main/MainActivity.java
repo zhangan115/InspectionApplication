@@ -1,5 +1,8 @@
 package com.inspection.application.view.main;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,6 +18,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.app.AppStatusConstant;
+import com.inspection.application.common.BroadcastAction;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.version.NewVersion;
 import com.inspection.application.utils.DownloadAppUtils;
@@ -28,6 +32,7 @@ import com.inspection.application.view.splash.SplashActivity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.AppSettingsDialog;
@@ -51,6 +56,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mPresenter.unSubscribe();
         mPresenter.getNewVersion();
         mPresenter.getMessage();
+        mPresenter.getUnReadCount();
     }
 
     private void initView() {
@@ -142,9 +148,9 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @AfterPermissionGranted(REQUEST_EXTERNAL)
     public void checkPermission() {
-        if (!EasyPermissions.hasPermissions(this.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (!EasyPermissions.hasPermissions(this.getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)) {
             EasyPermissions.requestPermissions(this, getString(R.string.request_permissions),
-                    REQUEST_EXTERNAL, android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                    REQUEST_EXTERNAL, android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA);
         }
     }
 
@@ -171,7 +177,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @Override
     public void showNewVersion(final NewVersion newVersion) {
-        if (!EasyPermissions.hasPermissions(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+        if (!EasyPermissions.hasPermissions(getApplicationContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)) {
             new AppSettingsDialog.Builder(MainActivity.this)
                     .setTitle(getString(R.string.request_permissions))
                     .setRationale(getString(R.string.need_save_setting))
@@ -198,11 +204,45 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
 
     @Override
     public void showMessage(@Nullable String message) {
+        App.getInstance().showToast(message);
+    }
 
+    @Override
+    public void showUnReadCount(long count) {
+        if (bottomNavigation == null) {
+            return;
+        }
+        if (count == 0) {
+            bottomNavigation.setNotification("", 1);
+        } else if (count > 99) {
+            bottomNavigation.setNotificationBackgroundColor(findColorById(R.color.text_red));
+            bottomNavigation.setNotification("99+" + "", 1);
+        } else {
+            bottomNavigation.setNotificationBackgroundColor(findColorById(R.color.text_red));
+            bottomNavigation.setNotification(count + "", 1);
+        }
     }
 
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.unSubscribe();
+    }
+
+    class MessageBR extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Objects.equals(intent.getAction(), BroadcastAction.CLEAN_ALL_DATA)) {
+                mPresenter.getUnReadCount();
+            } else if (Objects.equals(intent.getAction(), BroadcastAction.NEWS_MESSAGE)) {
+                mPresenter.getUnReadCount();
+            }
+        }
     }
 }

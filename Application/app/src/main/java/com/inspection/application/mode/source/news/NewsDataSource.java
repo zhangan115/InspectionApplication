@@ -36,4 +36,6 @@ public interface NewsDataSource {
     Subscription getNewsData(int type, long messageId, IListCallBack<NewsBean> callBack);
 
     void cleanSub();
+
+    long getUnReadCount();
 }

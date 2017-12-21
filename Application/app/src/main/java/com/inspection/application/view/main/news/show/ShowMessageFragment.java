@@ -1,5 +1,9 @@
 package com.inspection.application.view.main.news.show;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.inspection.application.R;
+import com.inspection.application.app.App;
+import com.inspection.application.common.BroadcastAction;
 import com.inspection.application.mode.bean.news.db.NewsBean;
 import com.inspection.application.mode.source.news.NewsUtils;
 import com.inspection.application.view.MvpFragment;
@@ -23,6 +29,7 @@ import com.library.widget.RecycleRefreshLoadLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by pingan on 2017/12/20.
@@ -36,6 +43,8 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
     private RecycleRefreshLoadLayout refreshLoadLayout;
     private List<NewsBean> mList;
     private RelativeLayout noDataLayout;
+    private boolean isRefresh;
+    private MessageBR messageBR;
 
     public static ShowMessageFragment newInstance(int type) {
 
@@ -53,6 +62,13 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
             return;
         }
         type = getArguments().getInt(NEWS_TYPE);
+        messageBR = new MessageBR();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BroadcastAction.NEWS_MESSAGE);
+        filter.addAction(BroadcastAction.CLEAN_ALL_DATA);
+        if (getActivity() != null) {
+            getActivity().registerReceiver(messageBR, filter);
+        }
     }
 
     @Nullable
@@ -64,8 +80,8 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
         refreshLoadLayout = rootView.findViewById(R.id.refresh_layout);
         recycleView.setLayoutManager(new GridLayoutManager(getActivity(), 1));
         refreshLoadLayout.setColorSchemeColors(findColorById(R.color.colorPrimary));
-        refreshLoadLayout.setOnLoadListener(this);
         refreshLoadLayout.setOnRefreshListener(this);
+        refreshLoadLayout.setOnLoadListener(this);
         return rootView;
     }
 
@@ -80,7 +96,7 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
                 TextView content = (TextView) vHolder.getView(R.id.tv_content);
                 TextView time = (TextView) vHolder.getView(R.id.tv_time);
                 ImageView icon = (ImageView) vHolder.getView(R.id.iv_news_icon);
-                title.setText(data.getTitle());
+                title.setText(data.getTip());
                 if (data.isMe()) {
                     content.setText(data.getMeContent());
                 } else {
@@ -97,14 +113,34 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
 
             }
         });
+        isRefresh = true;
         mPresenter.getMessageList(type);
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        try {
+            if (getActivity() != null) {
+                getActivity().unregisterReceiver(messageBR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void showMessageList(List<NewsBean> newsBeans) {
+        noDataLayout.setVisibility(View.GONE);
         mList.clear();
         mList.addAll(newsBeans);
+        recycleView.getAdapter().notifyDataSetChanged();
+    }
 
+    @Override
+    public void showMessageListMore(List<NewsBean> newsBeans) {
+        mList.addAll(newsBeans);
+        recycleView.getAdapter().notifyDataSetChanged();
     }
 
     @Override
@@ -115,11 +151,27 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
     @Override
     public void hideLoading() {
         refreshLoadLayout.setRefreshing(false);
+        isRefresh = false;
     }
 
     @Override
     public void noData() {
         noDataLayout.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void noMoreData() {
+        refreshLoadLayout.setNoMoreData(true);
+    }
+
+    @Override
+    public void hideLoadingMore() {
+        refreshLoadLayout.loadFinish();
     }
 
     @Override
@@ -129,11 +181,31 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
 
     @Override
     public void onLoadMore() {
-
+        if (isRefresh) {
+            return;
+        }
+        mPresenter.getMessageList(type, mList.get(mList.size() - 1).get_id());
     }
 
     @Override
     public void onRefresh() {
+        isRefresh = true;
+        mList.clear();
+        recycleView.getAdapter().notifyDataSetChanged();
+        mPresenter.getMessageList(type);
+    }
 
+    class MessageBR extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Objects.equals(intent.getAction(), BroadcastAction.CLEAN_ALL_DATA)) {
+                mList.clear();
+                recycleView.getAdapter().notifyDataSetChanged();
+                noData();
+            } else if (Objects.equals(intent.getAction(), BroadcastAction.NEWS_MESSAGE)) {
+                onRefresh();
+            }
+        }
     }
 }

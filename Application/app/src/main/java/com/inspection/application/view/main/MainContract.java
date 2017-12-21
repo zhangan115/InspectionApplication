@@ -21,6 +21,8 @@ public interface MainContract {
 
         void getMessage();
 
+        void getUnReadCount();
+
     }
 
     interface View extends BaseView<Presenter> {
@@ -34,5 +36,7 @@ public interface MainContract {
 
         //显示异常信息
         void showMessage(@Nullable String message);
+
+        void showUnReadCount(long unReadCount);
     }
 }

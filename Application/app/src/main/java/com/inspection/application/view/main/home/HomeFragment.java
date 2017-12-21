@@ -15,6 +15,7 @@ import com.inspection.application.app.App;
 import com.inspection.application.view.MvpFragment;
 import com.inspection.application.view.alarm.AlarmActivity;
 import com.inspection.application.view.contact.ContactActivity;
+import com.inspection.application.view.count.CountListActivity;
 import com.inspection.application.view.defect.DefectRecordActivity;
 import com.inspection.application.view.equipment.EquipListActivity;
 import com.inspection.application.view.fault.FaultActivity;
@@ -87,6 +88,7 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), FaultActivity.class));
                 break;
             case R.id.tv_count:
+                startActivity(new Intent(getActivity(), CountListActivity.class));
                 break;
             case R.id.tv_work_manager:
                 startActivity(new Intent(getActivity(), RuleActivity.class));

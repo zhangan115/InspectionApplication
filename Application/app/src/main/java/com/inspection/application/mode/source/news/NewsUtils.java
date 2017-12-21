@@ -19,9 +19,11 @@ public class NewsUtils {
 
     public static NewsBean getNewsBean(MessageContent message) {
         NewsBean newsBean = new NewsBean();
+        newsBean.set_id(message.getLogId());
         newsBean.setContentInfo(message.getAppContent());
         newsBean.setMessageTime(message.getMessageTime());
         newsBean.setTip(message.getTip());
+        newsBean.setMessageId(message.getLogId());
         newsBean.setMessageType(message.getMessageType());
         newsBean.setSmallType(message.getContentInfo().getSmallType());
         getNewsContent(newsBean, message);

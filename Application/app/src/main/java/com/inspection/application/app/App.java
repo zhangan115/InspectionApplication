@@ -1,5 +1,6 @@
 package com.inspection.application.app;
 
+import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.inspection.application.R;
 import com.inspection.application.base.AbsBaseApp;
+import com.inspection.application.common.BroadcastAction;
 import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.bean.news.db.NewsBean;
@@ -182,6 +184,14 @@ public class App extends AbsBaseApp {
     }
 
     public void getNewsMessage() {
+        Intent intent = new Intent();
+        intent.setAction(BroadcastAction.NEWS_MESSAGE);
+        sendBroadcast(intent);
+    }
 
+    public void updateMessageTime() {
+        Intent intent = new Intent();
+        intent.setAction(BroadcastAction.NEWS_MESSAGE_TIME);
+        sendBroadcast(intent);
     }
 }

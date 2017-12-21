@@ -52,6 +52,13 @@ public class MainPresenter implements MainContract.Presenter {
     }
 
     @Override
+    public void getUnReadCount() {
+        if (mDataSource != null) {
+            mView.showUnReadCount(mDataSource.getUnReadCount());
+        }
+    }
+
+    @Override
     public void subscribe() {
 
     }

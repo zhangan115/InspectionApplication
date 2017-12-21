@@ -36,7 +36,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="1111111"
                 android:textColor="@color/text_black"
                 android:textSize="17sp" />
 
@@ -45,7 +44,6 @@
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1111111"
                 android:textColor="@color/text_gray_999"
                 android:textSize="15sp" />
 
@@ -56,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:text="1111111"
             android:textColor="@color/text_gray_999"
             android:textSize="15sp" />
     </LinearLayout>

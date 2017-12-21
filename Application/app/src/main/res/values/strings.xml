@@ -4,7 +4,7 @@
     <string name="hit_login_pass">请输入密码</string>
 
     <string name="need_save_setting">当前App需要申请存储权限,需要打开设置页面么?</string>
-    <string name="request_permissions">需要请求存储权限</string>
+    <string name="request_permissions">需要请求内存卡、拍照权限</string>
     <string name="sure">确认</string>
     <string name="update_new_version">版本更新</string>
     <string name="cancel">取消</string>
@@ -62,5 +62,15 @@
     <string name="action_scan">扫二维码</string>
     <string name="str_finish_task">完成巡检</string>
     <string name="str_choose_employee">选择人员</string>
+    <string name="count_analysis">统计分析</string>
+    <string name="str_missing_count">漏检统计</string>
+    <string name="str_count_post">到岗统计</string>
+    <string name="str_count_missing">漏检统计</string>
+    <string name="str_count_work_confirm">任务量</string>
+    <string name="str_fault_leve">缺陷等级</string>
+    <string name="str_count_fault_num">缺陷数</string>
+    <string name="ok">确定</string>
+    <string name="str_fault_news">缺陷消息</string>
+    <string name="str_work_news">工作消息</string>
 
 </resources>

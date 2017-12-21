@@ -48,28 +48,53 @@ public class NewsPresenter implements NewsContract.Presenter {
 
             @Override
             public void onData(@NonNull List<NewsBean> list) {
-                mView.showMessageList(list);
+                mView.showMessageListMore(list);
             }
 
             @Override
             public void onError(@Nullable String message) {
-
+                mView.showMessage(message);
             }
 
             @Override
             public void onFinish() {
-
+                mView.hideLoadingMore();
             }
 
             @Override
             public void noData() {
-
+                mView.noMoreData();
             }
         });
     }
 
     @Override
     public void getMessageList(int type) {
+        mNewsDataSource.getNewsData(type, -1, new IListCallBack<NewsBean>() {
+            @Override
+            public void onSuccess() {
 
+            }
+
+            @Override
+            public void onData(@NonNull List<NewsBean> list) {
+                mView.showMessageList(list);
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void onFinish() {
+                mView.hideLoading();
+            }
+
+            @Override
+            public void noData() {
+                mView.noData();
+            }
+        });
     }
 }
