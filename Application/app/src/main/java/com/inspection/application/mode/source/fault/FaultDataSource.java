@@ -93,10 +93,20 @@ public interface FaultDataSource {
     /**
      * 获取故障详情
      *
-     * @param id     参数
+     * @param id       参数
      * @param callBack 回调
      * @return 订阅
      */
     @NonNull
     Subscription getFaultDetail(long id, @NonNull IObjectCallBack<FaultDetail> callBack);
+
+    @NonNull
+    Subscription closeFault(long faultId, String content, IObjectCallBack<String> callBack);
+
+    @NonNull
+    Subscription pointFault(String info, IObjectCallBack<String> callBack);
+
+    @NonNull
+    Subscription sureFault(long faultId, String flowRemark, IObjectCallBack<String> callBack);
+
 }

@@ -59,4 +59,19 @@ public interface FaultApi {
      */
     @GET("fault/get.json")
     Observable<Bean<FaultDetail>> getFaultDetail(@Query("faultId") long faultId);
+
+
+
+    @GET("fault/close.json")
+    Observable<Bean<String>> closeFault(@Query("faultId") long faultId, @Query("flowRemark") String flowRemark);
+
+
+    @GET("fault/confirm.json")
+    Observable<Bean<String>> sureFault(@Query("faultId") long faultId, @Query("flowRemark") String flowRemark);
+
+    @Headers({"Content-Type:application/json;charset=utf-8", "Accept:application/json;"})
+    @POST("fault/flow.json")
+    Observable<Bean<String>> pointFault(@Body() String info);
+
+
 }

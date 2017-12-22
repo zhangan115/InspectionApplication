@@ -1,8 +1,6 @@
-package com.inspection.application.view.count.missing;
+package com.inspection.application.view.count.work;
 
 import android.content.DialogInterface;
-import android.graphics.Color;
-import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -18,7 +16,7 @@ import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.count.DeptType;
-import com.inspection.application.mode.bean.count.MissCountBean;
+import com.inspection.application.mode.bean.count.WorkCountBean;
 import com.inspection.application.view.BaseActivity;
 import com.library.widget.DateDialog;
 
@@ -32,7 +30,7 @@ import java.util.Locale;
  * Created by pingan on 2017/12/21.
  */
 
-public class MissingCountActivity extends BaseActivity implements MissingContract.View {
+public class WorkCountActivity extends BaseActivity implements WorkContract.View {
 
     private TextView mChooseTime;
     private TextView mChooseDept;
@@ -42,13 +40,13 @@ public class MissingCountActivity extends BaseActivity implements MissingContrac
     private int mDeptId;
     private List<String> listStr;
     private List<DeptType> mDeptTypes;
-    private MissingContract.Presenter mPresenter;
+    private WorkContract.Presenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setLayoutAndToolbar(R.layout.activity_missing_count, getString(R.string.str_missing_count));
-        new MissingPresenter(Injection.getIntent().provideCountRepository(), this);
+        new WorkPresenter(Injection.getIntent().provideCountRepository(), this);
         mChooseTime = findViewById(R.id.choose_time);
         mChooseDept = findViewById(R.id.choose_dept);
         mBarChart = findViewById(R.id.bar_chart);
@@ -168,7 +166,7 @@ public class MissingCountActivity extends BaseActivity implements MissingContrac
     }
 
     @Override
-    public void showChartData(List<MissCountBean> countBeans) {
+    public void showChartData(List<WorkCountBean> countBeans) {
         mBarChart.getXAxis().setValueFormatter(new ChartXFormatter(countBeans));
         BarData barData = getBarData(countBeans);
         barData.setBarWidth(0.5f);
@@ -182,12 +180,12 @@ public class MissingCountActivity extends BaseActivity implements MissingContrac
         mBarChart.animateY(1000);
     }
 
-    private BarData getBarData(List<MissCountBean> countBeans) {
+    private BarData getBarData(List<WorkCountBean> countBeans) {
         List<IBarDataSet> dataSets = new ArrayList<>();
         for (int i = 0; i < 1; i++) {
             List<BarEntry> barEntries = new ArrayList<>();
             for (int j = 0; j < countBeans.size(); j++) {
-                barEntries.add(new BarEntry(j, countBeans.get(j).getMissCount()));
+                barEntries.add(new BarEntry(j, countBeans.get(j).getTaskCount()));
             }
             BarDataSet dataSet = new BarDataSet(barEntries, "BarChart");
             dataSets.add(dataSet);
@@ -201,7 +199,7 @@ public class MissingCountActivity extends BaseActivity implements MissingContrac
     }
 
     @Override
-    public void setPresenter(MissingContract.Presenter presenter) {
+    public void setPresenter(WorkContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

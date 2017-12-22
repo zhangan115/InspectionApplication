@@ -67,11 +67,7 @@ public class NewsUtils {
         switch (message.getContentInfo().getSmallType()) {
             case 101:
                 newsBean.setAlarm(true);
-                if (!TextUtils.isEmpty(contentBean.getEquipmentSn())) {
-                    newsBean.setTitle(contentBean.getEquipmentName());
-                } else {
-                    newsBean.setTitle(contentBean.getEquipmentName() + "(" + contentBean.getEquipmentSn() + ")");
-                }
+                newsBean.setTitle(contentBean.getEquipmentName());
                 newsBean.setTaskId(contentBean.getFaultId());
                 StringBuilder sb101 = new StringBuilder();
                 sb101.append(contentBean.getUserRealName());
@@ -97,28 +93,16 @@ public class NewsUtils {
                 break;
             case 102:
                 newsBean.setAlarm(true);
-                if (!TextUtils.isEmpty(contentBean.getEquipmentSn())) {
-                    newsBean.setTitle(contentBean.getEquipmentName());
-                } else {
-                    newsBean.setTitle(contentBean.getEquipmentName() + "(" + contentBean.getEquipmentSn() + ")");
-                }
+                newsBean.setTitle(contentBean.getEquipmentName());
                 newsBean.setTaskId(contentBean.getFaultId());
                 StringBuilder sb102 = new StringBuilder();
-                sb102.append(contentBean.getEquipmentName());
                 sb102.append(contentBean.getFaultType());
-                if (!TextUtils.isEmpty(contentBean.getEquipmentSn())) {
-                    sb102.append("(").append(contentBean.getEquipmentSn()).append(")");
-                }
                 sb102.append("缺陷已关闭");
                 newsBean.setNewsContent(sb102.toString());
                 break;
             case 103:
                 newsBean.setAlarm(true);
-                if (!TextUtils.isEmpty(contentBean.getEquipmentSn())) {
-                    newsBean.setTitle(contentBean.getEquipmentName());
-                } else {
-                    newsBean.setTitle(contentBean.getEquipmentName() + "(" + contentBean.getEquipmentSn() + ")");
-                }
+                newsBean.setTitle(contentBean.getEquipmentName());
                 newsBean.setTaskId(contentBean.getFaultId());
                 StringBuilder sb103 = new StringBuilder();
                 sb103.append(contentBean.getUserRealName());
@@ -156,11 +140,7 @@ public class NewsUtils {
             case 104:
                 newsBean.setAlarm(true);
                 newsBean.setTaskId(contentBean.getFaultId());
-                if (!TextUtils.isEmpty(contentBean.getEquipmentSn())) {
-                    newsBean.setTitle(contentBean.getEquipmentName());
-                } else {
-                    newsBean.setTitle(contentBean.getEquipmentName() + "(" + contentBean.getEquipmentSn() + ")");
-                }
+                newsBean.setTitle(contentBean.getEquipmentName());
                 StringBuilder sb104 = new StringBuilder();
                 sb104.append(contentBean.getUserRealName());
                 sb104.append("确认了");

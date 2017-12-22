@@ -126,7 +126,9 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
                 int type = mList.get(position).getSmallType();
                 if (type == 101 || type == 102 || type == 103) {
                     Intent faultInt = new Intent(getActivity(), DefectRecordDetailActivity.class);
+                    faultInt.putExtra(ConstantStr.KEY_BUNDLE_STR, mList.get(position).getTitle());
                     faultInt.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getTaskId());
+                    faultInt.putExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, true);
                     startActivity(faultInt);
                 } else if (type == 201 || type == 202 || type == 203) {
                     Intent workInt = new Intent(getActivity(), TaskDataActivity.class);

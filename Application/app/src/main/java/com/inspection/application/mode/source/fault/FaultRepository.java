@@ -249,4 +249,97 @@ public class FaultRepository implements FaultDataSource {
         }.execute().subscribe();
     }
 
+    @NonNull
+    @Override
+    public Subscription closeFault(long faultId, String content, final IObjectCallBack<String> callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(FaultApi.class).closeFault(faultId, content)) {
+            @Override
+            public void onData(@NonNull String data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription pointFault(String info, final IObjectCallBack<String> callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(FaultApi.class).pointFault(info)) {
+            @Override
+            public void onData(@NonNull String data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
+    @NonNull
+    @Override
+    public Subscription sureFault(long faultId, String flowRemark, final IObjectCallBack<String> callBack) {
+        return new ApiCallBackObject<String>(Api.createRetrofit().create(FaultApi.class).sureFault(faultId, flowRemark)) {
+            @Override
+            public void onData(@NonNull String data) {
+                callBack.onData(data);
+            }
+
+            @Override
+            public void onSuccess() {
+                callBack.onSuccess();
+            }
+
+            @Override
+            public void onFail(@NonNull String message) {
+                callBack.onError(message);
+            }
+
+            @Override
+            public void onFinish() {
+                callBack.onFinish();
+            }
+
+            @Override
+            public void noData() {
+                callBack.noData();
+            }
+        }.execute().subscribe();
+    }
+
 }

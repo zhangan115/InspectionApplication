@@ -6,14 +6,6 @@ package com.inspection.application.mode.bean.count;
  */
 public class FaultLevel {
 
-    /**
-     * month : 2017-06
-     * aFaultCount : 0
-     * cFaultCount : 0
-     * allFaultCount : 3
-     * bFaultCount : 3
-     */
-
     private String month;
     private int aFaultCount;
     private int cFaultCount;

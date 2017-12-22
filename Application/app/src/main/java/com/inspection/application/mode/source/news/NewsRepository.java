@@ -157,7 +157,7 @@ public class NewsRepository implements NewsDataSource {
         if (mSubscription == null) {
             mSubscription = new CompositeSubscription();
         }
-        Subscription subscription = Observable.interval(10, TimeUnit.SECONDS)
+        Subscription subscription = Observable.interval(100, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Long>() {
                     @Override
@@ -231,7 +231,7 @@ public class NewsRepository implements NewsDataSource {
                     @Override
                     public void onNext(List<NewsBean> newsBeans) {
                         callBack.onFinish();
-                        if (newsBeans != null && newsBeans.size() > 0) {
+                        if (newsBeans != null) {
                             callBack.onData(newsBeans);
                         } else {
                             callBack.noData();

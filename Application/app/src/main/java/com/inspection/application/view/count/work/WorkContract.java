@@ -1,9 +1,10 @@
-package com.inspection.application.view.count.missing;
+package com.inspection.application.view.count.work;
 
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
 import com.inspection.application.mode.bean.count.DeptType;
 import com.inspection.application.mode.bean.count.MissCountBean;
+import com.inspection.application.mode.bean.count.WorkCountBean;
 
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by pingan on 2017/12/21.
  */
 
-public interface MissingContract {
+public interface WorkContract {
 
     interface Presenter extends BasePresenter {
 
@@ -31,7 +32,7 @@ public interface MissingContract {
 
         void hideLoading();
 
-        void showChartData(List<MissCountBean> countBeans);
+        void showChartData(List<WorkCountBean> countBeans);
 
         void noData();
     }

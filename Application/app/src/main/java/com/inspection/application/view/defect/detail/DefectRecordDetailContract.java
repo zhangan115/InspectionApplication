@@ -14,11 +14,21 @@ public interface DefectRecordDetailContract {
     interface Presenter extends BasePresenter {
 
         void getFaultDetail(long id);
+
+        void pointFault(String info);
+
+        void sureFault(long faultId, String flowRemark);
+
+        void closeFault(long faultId, String content);
     }
 
     interface View extends BaseView<Presenter> {
 
         void showLoading();
+
+        void showActionLoading();
+
+        void hideActionLoading();
 
         void hideLoading();
 
@@ -27,6 +37,8 @@ public interface DefectRecordDetailContract {
         void showData(FaultDetail faultDetail);
 
         void showMessage(String message);
+
+        void success();
 
     }
 

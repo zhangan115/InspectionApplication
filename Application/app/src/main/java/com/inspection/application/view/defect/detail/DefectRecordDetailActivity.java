@@ -3,7 +3,9 @@ package com.inspection.application.view.defect.detail;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -16,6 +18,9 @@ import com.inspection.application.mode.bean.fault.FaultDetail;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.widget.FlowsItemLayout;
 import com.inspection.application.widget.ShowImageLayout;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -52,6 +57,16 @@ public class DefectRecordDetailActivity extends BaseActivity implements DefectRe
     }
 
     @Override
+    public void showActionLoading() {
+        showProgressDialog("提交中...");
+    }
+
+    @Override
+    public void hideActionLoading() {
+        hideProgressDialog();
+    }
+
+    @Override
     public void hideLoading() {
 
     }
@@ -84,21 +99,95 @@ public class DefectRecordDetailActivity extends BaseActivity implements DefectRe
             images[i] = faultDetail.getFaultPics().get(i).getPicUrl();
         }
         showImageLayout.showImage(images);
+        if (getIntent().getBooleanExtra(ConstantStr.KEY_BUNDLE_BOOLEAN, false)) {
+            showFaultAction(faultDetail);
+        }
         addViewToLL(faultDetail.getFaultFlows());
+    }
+
+    /**
+     * 缺陷处理
+     *
+     * @param faultDetail 缺陷详情
+     */
+    private void showFaultAction(final FaultDetail faultDetail) {
+        if (faultDetail.getFaultFlows().size() > faultDetail.getCurrentFlowIndex()
+                && faultDetail.getFaultFlows().get(faultDetail.getCurrentFlowIndex()).getUsersN() != null
+                && faultDetail.getFaultFlows().get(faultDetail.getCurrentFlowIndex()).getUsersN().size() > 0
+                && faultDetail.getFaultState() < 3) {
+            if (!TextUtils.isEmpty(faultDetail.getFaultFlows().get(faultDetail.getCurrentFlowIndex()).getUsersNext())) {
+                String[] ids = faultDetail.getFaultFlows().get(faultDetail.getCurrentFlowIndex()).getUsersNext().split(",");
+                for (String userId : ids) {
+                    if (userId.equals(String.valueOf(App.getInstance().getCurrentUser().getUserId()))) {
+                        findViewById(R.id.ll_fault_action).setVisibility(View.VISIBLE);
+                        break;
+                    }
+                }
+            }
+        }
+        if (findViewById(R.id.ll_fault_action).getVisibility() == View.VISIBLE) {
+            boolean isToRepair = faultDetail.getDefaultFlowId() != null && faultDetail.getDefaultFlow() != null && faultDetail.getUsersN() != null;
+            final RadioButton pointRb = findViewById(R.id.rb_point_fault);
+            final RadioButton sureRb = findViewById(R.id.rb_sure_fault);
+            final RadioButton closeRb = findViewById(R.id.rb_close_fault);
+            if (App.getInstance().getCurrentUser().getCustomer().getIsOpen() == 1) {
+                if (isToRepair) {
+                    pointRb.setVisibility(View.VISIBLE);
+                    sureRb.setVisibility(View.GONE);
+                    pointRb.setChecked(true);
+                } else {
+                    pointRb.setVisibility(View.GONE);
+                    sureRb.setVisibility(View.VISIBLE);
+                    sureRb.setChecked(true);
+                }
+            }
+            final EditText contentEt = findViewById(R.id.edit_content);
+            findViewById(R.id.btn_sub).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String contentStr = contentEt.getText().toString().trim();
+                    if (sureRb.isChecked()) {
+                        mPresenter.sureFault(faultDetail.getFaultId(), contentStr);
+                    } else if (pointRb.isChecked()) {
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            jsonObject.put("faultId", faultDetail.getFaultId());
+                            jsonObject.put("flowRemark", contentStr);
+                            jsonObject.put("usersNext", "-");
+                            jsonObject.put("defaultFlowId", faultDetail.getDefaultFlowId());
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        mPresenter.pointFault(jsonObject.toString());
+                    } else if (closeRb.isChecked()) {
+                        mPresenter.closeFault(faultDetail.getFaultId(), contentStr);
+                    }
+                }
+            });
+        }
     }
 
     private void addViewToLL(List<FaultDetail.FaultFlowsBean> faultFlows) {
         LinearLayout linearLayout = findViewById(R.id.container);
-        for (int i = 0; i < faultFlows.size(); i++) {
-            FlowsItemLayout layout = new FlowsItemLayout(getApplicationContext());
-            layout.setContent(faultFlows.get(i));
-            linearLayout.addView(layout);
+        if (faultFlows != null && faultFlows.size() > 0) {
+            findViewById(R.id.ll_record).setVisibility(View.VISIBLE);
+            for (int i = 0; i < faultFlows.size(); i++) {
+                FlowsItemLayout layout = new FlowsItemLayout(getApplicationContext());
+                layout.setContent(faultFlows.get(i));
+                linearLayout.addView(layout);
+            }
         }
     }
 
     @Override
     public void showMessage(String message) {
         App.getInstance().showToast(message);
+    }
+
+    @Override
+    public void success() {
+        App.getInstance().showToast("操作成功!");
+        finish();
     }
 
     @Override

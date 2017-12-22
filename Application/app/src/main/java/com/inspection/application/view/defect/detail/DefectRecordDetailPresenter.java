@@ -66,4 +66,97 @@ class DefectRecordDetailPresenter implements DefectRecordDetailContract.Presente
             }
         }));
     }
+
+    @Override
+    public void pointFault(String info) {
+        mView.showActionLoading();
+        subscription.add(mFaultDataSource.pointFault(info, new IObjectCallBack<String>() {
+            @Override
+            public void onSuccess() {
+                mView.success();
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
+
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mView.hideActionLoading();
+            }
+        }));
+    }
+
+    @Override
+    public void sureFault(long faultId, String flowRemark) {
+        mView.showActionLoading();
+        subscription.add(mFaultDataSource.sureFault(faultId, flowRemark, new IObjectCallBack<String>() {
+            @Override
+            public void onSuccess() {
+                mView.success();
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
+
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mView.hideActionLoading();
+            }
+        }));
+    }
+
+    @Override
+    public void closeFault(long faultId, String content) {
+        mView.showActionLoading();
+        subscription.add(mFaultDataSource.closeFault(faultId, content, new IObjectCallBack<String>() {
+            @Override
+            public void onSuccess() {
+                mView.success();
+            }
+
+            @Override
+            public void onData(@NonNull String s) {
+
+            }
+
+            @Override
+            public void onError(@Nullable String message) {
+                mView.showMessage(message);
+            }
+
+            @Override
+            public void noData() {
+
+            }
+
+            @Override
+            public void onFinish() {
+                mView.hideActionLoading();
+            }
+        }));
+    }
 }

@@ -44,4 +44,9 @@
     <color name="color_defect_b">#8885f8</color>
     <color name="color_defect_c">#f99f2a</color>
     <color name="news_color">#ff0000</color>
+
+    <color name="line_color_1">#F6B433</color>
+    <color name="line_color_2">#69A7FB</color>
+    <color name="line_color_3">#58CE79</color>
+    <color name="line_color_4">#F05340</color>
 </resources>

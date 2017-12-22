@@ -117,12 +117,140 @@
                         android:layout_height="wrap_content" />
                 </LinearLayout>
 
+            </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_fault_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_whit_shadw_2"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:text="缺陷操作"
+                    android:textColor="@color/text_black"
+                    android:textSize="20sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="下一步操作"
+                        android:textColor="@color/text_black"
+                        android:textSize="17sp" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/rb_point_fault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:text="流转缺陷"
+                            android:textColor="@color/text_gray_999"
+                            android:textSize="17sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_sure_fault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:text="确认缺陷"
+                            android:textColor="@color/text_gray_999"
+                            android:textSize="17sp" />
+
+                        <RadioButton
+                            android:id="@+id/rb_close_fault"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:paddingBottom="10dp"
+                            android:paddingTop="10dp"
+                            android:text="关闭缺陷"
+                            android:textColor="@color/text_gray_999"
+                            android:textSize="17sp" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/edit_content"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/colorWhite"
+                        android:gravity="top"
+                        android:hint="请输入意见"
+                        android:minLines="5"
+                        android:paddingTop="10dp"
+                        android:textColor="@color/text_gray_999"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <Button
+                        android:id="@+id/btn_sub"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_btn_comm"
+                        android:paddingBottom="15dp"
+                        android:paddingTop="15dp"
+                        android:text="提交"
+                        android:textColor="@color/colorWhite"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/ll_record"
+                android:visibility="gone"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:orientation="vertical">
