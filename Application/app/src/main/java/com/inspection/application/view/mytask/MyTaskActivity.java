@@ -41,10 +41,10 @@ public class MyTaskActivity extends BaseActivity implements MyTaskContract.View,
     private boolean isRefresh;
     private List<InspectionBean> mList;
     private String[] strList = new String[]{"日检", "周检", "月检", "特检"};
-    private int[] icons = new int[]{R.drawable.bg_inspection_day
-            , R.drawable.bg_inspection_week
-            , R.drawable.bg_inspection_month
-            , R.drawable.bg_inspection_special};
+    private int[] icons = new int[]{R.drawable.bg_inspection_finish
+            , R.drawable.bg_inspection_un_start
+            , R.drawable.bg_inspection_get
+            , R.drawable.bg_inspection_wroking};
     private int[] colors;
 
     @Override
@@ -59,10 +59,10 @@ public class MyTaskActivity extends BaseActivity implements MyTaskContract.View,
         noDataLayout = findViewById(R.id.layout_no_data);
         mRecycleRefreshLoadLayout.setOnRefreshListener(this);
         mRecycleRefreshLoadLayout.setOnLoadListener(this);
-        colors = new int[]{findColorById(R.color.color_day)
-                , findColorById(R.color.color_day)
-                , findColorById(R.color.color_month)
-                , findColorById(R.color.color_special)};
+        colors = new int[]{findColorById(R.color.color_finish)
+                , findColorById(R.color.color_finish)
+                , findColorById(R.color.color_get)
+                , findColorById(R.color.color_working)};
         initAdapter();
         mPresenter.getTaskList();
     }

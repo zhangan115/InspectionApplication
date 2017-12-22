@@ -59,7 +59,7 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
     private int[] icons = new int[]{R.drawable.bg_inspection_day
             , R.drawable.bg_inspection_week
             , R.drawable.bg_inspection_month
-            , R.drawable.bg_inspection_special};
+            , R.drawable.bg_inspection_spect};
     private int[] colors;
 
     @Override
@@ -78,10 +78,10 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         mYearTv = findViewById(R.id.tv_year);
         mMonthTv = findViewById(R.id.tv_month);
         mDayTv = findViewById(R.id.tv_day);
-        colors = new int[]{findColorById(R.color.color_day)
-                , findColorById(R.color.color_day)
-                , findColorById(R.color.color_month)
-                , findColorById(R.color.color_special)};
+        colors = new int[]{findColorById(R.color.color_finish)
+                , findColorById(R.color.color_get)
+                , findColorById(R.color.color_un_start)
+                , findColorById(R.color.color_working)};
         dayTvs[0] = findViewById(R.id.tv_1);
         dayTvs[1] = findViewById(R.id.tv_2);
         dayTvs[2] = findViewById(R.id.tv_3);
@@ -112,46 +112,63 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
             public void showData(ViewHolder vHolder, InspectionBean data, int position) {
                 //巡检类型
                 TextView tv_inspection_type = (TextView) vHolder.getView(R.id.tv_inspection_type);
-                ImageView iv_inspection_type = (ImageView) vHolder.getView(R.id.iv_inspection_type);
                 LinearLayout ll_inspection_type = (LinearLayout) vHolder.getView(R.id.ll_inspection_type);
                 if (data.getIsManualCreated() == 0) {
                     if (data.getPlanPeriodType() == 0) {
                         ll_inspection_type.setVisibility(View.GONE);
                     } else {
                         ll_inspection_type.setVisibility(View.VISIBLE);
-                        iv_inspection_type.setImageDrawable(findDrawById(icons[data.getPlanPeriodType() - 1]));
+
                         tv_inspection_type.setText(strList[data.getPlanPeriodType() - 1]);
                         tv_inspection_type.setTextColor(colors[data.getPlanPeriodType() - 1]);
+                        tv_inspection_type.setBackground(findDrawById(icons[data.getPlanPeriodType() - 1]));
                     }
                 } else {
                     ll_inspection_type.setVisibility(View.VISIBLE);
-                    iv_inspection_type.setImageDrawable(findDrawById(icons[3]));
+                    tv_inspection_type.setBackground(findDrawById(icons[3]));
                     tv_inspection_type.setText(strList[3]);
                     tv_inspection_type.setTextColor(colors[3]);
                 }
                 //巡检状态
                 TextView tv_inspection_state = (TextView) vHolder.getView(R.id.tv_inspection_state);
+                TextView tv_inspection_action = (TextView) vHolder.getView(R.id.tv_inspection_action);
+                ImageView iv_inspection_type = (ImageView) vHolder.getView(R.id.iv_inspection_type);
+
                 switch (data.getTaskState()) {
                     case ConstantInt.TASK_STATE_1:
-                        tv_inspection_state.setText("领取");
-                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_get));
+                        tv_inspection_action.setVisibility(View.VISIBLE);
+                        tv_inspection_action.setText("领取");
+                        tv_inspection_action.setBackground(findDrawById(R.drawable.inspection_state_start));
+                        tv_inspection_state.setText("待领取");
+                        tv_inspection_state.setTextColor(findColorById(R.color.color_get));
+                        iv_inspection_type.setImageDrawable(findDrawById(R.drawable.bg_inspection_get));
                         break;
                     case ConstantInt.TASK_STATE_2:
-                        tv_inspection_state.setText("开始");
-                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_start));
+                        tv_inspection_action.setText("开始");
+                        tv_inspection_action.setVisibility(View.VISIBLE);
+                        tv_inspection_action.setBackground(findDrawById(R.drawable.inspection_state_get));
+                        tv_inspection_state.setText("待开始");
+                        tv_inspection_state.setTextColor(findColorById(R.color.color_un_start));
+                        iv_inspection_type.setImageDrawable(findDrawById(R.drawable.bg_inspection_un_start));
                         break;
                     case ConstantInt.TASK_STATE_3:
+                        tv_inspection_action.setText("进行中");
+                        tv_inspection_action.setVisibility(View.VISIBLE);
+                        tv_inspection_state.setTextColor(findColorById(R.color.color_working));
+                        tv_inspection_action.setBackground(findDrawById(R.drawable.inspection_state_working));
                         tv_inspection_state.setText("进行中");
-                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_working));
+                        iv_inspection_type.setImageDrawable(findDrawById(R.drawable.bg_inspection_wroking));
                         break;
-                    case ConstantInt.TASK_STATE_4:
+                    default:
+                        tv_inspection_action.setVisibility(View.GONE);
+                        tv_inspection_state.setTextColor(findColorById(R.color.color_finish));
                         tv_inspection_state.setText("已完成");
-                        tv_inspection_state.setBackground(findDrawById(R.drawable.inspection_state_finish));
+                        iv_inspection_type.setImageDrawable(findDrawById(R.drawable.bg_inspection_finish));
                         break;
                 }
-                tv_inspection_state.setTag(R.id.tag_object, data);
-                tv_inspection_state.setTag(R.id.tag_position, position);
-                tv_inspection_state.setOnClickListener(clickListener);
+                tv_inspection_action.setTag(R.id.tag_object, data);
+                tv_inspection_action.setTag(R.id.tag_position, position);
+                tv_inspection_action.setOnClickListener(clickListener);
                 //任务名称
                 TextView tv_inspection_name = (TextView) vHolder.getView(R.id.tv_inspection_name);
                 TextView tv_start_time = (TextView) vHolder.getView(R.id.tv_start_time);

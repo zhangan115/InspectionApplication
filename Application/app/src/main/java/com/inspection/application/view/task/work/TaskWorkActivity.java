@@ -13,7 +13,9 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.DialogAction;
@@ -61,7 +63,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         uploadTaskInfo = getIntent().getParcelableExtra(ConstantStr.KEY_BUNDLE_OBJECT_1);
         mRoomListBean.getTaskEquipment().get(mCurrentPosition).setChoose(true);
         setLayoutAndToolbar(R.layout.activity_task_work, mRoomListBean.getRoom().getRoomName());
-        FloatingActionButton floatingActionButton = findViewById(R.id.float_btn);
+        ImageView floatingActionButton = findViewById(R.id.float_btn);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +91,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         RVAdapter<TaskEquipmentBean> adapter = new RVAdapter<TaskEquipmentBean>(mRecyclerView, mRoomListBean.getTaskEquipment(), R.layout.item_task_equipment) {
             @Override
             public void showData(ViewHolder vHolder, TaskEquipmentBean data, int position) {
-                LinearLayout ll_layout = (LinearLayout) vHolder.getView(R.id.ll_layout);
+                RadioButton rb = (RadioButton) vHolder.getView(R.id.rb);
                 TextView equipmentName = (TextView) vHolder.getView(R.id.tv_equipment_name);
                 TextView equipmentState = (TextView) vHolder.getView(R.id.tv_equipment_state);
                 equipmentName.setText(data.getEquipment().getEquipmentName());
@@ -98,15 +100,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 } else {
                     equipmentState.setText("");
                 }
-                if (data.isChoose()) {
-                    equipmentName.setTextColor(findColorById(R.color.colorWhite));
-                    equipmentState.setTextColor(findColorById(R.color.colorWhite));
-                    ll_layout.setBackgroundColor(findColorById(R.color.green_btn_normal));
-                } else {
-                    equipmentName.setTextColor(findColorById(R.color.text_black));
-                    equipmentState.setTextColor(findColorById(R.color.text_black));
-                    ll_layout.setBackgroundColor(findColorById(R.color.colorWhite));
-                }
+                rb.setChecked(data.isChoose());
             }
         };
         mRecyclerView.setAdapter(adapter);

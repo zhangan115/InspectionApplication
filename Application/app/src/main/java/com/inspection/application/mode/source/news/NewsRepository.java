@@ -3,6 +3,7 @@ package com.inspection.application.mode.source.news;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.inspection.application.app.App;
@@ -10,7 +11,6 @@ import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.api.Api;
 import com.inspection.application.mode.api.ApiCallBackList;
 import com.inspection.application.mode.api.NewsApi;
-import com.inspection.application.mode.bean.news.ContentBean;
 import com.inspection.application.mode.bean.news.FuckNews;
 import com.inspection.application.mode.bean.news.MessageContent;
 import com.inspection.application.mode.bean.news.db.NewsBean;
@@ -60,7 +60,7 @@ public class NewsRepository implements NewsDataSource {
 
     @NonNull
     @Override
-    public Subscription getNewsData(String info) {
+    public Subscription getNewsData(String info, @Nullable final RequestNewsMessageCallBack callBack) {
         return new ApiCallBackList<FuckNews>(Api.createRetrofit().create(NewsApi.class).getNewsContent(info)) {
             @Override
             public void onSuccess() {
@@ -103,7 +103,6 @@ public class NewsRepository implements NewsDataSource {
                         }
                     }
                 }
-
                 return Observable.just(messageContents);
             }
         }).flatMap(new Func1<List<MessageContent>, Observable<List<NewsBean>>>() {
@@ -136,6 +135,9 @@ public class NewsRepository implements NewsDataSource {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                if (callBack != null) {
+                    callBack.onFinish();
+                }
             }
 
             @Override
@@ -146,14 +148,16 @@ public class NewsRepository implements NewsDataSource {
                 if (App.getInstance() != null) {
                     App.getInstance().updateMessageTime();
                 }
+                if (callBack != null) {
+                    callBack.onFinish();
+                }
             }
         });
     }
 
 
-    @NonNull
     @Override
-    public Subscription startAutoGetMessage() {
+    public void startAutoGetMessage() {
         if (mSubscription == null) {
             mSubscription = new CompositeSubscription();
         }
@@ -162,38 +166,42 @@ public class NewsRepository implements NewsDataSource {
                 .subscribe(new Action1<Long>() {
                     @Override
                     public void call(Long aLong) {
-                        List<NewsBean> newsBeans = DbManager.getDbManager().getDaoSession().getNewsBeanDao()
-                                .queryBuilder().where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())).limit(1)
-                                .orderDesc(NewsBeanDao.Properties._id)
-                                .list();
-                        Long messageId = null;
-                        JSONObject jsonObject = new JSONObject();
-                        try {
-                            if (newsBeans != null && newsBeans.size() > 0) {
-                                messageId = newsBeans.get(0).get_id();
-                            }
-                            if (messageId == null) {
-                                Calendar calendar = new GregorianCalendar();
-                                calendar.setTime(new Date());
-                                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 7);
-                                Logger.d(DataUtil.timeFormat(calendar.getTimeInMillis(), "yyyy-MM-dd"));
-                                jsonObject.put("time", DataUtil.timeFormat(calendar.getTimeInMillis(), "yyyy-MM-dd"));
-                            } else {
-                                jsonObject.put("lastId", messageId);
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        mSubscription.add(getNewsData(jsonObject.toString()));
+                        requestMessage(null);
                     }
+
                 });
         mSubscription.add(subscription);
-        return subscription;
     }
 
-    @NonNull
     @Override
-    public Subscription getNewsData(int type, long messageId, final IListCallBack<NewsBean> callBack) {
+    public void requestMessage(@Nullable RequestNewsMessageCallBack callBack) {
+        List<NewsBean> newsBeans = DbManager.getDbManager().getDaoSession().getNewsBeanDao()
+                .queryBuilder().where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())).limit(1)
+                .orderDesc(NewsBeanDao.Properties._id)
+                .list();
+        Long messageId = null;
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (newsBeans != null && newsBeans.size() > 0) {
+                messageId = newsBeans.get(0).get_id();
+            }
+            if (messageId == null) {
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(new Date());
+                calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 7);
+                Logger.d(DataUtil.timeFormat(calendar.getTimeInMillis(), "yyyy-MM-dd"));
+                jsonObject.put("time", DataUtil.timeFormat(calendar.getTimeInMillis(), "yyyy-MM-dd"));
+            } else {
+                jsonObject.put("lastId", messageId);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        mSubscription.add(getNewsData(jsonObject.toString(), callBack));
+    }
+
+    @Override
+    public void getNewsData(int type, long messageId, final IListCallBack<NewsBean> callBack) {
         WhereCondition whereCondition;
         WhereCondition whereCondition1;
         if (messageId != -1) {
@@ -208,7 +216,7 @@ public class NewsRepository implements NewsDataSource {
         } else {
             whereCondition = NewsBeanDao.Properties.IsWork.eq(true);
         }
-        return DbManager.getDbManager().getDaoSession().getNewsBeanDao().queryBuilder()
+        DbManager.getDbManager().getDaoSession().getNewsBeanDao().queryBuilder()
                 .where(NewsBeanDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId()), whereCondition, whereCondition1)
                 .limit(50)
                 .orderDesc(NewsBeanDao.Properties._id)

@@ -18,6 +18,8 @@ public interface NewsContract {
         void getMessageList(int type, long message);
 
         void getMessageList(int type);
+
+        void requestNewsMessage();
     }
 
     interface View extends BaseView<Presenter> {
@@ -27,6 +29,8 @@ public interface NewsContract {
         void showMessageListMore(List<NewsBean> newsBeans);
 
         void showLoading();
+
+        void requestMessageFinish();
 
         void hideLoading();
 

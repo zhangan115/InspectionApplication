@@ -135,4 +135,9 @@ class FaultPresenter implements FaultContract.Presenter {
     public void deleteImage(Image image) {
         mFaultDataSource.deleteImage(image);
     }
+
+    @Override
+    public void cleanCache(List<Image> images) {
+        mFaultDataSource.deleteImages(images);
+    }
 }

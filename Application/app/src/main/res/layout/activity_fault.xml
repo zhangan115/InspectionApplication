@@ -28,7 +28,7 @@
                     android:id="@+id/id_fault_ll_device"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="10dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="horizontal">
 
@@ -42,9 +42,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
-                            android:paddingBottom="20dp"
-                            android:paddingTop="20dp"
+                            android:layout_marginLeft="14dp"
+                            android:paddingBottom="14dp"
+                            android:paddingTop="14dp"
                             android:text="@string/equipment_name"
                             android:textColor="@color/text_black"
                             android:textSize="20sp" />
@@ -53,7 +53,7 @@
                             android:id="@+id/id_fault_device_name"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginRight="14dp"
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:drawableRight="@drawable/icon_arrow"
@@ -74,7 +74,7 @@
                     android:id="@+id/id_fault_ll_grade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="horizontal">
 
@@ -88,10 +88,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="20dp"
+                            android:layout_marginLeft="14dp"
                             android:gravity="center_vertical"
-                            android:paddingBottom="20dp"
-                            android:paddingTop="20dp"
+                            android:paddingBottom="14dp"
+                            android:paddingTop="14dp"
                             android:text="@string/fault_grade"
                             android:textColor="@color/text_black"
                             android:textSize="20sp" />
@@ -100,7 +100,7 @@
                             android:id="@+id/tv_fault_grade"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginRight="20dp"
+                            android:layout_marginRight="14dp"
                             android:layout_weight="1"
                             android:drawablePadding="10dp"
                             android:drawableRight="@drawable/icon_arrow"
@@ -117,15 +117,15 @@
                     android:id="@+id/id_fault_ll_describe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginTop="14dp"
                         android:gravity="center_vertical"
                         android:text="@string/fault_describe"
                         android:textColor="@color/text_black"
@@ -135,9 +135,9 @@
                         android:id="@+id/et_fault_describe"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
+                        android:layout_marginTop="14dp"
                         android:background="@color/colorWhite"
                         android:gravity="top|left"
                         android:hint="请输入缺陷描述的内容..."
@@ -150,17 +150,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
-                        android:layout_marginTop="20dp"
+                        android:layout_marginTop="14dp"
                         android:text="@string/image_record"
                         android:textColor="#535761"
                         android:textSize="20sp" />
@@ -169,7 +169,7 @@
                         android:id="@+id/take_photo_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="16dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp" />
                 </LinearLayout>
@@ -179,7 +179,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:orientation="vertical">
 
@@ -187,10 +187,10 @@
                     android:id="@+id/tv_appoint"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="20dp"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="14dp"
+                    android:paddingBottom="14dp"
+                    android:paddingTop="14dp"
                     android:text="管理员已预设审批流程"
                     android:textColor="@color/text_black"
                     android:textSize="20sp" />
@@ -200,7 +200,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
+                android:layout_margin="8dp">
 
                 <TextView
                     android:id="@+id/tv_fault_submit"
@@ -208,8 +208,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_btn_comm"
                     android:gravity="center"
-                    android:paddingBottom="27dp"
-                    android:paddingTop="27dp"
+                    android:paddingBottom="18dp"
+                    android:paddingTop="18dp"
                     android:text="@string/str_submit"
                     android:textColor="@color/colorWhite"
                     android:textSize="20sp" />

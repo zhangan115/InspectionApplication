@@ -55,5 +55,7 @@ public interface FaultContract {
         void getUserFlowList();
 
         void deleteImage(Image image);
+
+        void cleanCache(List<Image> images);
     }
 }

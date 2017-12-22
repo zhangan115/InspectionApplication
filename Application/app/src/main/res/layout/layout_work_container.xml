@@ -18,13 +18,12 @@
 
         </FrameLayout>
 
-        <android.support.design.widget.FloatingActionButton
+        <ImageView
             android:id="@+id/float_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_marginBottom="26dp"
-            android:layout_marginRight="16dp" />
+            android:src="@drawable/work_fault" />
     </FrameLayout>
 
     <LinearLayout

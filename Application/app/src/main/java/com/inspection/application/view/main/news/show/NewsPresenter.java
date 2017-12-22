@@ -97,4 +97,14 @@ public class NewsPresenter implements NewsContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void requestNewsMessage() {
+        mNewsDataSource.requestMessage(new NewsDataSource.RequestNewsMessageCallBack() {
+            @Override
+            public void onFinish() {
+                mView.requestMessageFinish();
+            }
+        });
+    }
 }

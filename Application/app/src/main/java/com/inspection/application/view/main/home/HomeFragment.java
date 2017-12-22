@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.view.MvpFragment;
@@ -66,6 +67,8 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
         return rootView;
     }
 
+    private MaterialDialog exitDialog;
+
     @Override
     public void onClick(View view) {
         if (getActivity() == null) {
@@ -100,8 +103,33 @@ public class HomeFragment extends MvpFragment implements View.OnClickListener {
                 startActivity(new Intent(getActivity(), DefectRecordActivity.class));
                 break;
             case R.id.tv_quit:
-                startActivity(new Intent(getActivity(), LoginActivity.class));
-                getActivity().finish();
+                View exitView = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_home_exit, null);
+                exitView.findViewById(R.id.tv_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (exitDialog != null) {
+                            exitDialog.dismiss();
+                        }
+                    }
+                });
+                exitView.findViewById(R.id.tv_sure).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (exitDialog != null) {
+                            exitDialog.dismiss();
+                            App.getInstance().cleanUserInfo();
+                            startActivity(new Intent(getActivity(), LoginActivity.class));
+                            getActivity().finish();
+                        }
+                    }
+                });
+                if (getActivity() == null) {
+                    return;
+                }
+                exitDialog = new MaterialDialog.Builder(getActivity())
+                        .customView(exitView, false)
+                        .build();
+                exitDialog.show();
                 break;
             case R.id.tv_my_task:
                 startActivity(new Intent(getActivity(), MyTaskActivity.class));

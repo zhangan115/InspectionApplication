@@ -316,6 +316,7 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
 
     @Override
     public void uploadFaultDataSuccess() {
+        mPresenter.cleanCache(images);
         App.getInstance().showToast("上传缺陷成功");
         setResult(RESULT_OK);
         finish();

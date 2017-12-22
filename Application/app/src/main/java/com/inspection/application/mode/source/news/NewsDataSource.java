@@ -1,6 +1,7 @@
 package com.inspection.application.mode.source.news;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.bean.news.db.NewsBean;
 import com.inspection.application.mode.callback.IListCallBack;
@@ -20,20 +21,19 @@ public interface NewsDataSource {
      * @param info 参数
      */
     @NonNull
-    Subscription getNewsData(String info);
+    Subscription getNewsData(String info,@Nullable RequestNewsMessageCallBack callBack);
 
-    interface IAutoGetMessage {
+    interface RequestNewsMessageCallBack {
 
-        void onStart();
+        void onFinish();
 
-        void onFail();
     }
 
-    @NonNull
-    Subscription startAutoGetMessage();
+    void requestMessage(@Nullable RequestNewsMessageCallBack callBack);
 
-    @NonNull
-    Subscription getNewsData(int type, long messageId, IListCallBack<NewsBean> callBack);
+    void startAutoGetMessage();
+
+    void getNewsData(int type, long messageId, IListCallBack<NewsBean> callBack);
 
     void cleanSub();
 

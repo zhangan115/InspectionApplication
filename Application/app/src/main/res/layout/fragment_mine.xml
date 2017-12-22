@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:text="张建军"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_customer"
@@ -71,8 +71,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="6dp"
             android:background="@drawable/bg_whit_shadw_2"
             android:orientation="vertical">
@@ -100,7 +100,7 @@
                     android:paddingTop="20dp"
                     android:text="意见反馈"
                     android:textColor="@color/text_black"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -137,7 +137,7 @@
                     android:paddingTop="20dp"
                     android:text="清除缓存"
                     android:textColor="@color/text_black"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -152,8 +152,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/bg_whit_shadw_2"
             android:orientation="vertical">
 
@@ -180,7 +180,7 @@
                     android:paddingTop="20dp"
                     android:text="新版本检测"
                     android:textColor="@color/text_black"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -208,7 +208,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1px"
-                android:background="@color/color_division" />
+                android:background="@color/color_division"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/ll_4"
@@ -216,7 +217,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_btn_comm_white"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -233,7 +235,7 @@
                     android:paddingTop="20dp"
                     android:text="关于我们"
                     android:textColor="@color/text_black"
-                    android:textSize="20sp" />
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -247,8 +249,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:background="@drawable/bg_whit_shadw_2"
             android:orientation="vertical">
 
@@ -258,11 +260,11 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_btn_comm_white"
                 android:gravity="center"
-                android:paddingBottom="20dp"
-                android:paddingTop="20dp"
+                android:paddingBottom="14dp"
+                android:paddingTop="14dp"
                 android:text="@string/exit_app"
                 android:textColor="#f85958"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
 
 

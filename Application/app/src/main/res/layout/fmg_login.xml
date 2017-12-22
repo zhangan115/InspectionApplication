@@ -1,23 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="false"
     android:orientation="vertical">
 
-    <ImageView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorPrimary"
-        android:scaleType="centerCrop" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/login_bg_01">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/login_logo_03" />
+
+    </FrameLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp">
+            android:layout_marginTop="60dp">
 
             <LinearLayout
                 android:id="@+id/ll_login"
@@ -30,11 +39,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/login_btn_margin_left_right"
                     android:layout_marginRight="@dimen/login_btn_margin_left_right"
-                    android:background="@drawable/bg_login_enter"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/login_enter_padding_top_bottom"
-                    android:paddingLeft="@dimen/login_enter_padding_left_right"
-                    android:paddingRight="@dimen/login_enter_padding_left_right"
                     android:paddingTop="@dimen/login_enter_padding_top_bottom">
 
                     <android.support.v7.widget.AppCompatMultiAutoCompleteTextView
@@ -42,10 +48,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
-                        android:drawablePadding="4dp"
                         android:hint="@string/hit_login_user"
                         android:inputType="textPersonName"
                         android:lines="1"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/text_black"
                         android:textSize="@dimen/login_enter_tv_size" />
 
                     <View
@@ -60,10 +67,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/colorWhite"
-                        android:drawablePadding="4dp"
                         android:hint="@string/hit_login_pass"
                         android:inputType="textPassword"
                         android:lines="1"
+                        android:textColor="@color/text_black"
+                        android:textColorHint="@color/text_black"
                         android:textSize="@dimen/login_enter_tv_size" />
                 </LinearLayout>
 
@@ -78,9 +86,10 @@
                     android:paddingTop="10dp"
                     android:text="忘记密码"
                     android:textColor="@color/colorWhite"
-                    android:textSize="14sp" />
+                    android:textSize="14sp"
+                    android:visibility="gone" />
 
-                <TextView
+                <Button
                     android:id="@+id/tv_login"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -98,17 +107,7 @@
 
             </LinearLayout>
         </ScrollView>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="12sp" />
     </RelativeLayout>
 
 
-</FrameLayout>
+</LinearLayout>

@@ -109,4 +109,5 @@ public interface FaultDataSource {
     @NonNull
     Subscription sureFault(long faultId, String flowRemark, IObjectCallBack<String> callBack);
 
+    void deleteImages(List<Image> images);
 }

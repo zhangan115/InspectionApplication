@@ -8,8 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="14dp"
         android:orientation="horizontal">
 
         <TextView
@@ -20,7 +20,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:textColor="@color/text_black"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+id/tv_start_time"
@@ -29,7 +29,7 @@
             android:layout_centerInParent="true"
             android:textColor="@color/text_gray_999"
             android:textIsSelectable="true"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <LinearLayout
             android:id="@+id/ll_inspection_type"
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="36dp"
+            android:layout_marginRight="24dp"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -47,19 +47,20 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/tv_inspection_type"
+                android:id="@+id/tv_inspection_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
-                android:textSize="17sp" />
+                android:textSize="15sp" />
+
         </LinearLayout>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="18dp"
         android:orientation="horizontal">
 
         <TextView
@@ -67,7 +68,7 @@
             android:layout_height="wrap_content"
             android:text="设备数:"
             android:textColor="@color/text_black"
-            android:textSize="17sp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_equipment_count"
@@ -75,34 +76,54 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
             android:textColor="@color/text_blue"
-            android:textSize="25sp" />
+            android:textSize="22sp" />
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="28dp">
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="14dp"
+        android:layout_marginRight="14dp"
+        android:layout_marginTop="18dp">
 
-        <TextView
-            android:id="@+id/tv_inspection_dept"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:text="巡检一班"
-            android:textColor="@color/text_gray_999"
-            android:textSize="17sp" />
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_inspection_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="2dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingTop="2dp"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_inspection_dept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="4dp"
+                android:text="巡检一班"
+                android:textColor="@color/text_gray_999"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
 
         <TextView
-            android:id="@+id/tv_inspection_state"
+            android:id="@+id/tv_inspection_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@drawable/inspection_state_working"
             android:gravity="center"
             android:textColor="@color/colorWhite"
-            android:textSize="20sp" />
+            android:textSize="17sp" />
     </RelativeLayout>
 </LinearLayout>

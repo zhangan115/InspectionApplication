@@ -1,7 +1,7 @@
 <resources>
     <string name="str_login_btn">登录</string>
-    <string name="hit_login_user">请输入手机号</string>
-    <string name="hit_login_pass">请输入密码</string>
+    <string name="hit_login_user">手机号</string>
+    <string name="hit_login_pass">密码</string>
 
     <string name="need_save_setting">当前App需要申请存储权限,需要打开设置页面么?</string>
     <string name="request_permissions">需要请求内存卡、拍照权限</string>

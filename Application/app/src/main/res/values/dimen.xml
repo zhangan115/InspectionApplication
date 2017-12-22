@@ -4,7 +4,7 @@
     <dimen name="home_tv_setting_margin_left">32dp</dimen>
     <dimen name="home_ll_resource_margin">35dp</dimen>
 
-    <dimen name="login_enter_tv_size">14sp</dimen>
+    <dimen name="login_enter_tv_size">16sp</dimen>
 
     <dimen name="login_btn_margin_left_right">40dp</dimen>
     <dimen name="login_btn_margin_top">40dp</dimen>

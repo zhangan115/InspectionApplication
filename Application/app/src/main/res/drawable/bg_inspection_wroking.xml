@@ -4,6 +4,6 @@
     <size
         android:width="@dimen/inspection_type_size"
         android:height="@dimen/inspection_type_size" />
-    <solid android:color="@color/color_special" />
+    <solid android:color="@color/color_working" />
 
 </shape>

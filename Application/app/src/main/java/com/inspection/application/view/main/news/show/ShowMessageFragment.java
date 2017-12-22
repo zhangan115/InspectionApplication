@@ -124,7 +124,7 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
             @Override
             public void onItemClick(View view, int position) {
                 int type = mList.get(position).getSmallType();
-                if (type == 101 || type == 102 || type == 103) {
+                if (type == 101 || type == 102 || type == 103|| type == 104) {
                     Intent faultInt = new Intent(getActivity(), DefectRecordDetailActivity.class);
                     faultInt.putExtra(ConstantStr.KEY_BUNDLE_STR, mList.get(position).getTitle());
                     faultInt.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getTaskId());
@@ -147,7 +147,8 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
             }
         });
         isRefresh = true;
-        mPresenter.getMessageList(type);
+        mPresenter.requestNewsMessage();
+        refreshLoadLayout.setRefreshing(true);
     }
 
     @Override
@@ -179,6 +180,12 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
     @Override
     public void showLoading() {
         refreshLoadLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void requestMessageFinish() {
+        hideLoading();
+        mPresenter.getMessageList(type);
     }
 
     @Override
@@ -225,7 +232,7 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
         isRefresh = true;
         mList.clear();
         recycleView.getAdapter().notifyDataSetChanged();
-        mPresenter.getMessageList(type);
+        mPresenter.requestNewsMessage();
     }
 
     class MessageBR extends BroadcastReceiver {

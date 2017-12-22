@@ -342,4 +342,9 @@ public class FaultRepository implements FaultDataSource {
         }.execute().subscribe();
     }
 
+    @Override
+    public void deleteImages(List<Image> images) {
+        DbManager.getDbManager().getDaoSession().getImageDao().deleteInTx(images);
+    }
+
 }

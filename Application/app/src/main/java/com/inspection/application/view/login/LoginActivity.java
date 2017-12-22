@@ -23,7 +23,9 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.LoginActivityStyle);
         setLayoutAndToolbar(R.layout.activity_container);
+        transparentStatusBar();
         LoginFragment fragment = (LoginFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = LoginFragment.newInstance();
