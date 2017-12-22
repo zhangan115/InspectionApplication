@@ -7,7 +7,7 @@
     android:background="@drawable/bg_whit_shadw_2"
     android:orientation="horizontal">
 
-    <ImageView
+    <cn.bingoogolapple.badgeview.BGABadgeImageView
         android:id="@+id/iv_news_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

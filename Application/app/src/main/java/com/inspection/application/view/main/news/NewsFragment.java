@@ -75,6 +75,7 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
         setTimeToTv(System.currentTimeMillis());
         TextView titleTv = rootView.findViewById(R.id.titleId);
         titleTv.setText(findStrById(R.string.str_first_nav_2));
+        updateUi();
         ShowMessageFragment fragment = (ShowMessageFragment) getChildFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = ShowMessageFragment.newInstance(0);
@@ -90,7 +91,12 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
         if (getActivity() == null) {
             return;
         }
-        getActivity().unregisterReceiver(messageBR);
+        try {
+            getActivity().unregisterReceiver(messageBR);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

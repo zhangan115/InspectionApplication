@@ -19,9 +19,15 @@ import android.widget.TextView;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.BroadcastAction;
+import com.inspection.application.common.ConstantStr;
 import com.inspection.application.mode.bean.news.db.NewsBean;
+import com.inspection.application.mode.db.DbManager;
 import com.inspection.application.mode.source.news.NewsUtils;
 import com.inspection.application.view.MvpFragment;
+import com.inspection.application.view.alarm.AlarmActivity;
+import com.inspection.application.view.defect.detail.DefectRecordDetailActivity;
+import com.inspection.application.view.task.TaskListActivity;
+import com.inspection.application.view.task.data.TaskDataActivity;
 import com.library.adapter.RVAdapter;
 import com.library.utils.DataUtil;
 import com.library.widget.ExpendRecycleView;
@@ -30,6 +36,8 @@ import com.library.widget.RecycleRefreshLoadLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import cn.bingoogolapple.badgeview.BGABadgeImageView;
 
 /**
  * Created by pingan on 2017/12/20.
@@ -95,8 +103,8 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
                 TextView title = (TextView) vHolder.getView(R.id.tv_title);
                 TextView content = (TextView) vHolder.getView(R.id.tv_content);
                 TextView time = (TextView) vHolder.getView(R.id.tv_time);
-                ImageView icon = (ImageView) vHolder.getView(R.id.iv_news_icon);
-                title.setText(data.getTip());
+                BGABadgeImageView icon = (BGABadgeImageView) vHolder.getView(R.id.iv_news_icon);
+                title.setText(data.getTitle());
                 if (data.isMe()) {
                     content.setText(data.getMeContent());
                 } else {
@@ -104,13 +112,36 @@ public class ShowMessageFragment extends MvpFragment<NewsContract.Presenter> imp
                 }
                 time.setText(DataUtil.timeFormat(data.getMessageTime(), null));
                 icon.setImageDrawable(findDrawById(NewsUtils.getNewsNotifyDraw(data)));
+                if (type == 0 && data.isMe() && !data.getHasRead()) {
+                    icon.showCirclePointBadge();
+                } else {
+                    icon.hiddenBadge();
+                }
             }
         };
         recycleView.setAdapter(adapter);
         adapter.setOnItemClickListener(new RVAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                int type = mList.get(position).getSmallType();
+                if (type == 101 || type == 102 || type == 103) {
+                    Intent faultInt = new Intent(getActivity(), DefectRecordDetailActivity.class);
+                    faultInt.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getTaskId());
+                    startActivity(faultInt);
+                } else if (type == 201 || type == 202 || type == 203) {
+                    Intent workInt = new Intent(getActivity(), TaskDataActivity.class);
+                    workInt.putExtra(ConstantStr.KEY_BUNDLE_STR, mList.get(position).getTitle());
+                    workInt.putExtra(ConstantStr.KEY_BUNDLE_LONG, mList.get(position).getTaskId());
+                    startActivity(workInt);
+                } else if (type == 501) {
+                    Intent workInt = new Intent(getActivity(), TaskListActivity.class);
+                    startActivity(workInt);
+                }
+                if (!mList.get(position).getHasRead() && mList.get(position).getIsMe()) {
+                    mList.get(position).setHasRead(true);
+                    recycleView.getAdapter().notifyItemChanged(position);
+                    DbManager.getDbManager().getDaoSession().getNewsBeanDao().insertOrReplace(mList.get(position));
+                }
             }
         });
         isRefresh = true;

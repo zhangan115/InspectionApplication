@@ -30,14 +30,22 @@
             android:background="@drawable/bg_btn_comm_white"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
 
-            <cn.bingoogolapple.badgeview.BGABadgeImageView
-                android:id="@+id/bg_view_fault"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/icon_audit" />
+                android:layout_height="wrap_content">
+
+                <cn.bingoogolapple.badgeview.BGABadgeImageView
+                    android:id="@+id/bg_view_fault"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:paddingRight="5dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/icon_audit" />
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -64,20 +72,30 @@
             android:background="@drawable/bg_btn_comm_white"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp">
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp">
 
-            <cn.bingoogolapple.badgeview.BGABadgeImageView
-                android:id="@+id/bg_view_work"
+            <FrameLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/icon_work" />
+                android:layout_height="wrap_content">
+
+                <cn.bingoogolapple.badgeview.BGABadgeImageView
+                    android:id="@+id/bg_view_work"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|right"
+                    android:paddingRight="10dp"
+                    android:paddingTop="5dp"
+                    android:src="@drawable/icon_work" />
+
+            </FrameLayout>
+
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="缺陷审核"
+                android:text="工作动态"
                 android:textColor="@color/text_black_666"
                 android:textSize="15sp" />
 

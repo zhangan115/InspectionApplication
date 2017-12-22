@@ -56,7 +56,6 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mPresenter.unSubscribe();
         mPresenter.getNewVersion();
         mPresenter.getMessage();
-        mPresenter.getUnReadCount();
     }
 
     private void initView() {
@@ -226,6 +225,12 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     @Override
     public void setPresenter(MainContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.getUnReadCount();
     }
 
     @Override
