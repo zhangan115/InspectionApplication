@@ -95,6 +95,8 @@ public class MyTaskActivity extends BaseActivity implements MyTaskContract.View,
                 //巡检状态
                 TextView tv_inspection_state = (TextView) vHolder.getView(R.id.tv_inspection_state);
                 ImageView iv_inspection_type = (ImageView) vHolder.getView(R.id.iv_inspection_type);
+                TextView tv_inspection_action = (TextView) vHolder.getView(R.id.tv_inspection_action);
+                tv_inspection_action.setVisibility(View.GONE);
                 switch (data.getTaskState()) {
                     case ConstantInt.TASK_STATE_1:
                         tv_inspection_state.setText("待领取");
