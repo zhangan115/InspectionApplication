@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.inspection.application.R;
+import com.inspection.application.app.App;
 import com.inspection.application.app.AppStatusConstant;
 import com.inspection.application.app.AppStatusManager;
 import com.inspection.application.view.main.MainActivity;
@@ -192,6 +193,7 @@ public abstract class BaseActivity extends AbsBaseActivity implements OnClickLis
         if (onToolbarClickListener != null) {
             onToolbarClickListener.onToolBarBackClick();
         }
+        App.getInstance().hideSoftKeyBoard(this);
         finish();
     }
 

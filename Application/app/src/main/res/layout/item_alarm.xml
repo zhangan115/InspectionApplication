@@ -2,21 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="14dp"
-        android:layout_marginRight="14dp"
+        android:layout_marginLeft="@dimen/item_margin_left_right"
+        android:layout_marginRight="@dimen/item_margin_left_right"
         android:background="@drawable/bg_whit_shadw_2"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <TextView
@@ -54,7 +53,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -77,7 +76,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="12dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -85,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_value"
@@ -93,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:textColor="#fc7777"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                     <TextView
                         android:id="@+id/tv_des"
@@ -101,7 +100,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/text_black"
-                        android:textSize="16sp" />
+                        android:textSize="15sp" />
 
                 </LinearLayout>
 
@@ -114,6 +113,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -124,7 +124,7 @@
                     android:gravity="center"
                     android:text="查看任务"
                     android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
 
                 <TextView
                     android:id="@+id/tv_equipment"
@@ -135,7 +135,7 @@
                     android:gravity="center"
                     android:text="查看设备"
                     android:textColor="@color/colorWhite"
-                    android:textSize="16sp" />
+                    android:textSize="15sp" />
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>

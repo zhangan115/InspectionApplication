@@ -20,7 +20,8 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="340dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/home_bg" />
 
 
@@ -28,8 +29,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
@@ -73,12 +74,12 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="22dp"
-                    android:background="@drawable/bg_btn_comm"
+                    android:background="@drawable/bg_btn_comm_cir"
                     android:gravity="center"
-                    android:paddingBottom="5dp"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp"
-                    android:paddingTop="5dp"
+                    android:paddingBottom="8dp"
+                    android:paddingLeft="27dp"
+                    android:paddingRight="27dp"
+                    android:paddingTop="8dp"
                     android:text="@string/exit"
                     android:textColor="@color/colorWhite"
                     android:textSize="17sp" />
@@ -86,8 +87,8 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="65dp">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="55dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -107,7 +108,7 @@
                         android:layout_marginTop="20dp"
                         android:text="设备点检系统"
                         android:textColor="@color/colorWhite"
-                        android:textSize="22sp" />
+                        android:textSize="20sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -115,7 +116,7 @@
                         android:layout_marginTop="11dp"
                         android:text="Equipment inspection system"
                         android:textColor="@color/colorWhite"
-                        android:textSize="15sp" />
+                        android:textSize="14sp" />
                 </LinearLayout>
 
 
@@ -128,7 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginRight="4dp"
             android:orientation="horizontal"
             android:weightSum="2"
             app:layout_constraintEnd_toEndOf="parent"
@@ -166,8 +167,6 @@
                 android:id="@+id/tv_fault_submit"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center">
@@ -197,7 +196,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal"
             android:weightSum="4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -234,7 +232,6 @@
                 android:id="@+id/tv_alarm_news"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -260,7 +257,6 @@
                 android:id="@+id/tv_fault_record"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -286,7 +282,6 @@
                 android:id="@+id/tv_equipment_list"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -316,10 +311,9 @@
             android:id="@+id/count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="6dp"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal"
             android:weightSum="4"
             app:layout_constraintEnd_toEndOf="parent"
@@ -356,7 +350,6 @@
                 android:id="@+id/tv_customer"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -381,7 +374,6 @@
                 android:id="@+id/tv_work_manager"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"
@@ -406,7 +398,6 @@
                 android:id="@+id/tv_my_task"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:layout_weight="1"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:gravity="center"

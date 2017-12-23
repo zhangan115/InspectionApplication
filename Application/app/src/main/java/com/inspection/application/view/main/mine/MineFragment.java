@@ -1,5 +1,6 @@
 package com.inspection.application.view.main.mine;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
@@ -14,19 +15,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.mode.bean.version.NewVersion;
+import com.inspection.application.utils.DownloadAppUtils;
 import com.inspection.application.utils.PhotoUtils;
 import com.inspection.application.view.MvpFragment;
 import com.inspection.application.view.login.LoginActivity;
+import com.inspection.application.view.main.MainActivity;
 import com.inspection.application.view.setting.AboutActivity;
 import com.inspection.application.view.setting.feedback.QuestionActivity;
 import com.library.utils.GlideUtils;
 import com.soundcloud.android.crop.Crop;
 
 import java.io.File;
+
+import pub.devrel.easypermissions.AppSettingsDialog;
+import pub.devrel.easypermissions.EasyPermissions;
 
 /**
  * 个人中心
@@ -150,9 +157,36 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
         }
     }
 
+    public static final int REQUEST_EXTERNAL = 10;//内存卡权限
+
     @Override
-    public void newVersionDialog(@NonNull NewVersion version) {
-        tv_version_no.setText(String.format("V%s", String.valueOf(version.getVersion())));
+    public void newVersionDialog(final @NonNull NewVersion version) {
+        tv_version_no.setText(String.format("V%s", String.valueOf(version.getVersionString())));
+        if (getActivity() == null) {
+            return;
+        }
+        if (!EasyPermissions.hasPermissions(getActivity(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA)) {
+            new AppSettingsDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.request_permissions))
+                    .setRationale(getString(R.string.need_save_setting))
+                    .setPositiveButton(getString(R.string.sure))
+                    .setNegativeButton(getString(R.string.cancel))
+                    .setRequestCode(REQUEST_EXTERNAL)
+                    .build()
+                    .show();
+            return;
+        }
+        new MaterialDialog.Builder(getActivity())
+                .content(version.getNote())
+                .negativeText("取消")
+                .positiveText("确定")
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        DownloadAppUtils.DownLoad(getActivity(), version.getUrl(), "点检");
+                    }
+                })
+                .show();
     }
 
     @Override

@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:layout_marginLeft="@dimen/item_margin_left_right"
+            android:layout_marginRight="@dimen/item_margin_left_right"
             android:orientation="vertical">
 
             <LinearLayout
@@ -28,7 +28,7 @@
                     android:id="@+id/id_fault_ll_device"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/item_margin_left_right"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="horizontal">
 
@@ -47,7 +47,7 @@
                             android:paddingTop="14dp"
                             android:text="@string/equipment_name"
                             android:textColor="@color/text_black"
-                            android:textSize="20sp" />
+                            android:textSize="17sp" />
 
                         <TextView
                             android:id="@+id/id_fault_device_name"
@@ -61,12 +61,10 @@
                             android:lines="1"
                             android:text="选择设备"
                             android:textColor="@color/text_gray_999"
-                            android:textSize="20sp"
+                            android:textSize="17sp"
                             tools:text="1#出线柜" />
 
                     </LinearLayout>
-
-
                 </LinearLayout>
 
 
@@ -74,7 +72,6 @@
                     android:id="@+id/id_fault_ll_grade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="horizontal">
 
@@ -94,7 +91,7 @@
                             android:paddingTop="14dp"
                             android:text="@string/fault_grade"
                             android:textColor="@color/text_black"
-                            android:textSize="20sp" />
+                            android:textSize="17sp" />
 
                         <TextView
                             android:id="@+id/tv_fault_grade"
@@ -107,7 +104,7 @@
                             android:gravity="right|center_vertical"
                             android:text="选择等级"
                             android:textColor="@color/text_gray_999"
-                            android:textSize="20sp" />
+                            android:textSize="17sp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -117,7 +114,6 @@
                     android:id="@+id/id_fault_ll_describe"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="vertical">
 
@@ -129,7 +125,7 @@
                         android:gravity="center_vertical"
                         android:text="@string/fault_describe"
                         android:textColor="@color/text_black"
-                        android:textSize="20sp" />
+                        android:textSize="17sp" />
 
                     <EditText
                         android:id="@+id/et_fault_describe"
@@ -143,14 +139,12 @@
                         android:hint="请输入缺陷描述的内容..."
                         android:lines="5"
                         android:textColor="@color/text_gray_999"
-                        android:textSize="20sp" />
+                        android:textSize="16sp" />
                 </LinearLayout>
-
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_whit_shadw_2"
                     android:orientation="vertical">
 
@@ -158,20 +152,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp"
                         android:layout_marginTop="14dp"
                         android:text="@string/image_record"
                         android:textColor="#535761"
-                        android:textSize="20sp" />
+                        android:textSize="17sp" />
 
                     <com.inspection.application.widget.TakePhotoView
                         android:id="@+id/take_photo_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp" />
+                        android:layout_marginLeft="14dp"
+                        android:layout_marginRight="14dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -179,7 +173,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:background="@drawable/bg_whit_shadw_2"
                 android:orientation="vertical">
 
@@ -193,7 +186,7 @@
                     android:paddingTop="14dp"
                     android:text="管理员已预设审批流程"
                     android:textColor="@color/text_black"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
             </LinearLayout>
 
 
@@ -212,7 +205,7 @@
                     android:paddingTop="18dp"
                     android:text="@string/str_submit"
                     android:textColor="@color/colorWhite"
-                    android:textSize="20sp" />
+                    android:textSize="17sp" />
 
             </LinearLayout>
 

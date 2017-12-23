@@ -1,54 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ll_item_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="16dp"
-    android:layout_marginRight="16dp"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_item_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginLeft="@dimen/item_margin_left_right"
+        android:layout_marginRight="@dimen/item_margin_left_right"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:drawableLeft="@drawable/icon_class"
-            android:drawablePadding="20dp"
-            android:paddingBottom="20dp"
-            android:paddingTop="20dp"
-            android:textColor="@color/text_black"
-            android:textSize="22sp"
-            tools:text="技术部" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="20dp"
-            android:textColor="@color/text_blue"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:drawableLeft="@drawable/icon_class"
+                android:drawablePadding="15dp"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
+                android:textColor="@color/text_black"
+                android:textSize="17sp"
+                tools:text="技术部" />
 
-        <ImageView
-            android:id="@+id/iv_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dp" />
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/text_blue"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/iv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/division_id"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_division"
+            android:visibility="gone" />
     </LinearLayout>
-
-    <View
-        android:id="@+id/division_id"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_division"
-        android:visibility="gone" />
 </LinearLayout>

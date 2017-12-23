@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_normal"
@@ -11,9 +10,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp"
-        android:layout_marginTop="6dp"
+        android:layout_marginLeft="@dimen/item_margin_left_right"
+        android:layout_marginRight="@dimen/item_margin_left_right"
+        android:layout_marginTop="@dimen/item_margin_left_right"
         android:background="@drawable/bg_whit_shadw_2"
         android:orientation="vertical">
 
@@ -260,9 +259,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="6dp"
-        android:layout_marginRight="6dp">
+        android:layout_height="match_parent">
 
         <com.library.widget.RecycleRefreshLoadLayout
             android:id="@+id/refresh_layout"
@@ -272,9 +269,7 @@
             <com.library.widget.ExpendRecycleView
                 android:id="@+id/recycleViewId"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:paddingTop="6dp" />
+                android:layout_height="match_parent" />
         </com.library.widget.RecycleRefreshLoadLayout>
 
         <include layout="@layout/layout_no_data" />

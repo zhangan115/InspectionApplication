@@ -1,63 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/ll_item_group"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_whit_shadw_2"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/ll_item_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_btn_comm_white"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp"
-        android:paddingTop="20dp">
+        android:layout_marginLeft="@dimen/item_margin_left_right"
+        android:layout_marginRight="@dimen/item_margin_left_right"
+        android:background="@drawable/bg_whit_shadw_2"
+        android:orientation="vertical">
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/icon_switch_room" />
-
-        <TextView
-            android:id="@+id/id_item_equip_place"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_weight="1"
-            android:text="1#配电室"
-            android:textColor="@color/text_black"
-            android:textSize="20sp" />
+            android:background="@drawable/bg_btn_comm_white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="14dp"
+            android:paddingTop="14dp">
 
-        <TextView
-            android:id="@+id/id_item_equip_mum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="10"
-            android:textColor="@color/text_blue"
-            android:textSize="20sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:src="@drawable/icon_switch_room" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="台"
-            android:textColor="@color/text_blue"
-            android:textSize="20sp" />
+            <TextView
+                android:id="@+id/id_item_equip_place"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="1"
+                android:text="1#配电室"
+                android:textColor="@color/text_black"
+                android:textSize="17sp" />
 
-        <ImageView
-            android:id="@+id/iv_state"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical" />
+            <TextView
+                android:id="@+id/id_item_equip_mum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="10"
+                android:textColor="@color/text_blue"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="台"
+                android:textColor="@color/text_blue"
+                android:textSize="17sp" />
+
+            <ImageView
+                android:id="@+id/iv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/id_item_equip_line"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/color_division"
+            android:visibility="gone" />
+
     </LinearLayout>
 
-    <View
-        android:id="@+id/id_item_equip_line"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/color_division"
-        android:visibility="gone" />
+
 </LinearLayout>

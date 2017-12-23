@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="14dp"
-    android:layout_marginRight="14dp"
+    android:layout_marginLeft="@dimen/item_margin_left_right"
+    android:layout_marginRight="@dimen/item_margin_left_right"
     android:background="@drawable/bg_whit_shadw_2"
     android:orientation="vertical">
 
@@ -14,16 +14,14 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_value_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
-            android:paddingTop="15dp"
+            android:paddingTop="10dp"
             android:textColor="@color/text_black"
             android:textSize="16sp"
             tools:text="干式变压器应无裂痕无异物" />
@@ -36,7 +34,7 @@
 
             <LinearLayout
                 android:id="@+id/ll_check_result"
-                android:layout_width="200dp"
+                android:layout_width="230dp"
                 android:layout_height="45dp"
                 android:background="@drawable/bg_speech_item"
                 android:gravity="center_vertical"
@@ -48,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="4dp"
                     android:text="检查结果:"
-                    android:textColor="#aab5c9"
+                    android:textColor="@color/text_gray_999"
                     android:textSize="15sp" />
 
                 <TextView

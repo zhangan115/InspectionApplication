@@ -125,6 +125,7 @@ class EmployeeAdapter extends BaseExpandableListAdapter {
             holder.ll_child_layout = convertView.findViewById(R.id.ll_child_layout);
             holder.stateIv = convertView.findViewById(R.id.iv_icon);
             holder.chooseIv = convertView.findViewById(R.id.iv_state);
+            holder.positionTV = convertView.findViewById(R.id.tv_position);
             convertView.setTag(holder);
         } else {
             holder = (ChildViewHolder) convertView.getTag();
@@ -140,6 +141,7 @@ class EmployeeAdapter extends BaseExpandableListAdapter {
         holder.ll_child_layout.setTag(R.id.tag_group_position, groupPosition);
         holder.ll_child_layout.setTag(R.id.tag_child_position, childPosition);
         holder.ll_child_layout.setOnClickListener(onClickListener);
+        holder.positionTV.setText(data.get(groupPosition).getUserList().get(childPosition).getUser().getUserRoleNames());
         GlideUtils.ShowCircleImage(context, data.get(groupPosition).getUserList().get(childPosition).getUser().getPortraitUrl(), holder.stateIv, R.drawable.icon_monitor);
         if (isLastChild) {
             holder.ll_child_layout.setBackground(context.getResources().getDrawable(R.drawable.bg_bottom));
@@ -167,6 +169,9 @@ class EmployeeAdapter extends BaseExpandableListAdapter {
             int groupPosition = (int) v.getTag(R.id.tag_group_position);
             int childPosition = (int) v.getTag(R.id.tag_child_position);
             EmployeeBean employ = data.get(groupPosition).getUserList().get(childPosition);
+            if (employ.getUser().getUserId() == App.getInstance().getCurrentUser().getUserId()) {
+                return;
+            }
             boolean isSelect = !employ.isSelect();
             for (int i = 0; i < data.size(); i++) {
                 if (data.get(i).getUserList() == null || data.get(i).getUserList().size() == 0) {
@@ -223,6 +228,7 @@ class EmployeeAdapter extends BaseExpandableListAdapter {
         ImageView stateIv;
         ImageView chooseIv;
         TextView nameTv;
+        TextView positionTV;
         LinearLayout ll_child_layout;
     }
 }

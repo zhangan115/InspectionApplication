@@ -103,8 +103,22 @@ public class TaskDataActivity extends BaseActivity implements TaskDataContract.V
             for (int i = 0; i < mInspectionDataBean.getRoomList().size(); i++) {
                 sb.append(mInspectionDataBean.getRoomList().get(i).getRoom().getRoomName());
                 if (i != mInspectionDataBean.getRoomList().size() - 1) {
-                    sb.append("、");
+                    sb.append(",");
                 }
+            }
+            StringBuilder sbUser = new StringBuilder();
+            if (mCheckBean.getUsers() != null) {
+                for (int i = 0; i < mCheckBean.getUsers().size(); i++) {
+                    sbUser.append(mCheckBean.getUsers().get(i).getRealName());
+                    if (i != mCheckBean.getUsers().size() - 1) {
+                        sbUser.append(",");
+                    }
+                }
+            }
+            if (!TextUtils.isEmpty(sbUser)) {
+                ((TextView) headerView.findViewById(R.id.tv_user)).setText(sbUser.toString());
+            } else {
+                headerView.findViewById(R.id.ll_user).setVisibility(View.GONE);
             }
             ((TextView) headerView.findViewById(R.id.tv_room_list)).setText(sb.toString());
             ((TextView) headerView.findViewById(R.id.tv_equipment_count)).setText(String.format("%d台", mCheckBean.getCount()));

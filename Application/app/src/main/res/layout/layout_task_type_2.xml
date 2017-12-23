@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="14dp"
-    android:layout_marginRight="14dp"
+    android:layout_marginLeft="@dimen/item_margin_left_right"
+    android:layout_marginRight="@dimen/item_margin_left_right"
     android:background="@drawable/bg_whit_shadw_2"
     android:orientation="vertical">
 
@@ -13,9 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,7 +25,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="10dp"
-                android:textColor="#535862"
+                android:paddingTop="10dp"
+                android:textColor="@color/text_black"
                 android:textSize="16sp"
                 tools:text="干式变压器应无裂痕无异物" />
 
@@ -37,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:textColor="#929db2"
+                android:textColor="@color/text_gray_999"
                 android:textSize="12sp"
                 tools:text="电流（mA）" />
         </LinearLayout>
@@ -50,7 +49,7 @@
 
             <EditText
                 android:id="@+id/et_value"
-                android:layout_width="200dp"
+                android:layout_width="230dp"
                 android:layout_height="40dp"
                 android:background="@drawable/bg_speech_item"
                 android:gravity="center_vertical"
@@ -61,7 +60,7 @@
 
             <TextView
                 android:id="@+id/iv_value"
-                android:layout_width="170dp"
+                android:layout_width="230dp"
                 android:layout_height="40dp"
                 android:background="@drawable/bg_speech_item"
                 android:gravity="center_vertical"
@@ -76,7 +75,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
-                android:textColor="#929db2"
+                android:textColor="@color/text_gray_999"
                 android:textSize="12sp"
                 tools:text="上次电流:30mA" />
         </LinearLayout>
