@@ -145,6 +145,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
                 }
                 if (finishCount != mList.size()) {
                     showMessage("还有没有完成的点检任务");
+                    return;
                 }
                 if (ll_add_user.getVisibility() == View.VISIBLE) {
                     StringBuilder sb = new StringBuilder();
@@ -184,28 +185,11 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     }
 
     private void setEmployeeToView() {
-        if (inspectionBeen.getExecutorUserList() != null && inspectionBeen.getExecutorUserList().size() > 0) {
-            StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < inspectionBeen.getExecutorUserList().size(); i++) {
-                if (inspectionBeen.getExecutorUserList().get(i).getUser() != null) {
-                    sb.append(inspectionBeen.getExecutorUserList().get(i).getUser().getUserId());
-                    if (i != inspectionBeen.getExecutorUserList().size() - 1) {
-                        sb.append(",");
-                    }
-                }
-            }
-            if (!TextUtils.isEmpty(sb.toString())) {
-                mExecutorUserIds = sb.toString();
-            }
-            ll_add_user.setVisibility(View.GONE);
-        } else {
-            if (chooseEmployeeBeen.size() > 0) {
-                EmployeeBean employeeBean = new EmployeeBean();
-                employeeBean.setSelect(true);
-                employeeBean.setUser(App.getInstance().getCurrentUser());
-                chooseEmployeeBeen.add(employeeBean);
-            }
-            ll_add_user.setVisibility(View.VISIBLE);
+        if (chooseEmployeeBeen.size() == 0) {
+            EmployeeBean employeeBean = new EmployeeBean();
+            employeeBean.setSelect(true);
+            employeeBean.setUser(App.getInstance().getCurrentUser());
+            chooseEmployeeBeen.add(employeeBean);
         }
         addEmployee();
     }

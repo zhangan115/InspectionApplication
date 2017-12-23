@@ -1,6 +1,7 @@
 package com.inspection.application.view.count.work;
 
 import android.content.DialogInterface;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.mode.Injection;
 import com.inspection.application.mode.bean.count.DeptType;
+import com.inspection.application.mode.bean.count.MissCountBean;
 import com.inspection.application.mode.bean.count.WorkCountBean;
 import com.inspection.application.view.BaseActivity;
 import com.library.widget.DateDialog;
@@ -53,11 +55,11 @@ public class WorkCountActivity extends BaseActivity implements WorkContract.View
         mChooseTime.setOnClickListener(this);
         mChooseDept.setOnClickListener(this);
         mCurrentCalendar = Calendar.getInstance(Locale.CHINA);
-        initBarChart();
+        mChooseTime.setText(getDate(mCurrentCalendar));
         mPresenter.getDeptId(deptType);
     }
 
-    private void initBarChart() {
+    private void initBarChart(List<WorkCountBean> countBeans) {
         mBarChart.clear();
         mBarChart.setDescription(null);
         mBarChart.setNoDataText("没有数据!");
@@ -71,25 +73,24 @@ public class WorkCountActivity extends BaseActivity implements WorkContract.View
         mBarChart.getXAxis().setEnabled(true);
         mBarChart.getXAxis().setPosition(XAxis.XAxisPosition.BOTTOM);
         mBarChart.getXAxis().setTextSize(14f);
-//        mBarChart.getXAxis().setSpaceMin(0f);
         mBarChart.getXAxis().setTextColor(findColorById(R.color.text_gray_999));
         mBarChart.getXAxis().setAxisLineColor(findColorById(R.color.text_black));
         mBarChart.getXAxis().setDrawAxisLine(true);
-//        mBarChart.getXAxis().setLabelCount(4, true);
+        if (countBeans.size() < 5) {
+            mBarChart.getXAxis().setLabelCount(countBeans.size(), false);
+        } else {
+            mBarChart.getXAxis().setLabelCount(countBeans.size() / (countBeans.size() / 5), false);
+        }
         mBarChart.getXAxis().setDrawGridLines(false);
-//        mBarChart.getXAxis().setSpaceMax(0);
         //左边Y
         mBarChart.getAxisLeft().setDrawGridLines(false);
         mBarChart.getAxisLeft().setDrawAxisLine(true);
         mBarChart.getAxisLeft().setDrawLabels(true);
-//        mBarChart.getAxisLeft().
-//        mBarChart.getAxisLeft().setLabelCount(15);
         mBarChart.getAxisLeft().setTextSize(14f);
         mBarChart.getAxisLeft().setDrawZeroLine(false);
         mBarChart.getAxisLeft().setTextColor(findColorById(R.color.text_gray_999));
         mBarChart.getAxisLeft().setAxisLineColor(findColorById(R.color.text_black));
         mBarChart.getAxisLeft().setAxisMinimum(0f);
-//        mBarChart.getAxisLeft().setAxisMaximum(13);
         //右边Y
         mBarChart.getAxisRight().setEnabled(false);
     }
@@ -168,15 +169,19 @@ public class WorkCountActivity extends BaseActivity implements WorkContract.View
     @Override
     public void showChartData(List<WorkCountBean> countBeans) {
         mBarChart.getXAxis().setValueFormatter(new ChartXFormatter(countBeans));
+        initBarChart(countBeans);
         BarData barData = getBarData(countBeans);
-        barData.setBarWidth(0.5f);
         barData.setDrawValues(true);
         barData.setValueTextSize(14f);
-
         mBarChart.setData(barData);
-//        Matrix mMatrix = new Matrix();
-//        mMatrix.postScale(1.5f, 1f);
-//        mBarChart.getViewPortHandler().refresh(mMatrix, mBarChart, false);
+        if (countBeans.size() < 5) {
+            barData.setBarWidth(countBeans.size() / 10.0f);
+        } else {
+            barData.setBarWidth(0.5f);
+            Matrix mMatrix = new Matrix();
+            mMatrix.postScale((countBeans.size() / 5), 1f);
+            mBarChart.getViewPortHandler().refresh(mMatrix, mBarChart, false);
+        }
         mBarChart.animateY(1000);
     }
 
@@ -187,15 +192,19 @@ public class WorkCountActivity extends BaseActivity implements WorkContract.View
             for (int j = 0; j < countBeans.size(); j++) {
                 barEntries.add(new BarEntry(j, countBeans.get(j).getTaskCount()));
             }
-            BarDataSet dataSet = new BarDataSet(barEntries, "BarChart");
+            BarDataSet dataSet = new BarDataSet(barEntries, "");
+            dataSet.setColor(findColorById(R.color.colorPrimary));
             dataSets.add(dataSet);
         }
         return new BarData(dataSets);
     }
 
+
     @Override
     public void noData() {
-
+        mBarChart.clear();
+        mBarChart.setDescription(null);
+        mBarChart.setNoDataText("没有数据!");
     }
 
     @Override

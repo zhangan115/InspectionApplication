@@ -128,6 +128,7 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
                 }
             }
         }
+        equipmentState();
     }
 
     @Override

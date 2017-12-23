@@ -73,7 +73,6 @@ public class TaskListActivity extends BaseActivity implements TaskContract.View,
         mRefreshLoadLayout.setColorSchemeColors(findColorById(R.color.colorPrimary));
         mNoDataLayout = findViewById(R.id.layout_no_data);
         mRefreshLoadLayout.setOnRefreshListener(this);
-
         findViewById(R.id.ll_choose_month_day).setOnClickListener(this);
         mYearTv = findViewById(R.id.tv_year);
         mMonthTv = findViewById(R.id.tv_month);

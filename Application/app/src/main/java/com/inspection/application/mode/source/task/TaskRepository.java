@@ -208,7 +208,6 @@ public class TaskRepository implements TaskDataSource {
     @NonNull
     @Override
     public Subscription getTaskInfo(long taskId, final IObjectCallBack<InspectionDetailBean> callBack) {
-
         return new ApiCallBackObject<InspectionDetailBean>(Api.createRetrofit().create(TaskApi.class)
                 .getInspectionDetailList(taskId)) {
             @Override
@@ -369,6 +368,8 @@ public class TaskRepository implements TaskDataSource {
         Observable.just(roomListBean).observeOn(Schedulers.io()).doOnNext(new Action1<RoomListBean>() {
             @Override
             public void call(RoomListBean roomListBean) {
+                List<EquipmentDataDb> equipmentDataDbToSave = new ArrayList<>();
+                List<EquipmentDb> equipmentDbs = new ArrayList<>();
                 for (int i = 0; i < roomListBean.getTaskEquipment().size(); i++) {
                     TaskEquipmentBean taskEquipmentBean = roomListBean.getTaskEquipment().get(i);
                     if (taskEquipmentBean.getEquipment().getEquipmentDb() == null) {
@@ -385,13 +386,41 @@ public class TaskRepository implements TaskDataSource {
                                 equipmentDb.setRoomId(roomListBean.getRoom().getRoomId());
                                 equipmentDb.setTaskId(taskId);
                                 equipmentDb.setEquipmentName(taskEquipmentBean.getEquipment().getEquipmentName());
-                                DbManager.getDbManager().getDaoSession().getEquipmentDbDao().insertOrReplaceInTx(equipmentDb);
+                                equipmentDbs.add(equipmentDb);
+
                             }
                             taskEquipmentBean.getEquipment().setEquipmentDb(equipmentDb);
+                            for (int j = 0; j < taskEquipmentBean.getDataList().get(0).getDataItemValueList().size(); j++) {
+                                if (taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItem().getEquipmentDataDb() == null) {
+                                    EquipmentDataDb equipmentData = DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao()
+                                            .queryBuilder().where(EquipmentDataDbDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())
+                                                    , EquipmentDataDbDao.Properties.EquipmentId.eq(taskEquipmentBean.getEquipment().getEquipmentId())
+                                                    , EquipmentDataDbDao.Properties.RoomId.eq(roomListBean.getRoom().getRoomId())
+                                                    , EquipmentDataDbDao.Properties.TaskId.eq(taskId)
+                                                    , EquipmentDataDbDao.Properties.DataItemId.eq(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItemValueId())
+                                                    , EquipmentDataDbDao.Properties.Type.eq(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItem().getInspectionType())).unique();
+                                    if (equipmentData == null) {
+                                        equipmentData = new EquipmentDataDb();
+                                        equipmentData.setRoomId(roomListBean.getRoom().getRoomId());
+                                        equipmentData.setTaskId(taskId);
+                                        equipmentData.setEquipmentId(taskEquipmentBean.getEquipment().getEquipmentId());
+                                        equipmentData.setDataItemId(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItemValueId());
+                                        equipmentData.setType(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItem().getInspectionType());
+                                        equipmentDataDbToSave.add(equipmentData);
+                                    }
+                                    taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItem().setEquipmentDataDb(equipmentData);
+                                }
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
+                }
+                if (equipmentDbs.size() > 0) {
+                    DbManager.getDbManager().getDaoSession().getEquipmentDbDao().insertOrReplaceInTx(equipmentDbs);
+                }
+                if (equipmentDataDbToSave.size() > 0) {
+                    DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao().insertOrReplaceInTx(equipmentDataDbToSave);
                 }
             }
         }).observeOn(AndroidSchedulers.mainThread())

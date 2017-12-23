@@ -30,7 +30,7 @@
     <color name="color_inspection_start_press">#1ba7fd</color>
 
     <color name="color_inspection_finish_normal">#999999</color>
-    <color name="color_inspection_finish_press">#999999</color>
+    <color name="color_inspection_finish_press">#aa999999</color>
     <color name="color_working">#fc7876</color>
     <color name="color_un_start">#faa029</color>
     <color name="color_get">#0d87ff</color>

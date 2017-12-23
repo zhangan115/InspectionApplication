@@ -133,7 +133,7 @@ public class FaultNumberCountActivity extends BaseActivity implements FaultNumbe
         for (int i = 0; i < 1; i++) {
             List<Entry> entries = new ArrayList<>();
             for (int j = 0; j < chartDatas.size(); j++) {
-                entries.add(new Entry(j, chartDatas.get(i).getFaultCount()));
+                entries.add(new Entry(j, chartDatas.get(j).getFaultCount()));
             }
             LineDataSet dataSet = new LineDataSet(entries, "");
             initDataSet(dataSet, findColorById(R.color.colorPrimary));
@@ -162,6 +162,7 @@ public class FaultNumberCountActivity extends BaseActivity implements FaultNumbe
     public void showFaultNumber(List<FaultNumber> faultNumbers) {
         initLineChart(mLineChart);
         mLineChart.setData(getLineData(faultNumbers));
+        mLineChart.animateY(1000);
     }
 
     @Override

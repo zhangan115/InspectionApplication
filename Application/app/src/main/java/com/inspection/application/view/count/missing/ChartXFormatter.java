@@ -20,7 +20,7 @@ class ChartXFormatter implements IAxisValueFormatter {
 
     @Override
     public String getFormattedValue(float value, AxisBase axis) {
-        if (countBeans != null && countBeans.size() - 1 <= (int) value) {
+        if (countBeans != null && (int) value <= countBeans.size() - 1) {
             return countBeans.get((int) value).getRealName();
         } else {
             return "";

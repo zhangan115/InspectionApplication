@@ -95,10 +95,27 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 TextView equipmentName = (TextView) vHolder.getView(R.id.tv_equipment_name);
                 TextView equipmentState = (TextView) vHolder.getView(R.id.tv_equipment_state);
                 equipmentName.setText(data.getEquipment().getEquipmentName());
+                boolean isMissing = false;
                 if (data.getEquipment().getEquipmentDb() != null && data.getEquipment().getEquipmentDb().getUploadState()) {
-                    equipmentState.setText("已上传");
+                    for (int i = 0; i < data.getDataList().get(0).getDataItemValueList().size(); i++) {
+                        if (TextUtils.isEmpty(data.getDataList().get(0).getDataItemValueList().get(i).getDataItem().getValue())) {
+                            isMissing = true;
+                            break;
+                        }
+                    }
+                    if (isMissing) {
+                        equipmentState.setTextColor(findColorById(R.color.color_un_start));
+                        equipmentState.setBackground(findDrawById(R.drawable.bg_inspection_month));
+                        equipmentState.setText("漏检");
+                    } else {
+                        equipmentState.setTextColor(findColorById(R.color.color_finish));
+                        equipmentState.setBackground(findDrawById(R.drawable.bg_inspection_day));
+                        equipmentState.setText("已检");
+                    }
                 } else {
-                    equipmentState.setText("");
+                    equipmentState.setTextColor(findColorById(R.color.color_working));
+                    equipmentState.setBackground(findDrawById(R.drawable.bg_inspection_spect));
+                    equipmentState.setText("未检");
                 }
                 rb.setChecked(data.isChoose());
             }
@@ -292,7 +309,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     public void finishSuccess() {
         Intent intent = new Intent();
         intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, mRoomListBean.getTaskRoomId());
-        setResult(Activity.RESULT_OK);
+        setResult(Activity.RESULT_OK, intent);
         finish();
     }
 
