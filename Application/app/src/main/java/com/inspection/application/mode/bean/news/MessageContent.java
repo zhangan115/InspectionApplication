@@ -16,6 +16,15 @@ public class MessageContent {
     private FromUserBean fromUser;
     private ContentInfoBean contentInfo;
     private String appContent;
+    private long toUserId;
+
+    public long getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(long toUserId) {
+        this.toUserId = toUserId;
+    }
 
     public long getLogId() {
         return logId;

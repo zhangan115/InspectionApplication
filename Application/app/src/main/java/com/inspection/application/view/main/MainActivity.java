@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -44,6 +45,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     private AHBottomNavigation bottomNavigation;
     private int selectPosition = 0;
     private ArrayList<Fragment> mFragments;
+    private MessageBR messageBR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,11 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         mPresenter.unSubscribe();
         mPresenter.getNewVersion();
         mPresenter.getMessage();
+        messageBR = new MessageBR();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(BroadcastAction.NEWS_MESSAGE);
+        filter.addAction(BroadcastAction.CLEAN_ALL_DATA);
+        registerReceiver(messageBR, filter);
     }
 
     private void initView() {
@@ -237,6 +244,13 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
     protected void onDestroy() {
         super.onDestroy();
         mPresenter.unSubscribe();
+        try {
+            if (messageBR != null) {
+                unregisterReceiver(messageBR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     class MessageBR extends BroadcastReceiver {

@@ -114,6 +114,9 @@ public class NewsRepository implements NewsDataSource {
                 List<NewsBean> newsBeans = new ArrayList<>();
                 for (int i = 0; i < messageContents.size(); i++) {
                     NewsBean bean = NewsUtils.getNewsBean(messageContents.get(i));
+                    if (bean.getSmallType() == 501 && messageContents.get(i).getToUserId() != App.getInstance().getCurrentUser().getUserId()) {
+                        continue;
+                    }
                     if (NewsUtils.getNewsType(bean) == 1) {
                         dataSp.edit().putBoolean(ConstantStr.NEWS_TYPE_ALARM, true).apply();
                     } else if (NewsUtils.getNewsType(bean) == 2) {

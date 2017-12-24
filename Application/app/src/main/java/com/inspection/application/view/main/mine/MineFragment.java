@@ -146,6 +146,7 @@ public class MineFragment extends MvpFragment<MineContract.Presenter> implements
                 break;
             case R.id.ll_2:
                 mPresenter.cleanCache();
+                App.getInstance().showToast("清理完成!");
                 break;
             case R.id.ll_3:
                 mPresenter.getNewVersion();
