@@ -10,6 +10,7 @@ import com.library.utils.ActivityUtilsV4;
 
 
 /**
+ * 巡检数据
  * Created by zhangan on 2017/10/13.
  */
 

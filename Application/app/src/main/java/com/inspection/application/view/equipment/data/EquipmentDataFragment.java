@@ -1,6 +1,7 @@
 package com.inspection.application.view.equipment.data;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -48,7 +49,11 @@ public class EquipmentDataFragment extends MvpFragment<EquipmentDataContact.Pres
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mEquipId = getArguments().getLong(ConstantStr.KEY_BUNDLE_LONG);
+        if (getArguments() != null)
+            mEquipId = getArguments().getLong(ConstantStr.KEY_BUNDLE_LONG);
+        if (mEquipId == 0 && getActivity() != null) {
+            getActivity().finish();
+        }
     }
 
 
@@ -67,7 +72,7 @@ public class EquipmentDataFragment extends MvpFragment<EquipmentDataContact.Pres
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fmg_recycle_with_bg, container, false);
         mExpendRecycleView = rootView.findViewById(R.id.recycleViewId);
         mExpendRecycleView.setLayoutManager(new GridLayoutManager(getActivity(), 1));

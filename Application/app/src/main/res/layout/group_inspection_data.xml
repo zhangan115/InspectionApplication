@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:paddingLeft="@dimen/item_margin_left_right"
-    android:paddingRight="@dimen/item_margin_left_right"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/item_margin_left_right"
+    android:paddingRight="@dimen/item_margin_left_right">
 
     <LinearLayout
         android:id="@+id/ll_item_group"
@@ -25,8 +25,8 @@
                 android:layout_weight="1"
                 android:drawableLeft="@drawable/icon_switch_room"
                 android:drawablePadding="14dp"
-                android:paddingBottom="18dp"
-                android:paddingTop="18dp"
+                android:paddingBottom="15dp"
+                android:paddingTop="15dp"
                 android:textColor="@color/text_black"
                 android:textSize="18sp" />
 
