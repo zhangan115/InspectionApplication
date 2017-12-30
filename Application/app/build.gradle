@@ -22,7 +22,7 @@ android {
             dimension "default"
             resValue "string", "app_name", "点检"
 //            buildConfigField "String", "HOST", '"https://www.ewaypro.cn/euvtest/api"'
-            buildConfigField "String", "HOST", '"http://121.42.8.188/sitopeuv/api"'
+            buildConfigField "String", "HOST", '"http://121.42.8.188/dianjian/api"'
 //            buildConfigField "String", "HOST", '"http://192.168.3.4:8080/sitopeuv/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
