@@ -180,7 +180,21 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 }
                 break;
             case R.id.tv_finish:
-                mPresenter.finishTask(uploadTaskInfo, mRoomListBean);
+                boolean isCanFinish = true;
+                for (int i = 0; i < mRoomListBean.getTaskEquipment().size(); i++) {
+                    TaskEquipmentBean taskEquipmentBean = mRoomListBean.getTaskEquipment().get(i);
+                    for (int j = 0; j < taskEquipmentBean.getDataList().get(0).getDataItemValueList().size(); j++) {
+                        if (TextUtils.isEmpty(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItem().getValue())) {
+                            isCanFinish = false;
+                            break;
+                        }
+                    }
+                }
+                if (isCanFinish) {
+                    mPresenter.finishTask(uploadTaskInfo, mRoomListBean);
+                } else {
+                    App.getInstance().showToast("有遗漏设备");
+                }
                 break;
         }
     }

@@ -4,12 +4,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.zxing.client.android.CaptureActivity;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
@@ -25,6 +28,7 @@ import com.inspection.application.view.task.work.TaskWorkActivity;
 import com.inspection.application.widget.FlowUserLayout;
 import com.inspection.application.widget.RoomListLayout;
 import com.library.utils.DisplayUtil;
+import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +57,6 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private TextView finishTv;
     private UploadTaskInfo uploadTaskInfo;
     private InspectionDetailBean inspectionBeen;
-    private String mExecutorUserIds;
     private ArrayList<EmployeeBean> chooseEmployeeBeen;//已经添加的人员
 
     @Override
@@ -74,6 +77,26 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         mList = new ArrayList<>();
         roomListLayouts = new ArrayList<>();
         mPresenter.getInspectionDetailList(taskId);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_scan) {
+            Intent intent = new Intent(this, CaptureActivity.class);
+            intent.putExtra(CaptureActivity.SHOW_LIGHT, false);
+            intent.putExtra(CaptureActivity.PLAY_SOUND, true);
+            startActivityForResult(intent, SCAN_CODE);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -102,8 +125,10 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         noDataLayout.setVisibility(View.GONE);
         mList.clear();
         mList.addAll(inspectionBeen.getRoomList());
-        uploadTaskInfo = new UploadTaskInfo(inspectionBeen.getEndTime(), inspectionBeen.getIsManualCreated(), inspectionBeen.getPlanEndTime(), inspectionBeen.getPlanStartTime()
-                , inspectionBeen.getStartTime(), inspectionBeen.getTaskId(), inspectionBeen.getTaskName(), inspectionBeen.getTaskState());
+        uploadTaskInfo = new UploadTaskInfo(inspectionBeen.getEndTime(), inspectionBeen.getIsManualCreated()
+                , inspectionBeen.getPlanEndTime(), inspectionBeen.getPlanStartTime()
+                , inspectionBeen.getStartTime(), inspectionBeen.getTaskId(), inspectionBeen.getTaskName()
+                , inspectionBeen.getTaskState());
         addRoomToLayout();
         setEmployeeToView();
     }
@@ -147,20 +172,16 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
                     showMessage("还有没有完成的点检任务");
                     return;
                 }
-                if (ll_add_user.getVisibility() == View.VISIBLE) {
-                    StringBuilder sb = new StringBuilder();
-                    if (chooseEmployeeBeen != null) {
-                        for (int i = 0; i < chooseEmployeeBeen.size(); i++) {
-                            sb.append(chooseEmployeeBeen.get(i).getUser().getUserId());
-                            if (i != chooseEmployeeBeen.size() - 1) {
-                                sb.append(",");
-                            }
+                StringBuilder sb = new StringBuilder();
+                if (chooseEmployeeBeen != null) {
+                    for (int i = 0; i < chooseEmployeeBeen.size(); i++) {
+                        sb.append(chooseEmployeeBeen.get(i).getUser().getUserId());
+                        if (i != chooseEmployeeBeen.size() - 1) {
+                            sb.append(",");
                         }
                     }
-                    mPresenter.finishAllTask(taskId, sb.toString());
-                } else {
-                    mPresenter.finishAllTask(taskId, mExecutorUserIds);
                 }
+                mPresenter.finishAllTask(taskId, sb.toString());
             }
         });
         for (int i = 0; i < mList.size(); i++) {
@@ -239,6 +260,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
     private int REQUEST_CODE = 200;
     private int REQUEST_CODE_WORK = 201;
+    private static int SCAN_CODE = 202;
 
     private View.OnClickListener addEmployeeClickListener = new View.OnClickListener() {
 
@@ -271,6 +293,40 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
                 }
             }
             addRoomToLayout();
+        } else if (resultCode == Activity.RESULT_OK && data != null && requestCode == SCAN_CODE) {
+            String result = data.getStringExtra(CaptureActivity.RESULT);
+            if (!TextUtils.isEmpty(result)) {
+                Logger.d(result);
+                try {
+                    long scanEquipId = Long.valueOf(result);
+                    scanResult(scanEquipId);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    private void scanResult(long scanId) {
+        RoomListBean data = null;
+        for (int i = 0; i < inspectionBeen.getRoomList().size(); i++) {
+            for (int j = 0; j < inspectionBeen.getRoomList().get(i).getTaskEquipment().size(); j++) {
+                if (scanId == inspectionBeen.getRoomList().get(i).getTaskEquipment().get(j)
+                        .getEquipment().getEquipmentId()) {
+                    data = inspectionBeen.getRoomList().get(i);
+                    break;
+                }
+            }
+        }
+        if (data != null) {
+            if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
+                mPresenter.startTask(data, taskId);
+            } else {
+                startWork(data);
+            }
+        } else {
+            App.getInstance().showToast("没有找到设备");
         }
     }
 
