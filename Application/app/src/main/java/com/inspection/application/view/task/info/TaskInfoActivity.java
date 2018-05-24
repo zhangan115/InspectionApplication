@@ -13,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.zxing.client.android.CaptureActivity;
+import com.inspection.application.BuildConfig;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
@@ -59,6 +60,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private InspectionDetailBean inspectionBeen;
     private ArrayList<EmployeeBean> chooseEmployeeBeen;//已经添加的人员
 
+    private boolean isScan = TextUtils.equals("T", BuildConfig.TEST);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +84,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+        return isScan;
     }
 
 

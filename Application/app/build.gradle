@@ -20,9 +20,24 @@ android {
             applicationId "com.inspection.application"
             dimension "default"
             resValue "string", "app_name", "点检"
+            buildConfigField "String", "TEST", '"T"'
 //            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
-//            buildConfigField "String", "HOST", '"http://192.168.3.4:8080/sitopeuv/api"'
             buildConfigField "String", "HOST", '"http://sitech365.com/dianjian/api"'
+            manifestPlaceholders = [
+                    TASK_AFFINITY_VALUE: "android.task.inspection.application",
+                    GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",
+                    GETUI_APP_KEY      : "s4dB4x4HpE9JpkBglnrm45",
+                    GETUI_APP_SECRET   : "HRL5AYMMUp5qCYZeglMW03",
+                    PACKAGE_NAME       : applicationId
+            ]
+        }
+        inspection_app_test {
+            applicationId "com.inspection.application"
+            dimension "default"
+            resValue "string", "app_name", "点检"
+            buildConfigField "String", "TEST", '"T"'
+            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
+//            buildConfigField "String", "HOST", '"http://sitech365.com/dianjian/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
                     GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",

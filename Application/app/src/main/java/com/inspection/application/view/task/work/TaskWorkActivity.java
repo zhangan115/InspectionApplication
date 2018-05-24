@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.zxing.client.android.CaptureActivity;
+import com.inspection.application.BuildConfig;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
@@ -54,7 +55,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     private UploadTaskInfo uploadTaskInfo;
     private boolean isUploadingData;
     private long taskId;
-
+    private boolean isScan = TextUtils.equals("T", BuildConfig.TEST);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -234,7 +235,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
             startActivityForResult(intent, SCAN_CODE);
             return true;
         }
-        return super.onOptionsItemSelected(item);
+        return isScan;
     }
 
     @Override
