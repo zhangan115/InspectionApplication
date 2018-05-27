@@ -57,5 +57,7 @@ public interface FaultContract {
         void deleteImage(Image image);
 
         void cleanCache(List<Image> images);
+
+        void getEquipmentFromCache();
     }
 }

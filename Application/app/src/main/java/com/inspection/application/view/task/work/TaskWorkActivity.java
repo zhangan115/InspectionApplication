@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,7 +13,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -56,13 +54,14 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     private boolean isUploadingData;
     private long taskId;
     private boolean isScan = TextUtils.equals("T", BuildConfig.TEST);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mRoomListBean = getIntent().getParcelableExtra(ConstantStr.KEY_BUNDLE_OBJECT);
+        new TaskWorkPresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), this);
+        mRoomListBean = mPresenter.getRoomDataFromCache();
         taskId = getIntent().getLongExtra(ConstantStr.KEY_BUNDLE_LONG, -1);
         uploadTaskInfo = getIntent().getParcelableExtra(ConstantStr.KEY_BUNDLE_OBJECT_1);
-        mRoomListBean.getTaskEquipment().get(mCurrentPosition).setChoose(true);
         setLayoutAndToolbar(R.layout.activity_task_work, mRoomListBean.getRoom().getRoomName());
         ImageView floatingActionButton = findViewById(R.id.float_btn);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -71,20 +70,32 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 Intent intent = new Intent(TaskWorkActivity.this, FaultActivity.class);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
                 intent.putExtra(ConstantStr.KEY_BUNDLE_LONG_1, mRoomListBean.getRoom().getRoomId());
+                if (mTaskEquipmentBean == null) {
+                    showMessage("没有设备需要巡检");
+                    return;
+                }
                 intent.putExtra(ConstantStr.KEY_BUNDLE_LONG_2, mTaskEquipmentBean.getEquipment().getEquipmentId());
                 intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, mTaskEquipmentBean.getEquipment());
                 startActivity(intent);
             }
         });
-        new TaskWorkPresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), this);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        TextView tv_no_equipment;
         if (drawer != null) {
             NavigationView navigationView = findViewById(R.id.nav_view);
             View view = navigationView.getHeaderView(0);
             mRecyclerView = view.findViewById(R.id.recycleViewId);
+            tv_no_equipment = view.findViewById(R.id.tv_no_equipment);
         } else {
+            tv_no_equipment = findViewById(R.id.tv_no_equipment);
             mRecyclerView = findViewById(R.id.recycleViewId);
             mTwoPane = true;
+        }
+        if (mRoomListBean.getTaskEquipment() == null || mRoomListBean.getTaskEquipment().size() == 0) {
+            tv_no_equipment.setVisibility(View.VISIBLE);
+        } else {
+            tv_no_equipment.setVisibility(View.GONE);
+            mRoomListBean.getTaskEquipment().get(mCurrentPosition).setChoose(true);
         }
         findViewById(R.id.tv_up).setOnClickListener(this);
         findViewById(R.id.tv_down).setOnClickListener(this);
@@ -275,6 +286,10 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     }
 
     private void showTaskEquipData() {
+        if (mRoomListBean.getTaskEquipment() == null || mRoomListBean.getTaskEquipment().size() == 0) {
+            showMessage("该区域下无点检的设备");
+            return;
+        }
         for (int i = 0; i < mRoomListBean.getTaskEquipment().size(); i++) {
             if (i != mCurrentPosition) {
                 mRoomListBean.getTaskEquipment().get(i).setChoose(false);

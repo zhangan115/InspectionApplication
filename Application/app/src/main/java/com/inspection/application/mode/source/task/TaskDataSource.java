@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.inspection.application.mode.api.ApiCallBackObject;
+import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.secure.SecureBean;
 import com.inspection.application.mode.bean.task.AlarmList;
 import com.inspection.application.mode.bean.task.DataItemValueListBean;
@@ -235,4 +236,28 @@ public interface TaskDataSource {
     @NonNull
     Subscription finishAllTask(long taskId, String userIds, IObjectCallBack<String> callBack);
 
+    @Nullable
+    EquipmentBean getEquipFromCache();
+
+    /**
+     * 保存设备到缓存中
+     *
+     * @param equipment 设备
+     */
+    void saveEquipToCache(EquipmentBean equipment);
+
+    /**
+     * 保存配电室信息
+     *
+     * @param roomListBean 配电室
+     */
+    void saveRoomData(RoomListBean roomListBean);
+
+    /**
+     * 从缓存获取配电室信息
+     *
+     * @return 配电室
+     */
+    @Nullable
+    RoomListBean getRoomDataFromCache();
 }

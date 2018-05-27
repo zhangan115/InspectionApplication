@@ -2,6 +2,7 @@ package com.inspection.application.view.task.work;
 
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
+import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.bean.task.upload.UploadTaskInfo;
 
@@ -20,6 +21,7 @@ public interface TaskWorkContract {
 
         void loadEquipmentDb(long taskId, RoomListBean roomListBean);
 
+        RoomListBean getRoomDataFromCache();
     }
 
     interface View extends BaseView<Presenter> {

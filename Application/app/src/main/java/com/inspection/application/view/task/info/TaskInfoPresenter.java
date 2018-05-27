@@ -3,7 +3,6 @@ package com.inspection.application.view.task.info;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.inspection.application.mode.bean.task.InspectionBean;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.callback.IObjectCallBack;
@@ -119,6 +118,11 @@ class TaskInfoPresenter implements TaskInfoContract.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public void saveRoomDataToCache(RoomListBean roomListBean) {
+        mTaskDataSource.saveRoomData(roomListBean);
     }
 
     @Override

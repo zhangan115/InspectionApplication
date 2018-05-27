@@ -1,8 +1,13 @@
 package com.inspection.application.view.task.info;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,6 +36,7 @@ import com.inspection.application.widget.RoomListLayout;
 import com.library.utils.DisplayUtil;
 import com.orhanobut.logger.Logger;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -50,7 +56,6 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private TaskInfoContract.Presenter mPresenter;
     private List<RoomListLayout> roomListLayouts;
     private List<RoomListBean> mList;
-    private Subscription subscription;
 
     private RelativeLayout noDataLayout;
     private LinearLayout mRoomsLayout;
@@ -61,6 +66,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private ArrayList<EmployeeBean> chooseEmployeeBeen;//已经添加的人员
 
     private boolean isScan = TextUtils.equals("T", BuildConfig.TEST);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +84,11 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         finishTv = findViewById(R.id.tv_finish);
         mList = new ArrayList<>();
         roomListLayouts = new ArrayList<>();
+        refreshUi = new RefreshUi();
+        IntentFilter filter = new IntentFilter(ConstantStr.REFRESH_UI);
+        registerReceiver(refreshUi, filter);
+        myHandle = new MyHandle(new WeakReference<>(TaskInfoActivity.this));
+        new Thread(new RefreshRunnable()).start();
         mPresenter.getInspectionDetailList(taskId);
     }
 
@@ -139,8 +150,8 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     public void startWork(RoomListBean data) {
         Intent intent = new Intent(TaskInfoActivity.this, TaskWorkActivity.class);
         intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
-        intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT, data);
         intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT_1, uploadTaskInfo);
+        mPresenter.saveRoomDataToCache(data);
         startActivityForResult(intent, REQUEST_CODE_WORK);
     }
 
@@ -193,18 +204,64 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
             roomListLayouts.add(roomListLayout);
             mRoomsLayout.addView(roomListLayout);
         }
-        subscription = rx.Observable.interval(1, TimeUnit.SECONDS)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Long>() {
-                    @Override
-                    public void call(Long aLong) {
-                        if (roomListLayouts.size() > 0) {
-                            for (int i = 0; i < roomListLayouts.size(); i++) {
-                                roomListLayouts.get(i).timer();
-                            }
-                        }
-                    }
-                });
+    }
+
+    private boolean canRun = false;
+    private MyHandle myHandle;
+
+    private class RefreshRunnable implements Runnable {
+
+        @Override
+        public void run() {
+            while (!canRun) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (myHandle != null) {
+                    myHandle.sendEmptyMessage(1);
+                } else {
+                    canRun = false;
+                }
+            }
+        }
+    }
+
+    private static class MyHandle extends Handler {
+        WeakReference<TaskInfoActivity> activityWr;
+
+        MyHandle(WeakReference<TaskInfoActivity> activityWr) {
+            this.activityWr = activityWr;
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (activityWr == null || activityWr.get() == null) {
+                return;
+            }
+            Intent intent = new Intent();
+            intent.setAction(ConstantStr.REFRESH_UI);
+            activityWr.get().sendBroadcast(intent);
+        }
+    }
+
+    private RefreshUi refreshUi;
+
+    private class RefreshUi extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(ConstantStr.REFRESH_UI, intent.getAction())) {
+                if (roomListLayouts == null || roomListLayouts.size() == 0) {
+                    return;
+                }
+                for (int i = 0; i < roomListLayouts.size(); i++) {
+                    roomListLayouts.get(i).timer();
+                }
+            }
+        }
     }
 
     private void setEmployeeToView() {
@@ -335,9 +392,13 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
+        try {
+            if (refreshUi == null) return;
+            unregisterReceiver(refreshUi);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        canRun = false;
     }
 
     @Override

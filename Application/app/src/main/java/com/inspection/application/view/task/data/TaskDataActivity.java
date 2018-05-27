@@ -45,7 +45,6 @@ public class TaskDataActivity extends BaseActivity implements TaskDataContract.V
         new TaskDataPresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), this);
         mListView = findViewById(R.id.expandableListView);
         noDataLayout = findViewById(R.id.layout_no_data);
-
         mPresenter.getCheckData(taskId);
         mPresenter.getTaskData(taskId);
 

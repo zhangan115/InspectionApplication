@@ -70,6 +70,11 @@ class TaskWorkPresenter implements TaskWorkContract.Presenter {
     }
 
     @Override
+    public RoomListBean getRoomDataFromCache() {
+        return mTaskDataSource.getRoomDataFromCache();
+    }
+
+    @Override
     public void subscribe() {
 
     }

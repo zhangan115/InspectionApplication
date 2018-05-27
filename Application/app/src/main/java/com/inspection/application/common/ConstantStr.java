@@ -104,4 +104,9 @@ public interface ConstantStr {
     String NEWS_TYPE_ALARM = "news_type_alarm";
     String NEWS_TYPE_WORK = "news_type_work";
 
+    String TASK_EQUIP_KEY = "task_equip_key";
+    String TASK_ROOM_KEY = "task_room_key";
+
+    String REFRESH_UI = "refresh_ui";
+
 }

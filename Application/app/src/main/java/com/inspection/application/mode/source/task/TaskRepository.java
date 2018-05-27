@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.inspection.application.app.App;
@@ -15,6 +16,7 @@ import com.inspection.application.mode.api.ApiCallBackObject;
 import com.inspection.application.mode.api.TaskApi;
 import com.inspection.application.mode.api.UploadApi;
 import com.inspection.application.mode.bean.Bean;
+import com.inspection.application.mode.bean.equipment.EquipmentBean;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDataDb;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDataDbDao;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDb;
@@ -45,6 +47,7 @@ import com.inspection.application.mode.db.DbManager;
 import com.inspection.application.mode.source.FilePartManager;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -874,5 +877,49 @@ public class TaskRepository implements TaskDataSource {
 
             }
         }.execute().subscribe();
+    }
+
+    private WeakReference<EquipmentBean> equipWf;
+
+    @Nullable
+    @Override
+    public EquipmentBean getEquipFromCache() {
+        if (equipWf != null && equipWf.get() != null) {
+            return equipWf.get();
+        }
+        String equipCache = dataSp.getString(ConstantStr.TASK_EQUIP_KEY, "");
+        EquipmentBean equipmentBean = null;
+        if (!TextUtils.isEmpty(equipCache)) {
+            equipmentBean = new Gson().fromJson(equipCache, EquipmentBean.class);
+        }
+        return equipmentBean;
+    }
+
+    @Override
+    public void saveEquipToCache(EquipmentBean equipment) {
+        dataSp.edit().putString(ConstantStr.TASK_EQUIP_KEY, new Gson().toJson(equipment)).apply();
+        equipWf = new WeakReference<>(equipment);
+    }
+
+    private WeakReference<RoomListBean> roomWf;
+
+    @Override
+    public void saveRoomData(RoomListBean roomListBean) {
+        roomWf = new WeakReference<>(roomListBean);
+        dataSp.edit().putString(ConstantStr.TASK_ROOM_KEY, new Gson().toJson(roomListBean)).apply();
+    }
+
+    @Nullable
+    @Override
+    public RoomListBean getRoomDataFromCache() {
+        if (roomWf != null && roomWf.get() != null) {
+            return roomWf.get();
+        }
+        String roomCache = dataSp.getString(ConstantStr.TASK_ROOM_KEY, "");
+        RoomListBean roomListBean = null;
+        if (!TextUtils.isEmpty(roomCache)) {
+            roomListBean = new Gson().fromJson(roomCache, RoomListBean.class);
+        }
+        return roomListBean;
     }
 }
