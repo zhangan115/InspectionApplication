@@ -196,7 +196,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 for (int i = 0; i < mRoomListBean.getTaskEquipment().size(); i++) {
                     TaskEquipmentBean taskEquipmentBean = mRoomListBean.getTaskEquipment().get(i);
                     for (int j = 0; j < taskEquipmentBean.getDataList().get(0).getDataItemValueList().size(); j++) {
-                        if (TextUtils.isEmpty(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(i).getDataItem().getValue())) {
+                        if (TextUtils.isEmpty(taskEquipmentBean.getDataList().get(0).getDataItemValueList().get(j).getDataItem().getValue())) {
                             isCanFinish = false;
                             break;
                         }

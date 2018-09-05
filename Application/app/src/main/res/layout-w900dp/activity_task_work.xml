@@ -28,7 +28,7 @@
                     android:id="@+id/recycleViewId"
                     android:layout_width="@dimen/item_width"
                     android:layout_height="match_parent"
-                    app:layoutManager="LinearLayoutManager" />
+                    app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
                 <TextView
                     android:id="@+id/tv_no_equipment"

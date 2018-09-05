@@ -22,6 +22,7 @@ import com.inspection.application.mode.db.DbManager;
 import com.inspection.application.view.ApplicationModule;
 import com.library.utils.Base64Util;
 import com.library.utils.SPHelper;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
@@ -47,6 +48,7 @@ public class App extends AbsBaseApp {
     public void onCreate() {
         super.onCreate();
         _instance = this;
+        CrashReport.initCrashReport(getApplicationContext(), "59b79dca80", false);
         DbManager.init(this);
         Utils.init(this);
     }

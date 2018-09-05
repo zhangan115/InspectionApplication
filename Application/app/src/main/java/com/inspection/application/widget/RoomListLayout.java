@@ -7,18 +7,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.blankj.utilcode.util.TimeUtils;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
-import com.inspection.application.common.ConstantStr;
-import com.inspection.application.common.TaskStateUtils;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDbDao;
 import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.db.DbManager;
-import com.library.utils.DataUtil;
-import com.library.utils.SPHelper;
-import com.orhanobut.logger.Logger;
 
 
 /**

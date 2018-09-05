@@ -242,7 +242,7 @@ public class NewsRepository implements NewsDataSource {
                     @Override
                     public void onNext(List<NewsBean> newsBeans) {
                         callBack.onFinish();
-                        if (newsBeans != null) {
+                        if (newsBeans != null && newsBeans.size() > 0) {
                             callBack.onData(newsBeans);
                         } else {
                             callBack.noData();

@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.inspection.application.R;
+import com.inspection.application.app.App;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDataDb;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDb;
 import com.inspection.application.mode.bean.task.DataItemBean;
@@ -84,6 +85,7 @@ public class TaskDataType1 extends LinearLayout implements View.OnClickListener 
                 return;
             }
             if (dataItemBean.getInspectionItemOptionList() == null || dataItemBean.getInspectionItemOptionList().size() == 0) {
+                App.getInstance().showToast("请在后台配置选项");
                 return;
             }
             List<String> items = new ArrayList<>();
