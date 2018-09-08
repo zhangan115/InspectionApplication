@@ -23,8 +23,8 @@ public class WorkNewsActivity extends BaseActivity {
         ShowMessageFragment fragment = (ShowMessageFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = ShowMessageFragment.newInstance(2);
+            ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
         }
         new NewsPresenter(Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), fragment);
-        ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
     }
 }

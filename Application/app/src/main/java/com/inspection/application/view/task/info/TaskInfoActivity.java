@@ -56,6 +56,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private TaskInfoContract.Presenter mPresenter;
     private List<RoomListLayout> roomListLayouts;
     private List<RoomListBean> mList;
+    private String scanResult = null;
 
     private RelativeLayout noDataLayout;
     private LinearLayout mRoomsLayout;
@@ -144,6 +145,10 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
                 , inspectionBeen.getTaskState());
         addRoomToLayout();
         setEmployeeToView();
+        if (!TextUtils.isEmpty(scanResult)) {
+            Logger.d(scanResult);
+            scanResult(scanResult);
+        }
     }
 
     @Override
@@ -353,39 +358,42 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
             }
             addRoomToLayout();
         } else if (resultCode == Activity.RESULT_OK && data != null && requestCode == SCAN_CODE) {
-            String result = data.getStringExtra(CaptureActivity.RESULT);
-            if (!TextUtils.isEmpty(result)) {
-                Logger.d(result);
-                try {
-                    long scanEquipId = Long.valueOf(result);
-                    scanResult(scanEquipId);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            scanResult = data.getStringExtra(CaptureActivity.RESULT);
+            if (!TextUtils.isEmpty(scanResult)) {
+                Logger.d(scanResult);
+                scanResult(scanResult);
             }
         }
     }
 
 
-    private void scanResult(long scanId) {
-        RoomListBean data = null;
-        for (int i = 0; i < inspectionBeen.getRoomList().size(); i++) {
-            for (int j = 0; j < inspectionBeen.getRoomList().get(i).getTaskEquipment().size(); j++) {
-                if (scanId == inspectionBeen.getRoomList().get(i).getTaskEquipment().get(j)
-                        .getEquipment().getEquipmentId()) {
-                    data = inspectionBeen.getRoomList().get(i);
-                    break;
+    private void scanResult(String result) {
+        try {
+            long scanEquipId = Long.valueOf(result);
+            RoomListBean data = null;
+            if (inspectionBeen == null) return;
+            for (int i = 0; i < inspectionBeen.getRoomList().size(); i++) {
+                for (int j = 0; j < inspectionBeen.getRoomList().get(i).getTaskEquipment().size(); j++) {
+                    if (scanEquipId == inspectionBeen.getRoomList().get(i).getTaskEquipment().get(j)
+                            .getEquipment().getEquipmentId()) {
+                        data = inspectionBeen.getRoomList().get(i);
+                        break;
+                    }
                 }
             }
-        }
-        if (data != null) {
-            if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
-                mPresenter.startTask(data, taskId);
+            if (data != null) {
+                if (data.getTaskRoomState() == ConstantInt.ROOM_STATE_1) {
+                    mPresenter.startTask(data, taskId);
+                } else {
+                    startWork(data);
+                }
             } else {
-                startWork(data);
+                App.getInstance().showToast("没有找到设备");
             }
-        } else {
-            App.getInstance().showToast("没有找到设备");
+            scanResult = null;
+        } catch (Exception e) {
+            e.printStackTrace();
+            scanResult = null;
         }
     }
 

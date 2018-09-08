@@ -79,9 +79,9 @@ public class NewsFragment extends MvpFragment<NewsContract.Presenter> implements
         ShowMessageFragment fragment = (ShowMessageFragment) getChildFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = ShowMessageFragment.newInstance(0);
+            getChildFragmentManager().beginTransaction().add(R.id.frame_container, fragment).commit();
         }
         new NewsPresenter(Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), fragment);
-        getChildFragmentManager().beginTransaction().add(R.id.frame_container, fragment).commit();
         return rootView;
     }
 

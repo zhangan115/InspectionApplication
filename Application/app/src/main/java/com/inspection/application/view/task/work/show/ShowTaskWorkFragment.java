@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,7 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
     private static final int ACTION_START_CAMERA = 100;
     private static final int ACTION_START_ALARM = 101;
     private TaskEquipmentBean mTaskEquipmentBean;
-    private IViewCreateListener createListener;
+//        private IViewCreateListener createListener;
     private boolean canEdit;
     private long taskId, roomId;
     private List<TaskDataType3> photoTypeList;
@@ -80,14 +81,15 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
     }
 
     public void setCreateListener(IViewCreateListener createListener) {
-        this.createListener = createListener;
+//        this.createListener = createListener;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (createListener != null) {
-            createListener.viewCreate();
+        if (getActivity() != null) {
+            Log.d("za", "view_create");
+            getActivity().sendBroadcast(new Intent("view_create"));
         }
     }
 
@@ -214,8 +216,9 @@ public class ShowTaskWorkFragment extends MvpFragment<ShowTaskWorkContact.Presen
 
     @Override
     public void equipmentState() {
-        if (createListener != null) {
-            createListener.equipmentStateChange();
+        if (getActivity() != null) {
+            Log.d("za", "equipment_state");
+            getActivity().sendBroadcast(new Intent("equipment_state"));
         }
     }
 }

@@ -28,7 +28,6 @@ import com.inspection.application.view.main.home.HomeFragment;
 import com.inspection.application.view.main.mine.MineFragment;
 import com.inspection.application.view.main.mine.MinePresenter;
 import com.inspection.application.view.main.news.NewsFragment;
-import com.inspection.application.view.main.news.show.NewsPresenter;
 import com.inspection.application.view.splash.SplashActivity;
 
 import java.util.ArrayList;
@@ -53,7 +52,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         setContentView(R.layout.activity_main);
         new MainPresenter(Injection.getIntent().provideApplicationRepository(App.getInstance().getModule())
                 , Injection.getIntent().provideNewsRepository(App.getInstance().getModule()), this);
-        initView();
+        initView(savedInstanceState);
         checkPermission();
         mPresenter.unSubscribe();
         mPresenter.getNewVersion();
@@ -65,7 +64,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         registerReceiver(messageBR, filter);
     }
 
-    private void initView() {
+    private void initView(Bundle savedInstanceState) {
         mFragments = getFragments();
         bottomNavigation = findViewById(R.id.bottom_navigation);
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.str_first_nav_1, R.drawable.icon_home, R.color.colorPrimary);
@@ -103,9 +102,26 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         });
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+        if (savedInstanceState != null) {
+            selectPosition = savedInstanceState.getInt("selectPosition");
+            if (mFragments.get(selectPosition).isAdded()) {
+                transaction.show(mFragments.get(selectPosition));
+            } else {
+                transaction.add(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+            }
+        } else {
+            transaction.add(R.id.frame_container, mFragments.get(selectPosition), "tag_" + selectPosition);
+        }
         bottomNavigation.setCurrentItem(selectPosition);
         transaction.commit();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState != null) {
+            outState.putInt("selectPosition", selectPosition);
+        }
     }
 
     public ArrayList<Fragment> getFragments() {
@@ -118,7 +134,7 @@ public class MainActivity extends BaseActivity implements EasyPermissions.Permis
         if (newsFragment == null) {
             newsFragment = NewsFragment.newInstance();
         }
-        MineFragment mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("tag_3");
+        MineFragment mineFragment = (MineFragment) getSupportFragmentManager().findFragmentByTag("tag_2");
         if (mineFragment == null) {
             mineFragment = MineFragment.newInstance();
         }

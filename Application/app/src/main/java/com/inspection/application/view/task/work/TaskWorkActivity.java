@@ -1,7 +1,10 @@
 package com.inspection.application.view.task.work;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,6 +12,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,6 +58,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     private boolean isUploadingData;
     private long taskId;
     private boolean isScan = TextUtils.equals("T", BuildConfig.TEST);
+    private ViewCreateBr viewCreateBr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +156,11 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                 showTaskEquipData();
             }
         });
+        viewCreateBr = new ViewCreateBr();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction("view_create");
+        filter.addAction("equipment_state");
+        registerReceiver(viewCreateBr, filter);
         mPresenter.loadEquipmentDb(taskId, mRoomListBean);
     }
 
@@ -268,6 +278,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
 
     private void scanResult(long scanId) {
         boolean findEquipment = false;
+        if (mTaskEquipmentBean == null) return;
         if (scanId != mTaskEquipmentBean.getEquipment().getEquipmentId()) {
             for (int i = 0; i < mRoomListBean.getTaskEquipment().size(); i++) {
                 if (scanId == mRoomListBean.getTaskEquipment().get(i).getEquipment().getEquipmentId()) {
@@ -317,6 +328,29 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (viewCreateBr != null)
+                unregisterReceiver(viewCreateBr);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class ViewCreateBr extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (TextUtils.equals(intent.getAction(), "view_create")) {
+                viewCreate();
+            } else if (TextUtils.equals(intent.getAction(), "equipment_state")) {
+                equipmentStateChange();
+            }
+        }
+    }
+
+    @Override
     public void equipmentStateChange() {
         mRecyclerView.getAdapter().notifyItemChanged(mCurrentPosition);
     }
@@ -358,10 +392,10 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         ShowTaskWorkFragment fragment = (ShowTaskWorkFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = ShowTaskWorkFragment.newInstance(taskId, mRoomListBean.getRoom().getRoomId());
+            ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
         }
         new ShowTaskWorkPresenter(Injection.getIntent().provideTaskRepository(App.getInstance().getModule()), fragment);
         fragment.setCreateListener(this);
-        ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
         equipmentChangeListener = fragment;
         if (mRecyclerView.getAdapter() != null) {
             mRecyclerView.getAdapter().notifyDataSetChanged();

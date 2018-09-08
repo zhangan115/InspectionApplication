@@ -28,8 +28,8 @@ public class EquipmentArchivesActivity extends BaseActivity {
         EquipmentArchivesFragment fragment = (EquipmentArchivesFragment) getSupportFragmentManager().findFragmentById(R.id.frame_container);
         if (fragment == null) {
             fragment = EquipmentArchivesFragment.newInstance(bean);
+            ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
         }
         new EquipmentArchivesPresenter(Injection.getIntent().provideEquipmentRepository(), fragment);
-        ActivityUtilsV4.addFragmentToActivity(getSupportFragmentManager(), fragment, R.id.frame_container);
     }
 }

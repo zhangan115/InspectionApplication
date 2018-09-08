@@ -71,6 +71,11 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
         initView();
         getDataFromIntent();
         initData();
+        if (savedInstanceState != null) {
+            String file = savedInstanceState.getString("photoFile");
+            if (!TextUtils.isEmpty(file))
+                photoFile = new File(file);
+        }
         mPresenter.getCacheFromDb(INSPECTION_TAG);
     }
 
@@ -240,6 +245,14 @@ public class FaultActivity extends BaseActivity implements FaultContract.View {
                         })
                         .show();
                 break;
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState != null && photoFile != null) {
+            outState.putString("photoFile", photoFile.getAbsolutePath());
         }
     }
 
