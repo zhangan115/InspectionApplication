@@ -368,6 +368,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
 
     private void scanResult(String result) {
+        // TODO: 2019-09-18 修改搜索结果
         try {
             long scanEquipId = Long.valueOf(result);
             RoomListBean data = null;
