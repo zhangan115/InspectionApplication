@@ -368,18 +368,14 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
 
     private void scanResult(String result) {
-        // TODO: 2019-09-18 修改搜索结果
         try {
             long scanEquipId = Long.valueOf(result);
             RoomListBean data = null;
             if (inspectionBeen == null) return;
             for (int i = 0; i < inspectionBeen.getRoomList().size(); i++) {
-                for (int j = 0; j < inspectionBeen.getRoomList().get(i).getTaskEquipment().size(); j++) {
-                    if (scanEquipId == inspectionBeen.getRoomList().get(i).getTaskEquipment().get(j)
-                            .getEquipment().getEquipmentId()) {
-                        data = inspectionBeen.getRoomList().get(i);
-                        break;
-                    }
+                if (scanEquipId == inspectionBeen.getRoomList().get(i).getTaskRoomId()) {
+                    data = inspectionBeen.getRoomList().get(i);
+                    break;
                 }
             }
             if (data != null) {
@@ -389,7 +385,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
                     startWork(data);
                 }
             } else {
-                App.getInstance().showToast("没有找到设备");
+                App.getInstance().showToast("没有找到区域");
             }
             scanResult = null;
         } catch (Exception e) {

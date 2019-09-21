@@ -241,7 +241,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return super.onCreateOptionsMenu(menu);
+        return false;
     }
 
     private static int SCAN_CODE = 200;
