@@ -156,7 +156,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         Intent intent = new Intent(TaskInfoActivity.this, TaskWorkActivity.class);
         intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
         intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT_1, uploadTaskInfo);
-        mPresenter.saveRoomDataToCache(data);
+        mPresenter.saveRoomDataToCache(data,taskId);
         startActivityForResult(intent, REQUEST_CODE_WORK);
     }
 
@@ -373,7 +373,8 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
             RoomListBean data = null;
             if (inspectionBeen == null) return;
             for (int i = 0; i < inspectionBeen.getRoomList().size(); i++) {
-                if (scanEquipId == inspectionBeen.getRoomList().get(i).getTaskRoomId()) {
+                long roomId = inspectionBeen.getRoomList().get(i).getRoom().getRoomId();
+                if (scanEquipId == roomId) {
                     data = inspectionBeen.getRoomList().get(i);
                     break;
                 }

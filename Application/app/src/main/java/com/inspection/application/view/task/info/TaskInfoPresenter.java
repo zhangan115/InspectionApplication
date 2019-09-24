@@ -121,8 +121,8 @@ class TaskInfoPresenter implements TaskInfoContract.Presenter {
     }
 
     @Override
-    public void saveRoomDataToCache(RoomListBean roomListBean) {
-        mTaskDataSource.saveRoomData(roomListBean);
+    public void saveRoomDataToCache(RoomListBean roomListBean, long taskId) {
+        mTaskDataSource.saveRoomData(roomListBean,taskId);
     }
 
     @Override

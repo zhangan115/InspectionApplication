@@ -7,8 +7,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.1'//GreenDao
+        classpath 'com.android.tools.build:gradle:3.4.0'
+        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'//GreenDao
     }
 }
 
@@ -37,7 +37,7 @@ ext {
     retrofit2Version = '2.1.0'
     okhttp3Version = '3.9.1'
     glideVersion = '3.7.0'
-    greenDaoVersion = '3.2.0'
+    greenDaoVersion = '3.2.2'
     daggerVersion = '2.5'
     rxjavaVersion = '1.1.8'
     rxandroidVersion = '1.2.1'

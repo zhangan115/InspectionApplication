@@ -251,7 +251,7 @@ public interface TaskDataSource {
      *
      * @param roomListBean 配电室
      */
-    void saveRoomData(RoomListBean roomListBean);
+    void saveRoomData(RoomListBean roomListBean, long taskId);
 
     /**
      * 从缓存获取配电室信息

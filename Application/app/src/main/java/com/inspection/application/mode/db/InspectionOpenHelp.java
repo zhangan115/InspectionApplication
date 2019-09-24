@@ -4,10 +4,11 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.github.yuweiguocn.library.greendao.MigrationHelper;
-import com.inspection.application.mode.bean.equipment.db.DaoMaster;
+
 import com.inspection.application.mode.bean.equipment.db.EquipmentDataDbDao;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDbDao;
 import com.inspection.application.mode.bean.equipment.db.RoomDbDao;
+import com.inspection.application.mode.bean.image.DaoMaster;
 import com.inspection.application.mode.bean.image.ImageDao;
 
 

@@ -1,10 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 
-def static releaseTime() {
-    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
-}
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
@@ -21,23 +17,8 @@ android {
             dimension "default"
             resValue "string", "app_name", "点检"
             buildConfigField "String", "TEST", '"T"'
-            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
-//            buildConfigField "String", "HOST", '"http://114.215.94.141:8099/api"'
-            manifestPlaceholders = [
-                    TASK_AFFINITY_VALUE: "android.task.inspection.application",
-                    GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",
-                    GETUI_APP_KEY      : "s4dB4x4HpE9JpkBglnrm45",
-                    GETUI_APP_SECRET   : "HRL5AYMMUp5qCYZeglMW03",
-                    PACKAGE_NAME       : applicationId
-            ]
-        }
-        inspection_app_test {
-            applicationId "com.inspection.application"
-            dimension "default"
-            resValue "string", "app_name", "点检"
-            buildConfigField "String", "TEST", '"T"'
-            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
-//            buildConfigField "String", "HOST", '"http://sitech365.com/dianjian/api"'
+//            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
+            buildConfigField "String", "HOST", '"http://114.215.94.141:8060/dianjian/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
                     GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",
@@ -53,11 +34,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    android.applicationVariants.all { variant ->
-        variant.outputs.all {
-            outputFileName = "点检_${variant.flavorName}_V${defaultConfig.versionName}_${releaseTime()}_${variant.buildType.name}.apk"
-        }
-    }
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']
@@ -90,4 +67,5 @@ dependencies {
     compile 'com.google.zxing:core:3.3.1'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
     compile 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'org.greenrobot:greendao:3.2.2'
 }

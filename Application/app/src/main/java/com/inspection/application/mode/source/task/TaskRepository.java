@@ -904,7 +904,24 @@ public class TaskRepository implements TaskDataSource {
     private WeakReference<RoomListBean> roomWf;
 
     @Override
-    public void saveRoomData(RoomListBean roomListBean) {
+    public void saveRoomData(RoomListBean roomListBean, long taskId) {
+        for (int i = 0; i <roomListBean.getTaskEquipment().size() ; i++) {
+          int valueSize =  roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().size();
+            for (int j = 0; j < valueSize; j++) {
+                DataItemBean bean = roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().get(j).getDataItem();
+                EquipmentDataDb equipmentData = DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao()
+                        .queryBuilder().where(EquipmentDataDbDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())
+                                , EquipmentDataDbDao.Properties.EquipmentId.eq(roomListBean.getTaskEquipment().get(i).getEquipment().getEquipmentId())
+                                , EquipmentDataDbDao.Properties.RoomId.eq(roomListBean.getRoom().getRoomId())
+                                , EquipmentDataDbDao.Properties.TaskId.eq(taskId)
+                                , EquipmentDataDbDao.Properties.DataItemId.eq(roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().get(j).getDataItemValueId())
+                                , EquipmentDataDbDao.Properties.Type.eq(roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().get(j).getDataItem().getInspectionType()))
+                        .unique();
+                if (equipmentData!=null){
+                    bean.setValue(equipmentData.getValue());
+                }
+            }
+        }
         roomWf = new WeakReference<>(roomListBean);
         dataSp.edit().putString(ConstantStr.TASK_ROOM_KEY, new Gson().toJson(roomListBean)).apply();
     }

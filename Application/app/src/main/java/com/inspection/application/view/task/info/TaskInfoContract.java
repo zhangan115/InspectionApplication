@@ -41,7 +41,7 @@ public interface TaskInfoContract {
 
         void finishAllTask(long taskId, String info);
 
-        void saveRoomDataToCache(RoomListBean roomListBean);
+        void saveRoomDataToCache(RoomListBean roomListBean, long taskId);
     }
 
 }

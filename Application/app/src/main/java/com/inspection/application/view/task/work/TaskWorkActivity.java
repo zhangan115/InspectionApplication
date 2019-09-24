@@ -89,6 +89,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
         if (drawer != null) {
             NavigationView navigationView = findViewById(R.id.nav_view);
             View view = navigationView.getHeaderView(0);
+            drawer.isDrawerOpen(GravityCompat.START);
             mRecyclerView = view.findViewById(R.id.recycleViewId);
             tv_no_equipment = view.findViewById(R.id.tv_no_equipment);
         } else {
@@ -325,6 +326,10 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
     @Override
     public void viewCreate() {
         showTaskEquipData();
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if(drawer!=null){
+            drawer.openDrawer(GravityCompat.START);
+        }
     }
 
     @Override
@@ -416,7 +421,16 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                     .negativeText(R.string.cancel)
                     .show();
         } else {
-            super.onBackPressed();
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            if(drawer!=null){
+                if(drawer.isDrawerOpen(GravityCompat.START)){
+                    drawer.closeDrawer(GravityCompat.START);
+                }else{
+                    super.onBackPressed();
+                }
+            }else{
+                super.onBackPressed();
+            }
         }
     }
 

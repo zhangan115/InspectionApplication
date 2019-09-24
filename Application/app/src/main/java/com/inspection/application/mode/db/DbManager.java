@@ -3,9 +3,9 @@ package com.inspection.application.mode.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.inspection.application.app.App;
-import com.inspection.application.mode.bean.equipment.db.DaoMaster;
-import com.inspection.application.mode.bean.equipment.db.DaoSession;
+import com.inspection.application.mode.bean.image.DaoMaster;
+import com.inspection.application.mode.bean.image.DaoSession;
+
 
 /**
  * 数据库管理器
