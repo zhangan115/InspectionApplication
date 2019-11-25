@@ -1,7 +1,5 @@
 package com.inspection.application.view.task.info;
 
-import android.support.annotation.NonNull;
-
 import com.inspection.application.base.BasePresenter;
 import com.inspection.application.base.BaseView;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;

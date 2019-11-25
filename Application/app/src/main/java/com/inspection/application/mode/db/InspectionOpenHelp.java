@@ -10,6 +10,7 @@ import com.inspection.application.mode.bean.equipment.db.EquipmentDbDao;
 import com.inspection.application.mode.bean.equipment.db.RoomDbDao;
 import com.inspection.application.mode.bean.image.DaoMaster;
 import com.inspection.application.mode.bean.image.ImageDao;
+import com.inspection.application.mode.bean.task.data.InspectionDataDbDao;
 
 
 import org.greenrobot.greendao.database.Database;
@@ -42,7 +43,7 @@ public class InspectionOpenHelp extends DaoMaster.OpenHelper {
             public void onDropAllTables(Database db, boolean ifExists) {
                 DaoMaster.dropAllTables(db, ifExists);
             }
-        }, ImageDao.class, EquipmentDbDao.class, EquipmentDataDbDao.class, RoomDbDao.class);
+        }, ImageDao.class, EquipmentDbDao.class, EquipmentDataDbDao.class, RoomDbDao.class, InspectionDataDbDao.class);
     }
 
 }

@@ -130,7 +130,9 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
     @Override
     public void noData() {
-        noDataLayout.setVisibility(View.VISIBLE);
+        if (this.inspectionBeen == null) {
+            noDataLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -156,7 +158,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         Intent intent = new Intent(TaskInfoActivity.this, TaskWorkActivity.class);
         intent.putExtra(ConstantStr.KEY_BUNDLE_LONG, taskId);
         intent.putExtra(ConstantStr.KEY_BUNDLE_OBJECT_1, uploadTaskInfo);
-        mPresenter.saveRoomDataToCache(data,taskId);
+        mPresenter.saveRoomDataToCache(data, taskId);
         startActivityForResult(intent, REQUEST_CODE_WORK);
     }
 

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.inspection.application.app.App;
@@ -33,6 +34,8 @@ import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.bean.task.TaskEquipmentBean;
 import com.inspection.application.mode.bean.task.data.CheckBean;
 import com.inspection.application.mode.bean.task.data.InspectionDataBean;
+import com.inspection.application.mode.bean.task.data.InspectionDataDb;
+import com.inspection.application.mode.bean.task.data.InspectionDataDbDao;
 import com.inspection.application.mode.bean.task.upload.UploadDataItemBean;
 import com.inspection.application.mode.bean.task.upload.UploadDataItemValueListBean;
 import com.inspection.application.mode.bean.task.upload.UploadDataListBean;
@@ -59,6 +62,7 @@ import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
+import rx.functions.Func0;
 import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
@@ -210,7 +214,7 @@ public class TaskRepository implements TaskDataSource {
 
     @NonNull
     @Override
-    public Subscription getTaskInfo(long taskId, final IObjectCallBack<InspectionDetailBean> callBack) {
+    public Subscription getTaskInfo(final long taskId, final IObjectCallBack<InspectionDetailBean> callBack) {
         return new ApiCallBackObject<InspectionDetailBean>(Api.createRetrofit().create(TaskApi.class)
                 .getInspectionDetailList(taskId)) {
             @Override
@@ -225,7 +229,15 @@ public class TaskRepository implements TaskDataSource {
 
             @Override
             public void onFail(@NonNull String message) {
-                callBack.onError(message);
+                InspectionDataDb db = DbManager.getDbManager().getDaoSession().getInspectionDataDbDao().queryBuilder()
+                        .where(InspectionDataDbDao.Properties.TaskId.eq(taskId))
+                        .build().unique();
+                if (db != null) {
+                    callBack.onFinish();
+                    callBack.onData(new Gson().fromJson(db.getInspectionData(), InspectionDetailBean.class));
+                } else {
+                    callBack.onError(message);
+                }
             }
 
             @Override
@@ -241,26 +253,7 @@ public class TaskRepository implements TaskDataSource {
             @Override
             public Observable<InspectionDetailBean> call(InspectionDetailBean inspectionDetailBean) {
                 if (inspectionDetailBean != null) {
-                    long taskId = inspectionDetailBean.getTaskId();
-                    List<RoomDb> saveRoomDbList = new ArrayList<>();
-                    for (int i = 0; i < inspectionDetailBean.getRoomList().size(); i++) {
-                        long roomId = inspectionDetailBean.getRoomList().get(i).getRoom().getRoomId();
-                        RoomDb roomDb = DbManager.getDbManager().getDaoSession().getRoomDbDao().queryBuilder()
-                                .where(RoomDbDao.Properties.TaskId.eq(taskId), RoomDbDao.Properties.RoomId.eq(roomId),
-                                        RoomDbDao.Properties.UserId.eq(App.getInstance().getCurrentUser().getUserId())).unique();
-                        if (roomDb == null) {
-                            roomDb = new RoomDb();
-                            roomDb.setRoomId(roomId);
-                            roomDb.setTaskId(taskId);
-                            roomDb.setLastSaveTime(System.currentTimeMillis());
-                            roomDb.setRoomName(inspectionDetailBean.getRoomList().get(i).getRoom().getRoomName());
-                            roomDb.setState(inspectionDetailBean.getRoomList().get(i).getTaskRoomState());
-                            saveRoomDbList.add(roomDb);
-                        }
-                        inspectionDetailBean.getRoomList().get(i).setRoomDb(roomDb);
-                    }
-                    DbManager.getDbManager().getDaoSession().getRoomDbDao().insertOrReplaceInTx(saveRoomDbList);
-                    return Observable.just(inspectionDetailBean);
+                    return getInspectionDetailBeanObservable(inspectionDetailBean);
                 }
                 return Observable.just(null);
             }
@@ -283,6 +276,39 @@ public class TaskRepository implements TaskDataSource {
                 callBack.onData(inspectionDetailBean);
             }
         });
+    }
+
+    private Observable<InspectionDetailBean> getInspectionDetailBeanObservable(InspectionDetailBean inspectionDetailBean) {
+        long taskId = inspectionDetailBean.getTaskId();
+        List<RoomDb> saveRoomDbList = new ArrayList<>();
+        for (int i = 0; i < inspectionDetailBean.getRoomList().size(); i++) {
+            long roomId = inspectionDetailBean.getRoomList().get(i).getRoom().getRoomId();
+            RoomDb roomDb = DbManager.getDbManager().getDaoSession().getRoomDbDao().queryBuilder()
+                    .where(RoomDbDao.Properties.TaskId.eq(taskId), RoomDbDao.Properties.RoomId.eq(roomId),
+                            RoomDbDao.Properties.UserId.eq(App.getInstance().getCurrentUser().getUserId())).unique();
+            if (roomDb == null) {
+                roomDb = new RoomDb();
+                roomDb.setRoomId(roomId);
+                roomDb.setTaskId(taskId);
+                roomDb.setLastSaveTime(System.currentTimeMillis());
+                roomDb.setRoomName(inspectionDetailBean.getRoomList().get(i).getRoom().getRoomName());
+                roomDb.setState(inspectionDetailBean.getRoomList().get(i).getTaskRoomState());
+                saveRoomDbList.add(roomDb);
+            }
+            inspectionDetailBean.getRoomList().get(i).setRoomDb(roomDb);
+        }
+        String jsonStr = new Gson().toJson(inspectionDetailBean);
+        InspectionDataDb db = DbManager.getDbManager().getDaoSession().getInspectionDataDbDao().queryBuilder()
+                .where(InspectionDataDbDao.Properties.TaskId.eq(taskId))
+                .build().unique();
+        if (db == null) {
+            db = new InspectionDataDb();
+        }
+        db.setTaskId(taskId);
+        db.setInspectionData(jsonStr);
+        DbManager.getDbManager().getDaoSession().getInspectionDataDbDao().insertOrReplace(db);
+        DbManager.getDbManager().getDaoSession().getRoomDbDao().insertOrReplaceInTx(saveRoomDbList);
+        return Observable.just(inspectionDetailBean);
     }
 
     @NonNull
@@ -541,6 +567,9 @@ public class TaskRepository implements TaskDataSource {
             @Override
             public void onFail(@NonNull String message) {
                 callBack.onFail(message);
+                roomListBean.setTaskRoomState(ConstantInt.ROOM_STATE_2);
+                roomListBean.setStartTime(System.currentTimeMillis());
+                callBack.onSuccess(roomListBean);
             }
 
             @Override
@@ -905,8 +934,8 @@ public class TaskRepository implements TaskDataSource {
 
     @Override
     public void saveRoomData(RoomListBean roomListBean, long taskId) {
-        for (int i = 0; i <roomListBean.getTaskEquipment().size() ; i++) {
-          int valueSize =  roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().size();
+        for (int i = 0; i < roomListBean.getTaskEquipment().size(); i++) {
+            int valueSize = roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().size();
             for (int j = 0; j < valueSize; j++) {
                 DataItemBean bean = roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().get(j).getDataItem();
                 EquipmentDataDb equipmentData = DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao()
@@ -917,7 +946,7 @@ public class TaskRepository implements TaskDataSource {
                                 , EquipmentDataDbDao.Properties.DataItemId.eq(roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().get(j).getDataItemValueId())
                                 , EquipmentDataDbDao.Properties.Type.eq(roomListBean.getTaskEquipment().get(i).getDataList().get(0).getDataItemValueList().get(j).getDataItem().getInspectionType()))
                         .unique();
-                if (equipmentData!=null){
+                if (equipmentData != null) {
                     bean.setValue(equipmentData.getValue());
                 }
             }

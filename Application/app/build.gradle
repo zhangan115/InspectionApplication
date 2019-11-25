@@ -17,8 +17,8 @@ android {
             dimension "default"
             resValue "string", "app_name", "点检"
             buildConfigField "String", "TEST", '"T"'
-            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
-//            buildConfigField "String", "HOST", '"http://114.215.94.141:8060/dianjian/api"'
+//            buildConfigField "String", "HOST", '"http://10.194.102.47:8088/api"'
+            buildConfigField "String", "HOST", '"http://114.215.94.141:8060/dianjian/api"'
             manifestPlaceholders = [
                     TASK_AFFINITY_VALUE: "android.task.inspection.application",
                     GETUI_APP_ID       : "IB6aWzeyVh74TS2cucWEoA",
@@ -41,7 +41,7 @@ android {
         }
     }
     greendao {
-        schemaVersion 3//版本号
+        schemaVersion 4//版本号
     }
     buildToolsVersion '27.0.3'
 }
