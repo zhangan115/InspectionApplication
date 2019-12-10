@@ -25,21 +25,21 @@ android {
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
-    compile "com.android.support:design:$rootProject.supportLibraryVersion"
-    compile "com.squareup.okhttp3:okhttp:$rootProject.okhttp3Version"
-    compile "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp3Version"
-    compile "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Version"
-    compile "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Version"
-    compile "com.squareup.retrofit2:converter-scalars:$rootProject.retrofit2Version"
-    compile "com.squareup.retrofit2:converter-protobuf:$rootProject.retrofit2Version"
-    compile "com.github.bumptech.glide:glide:$rootProject.glideVersion"
-    compile "io.reactivex:rxjava:$rootProject.rxjavaVersion"
-    compile "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
-    compile "com.squareup.retrofit2:adapter-rxjava:$rootProject.rxjavaAdapterAdapter"
-    compile files('libs/logger_v1.3.0.jar')
-    compile 'pub.devrel:easypermissions:1.0.1'
-    compile 'com.blankj:utilcode:1.9.10'
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    api "com.android.support:appcompat-v7:$rootProject.supportLibraryVersion"
+    api "com.android.support:design:$rootProject.supportLibraryVersion"
+    api "com.squareup.okhttp3:okhttp:$rootProject.okhttp3Version"
+    api "com.squareup.okhttp3:logging-interceptor:$rootProject.okhttp3Version"
+    api "com.squareup.retrofit2:retrofit:$rootProject.retrofit2Version"
+    api "com.squareup.retrofit2:converter-gson:$rootProject.retrofit2Version"
+    api "com.squareup.retrofit2:converter-scalars:$rootProject.retrofit2Version"
+    api "com.squareup.retrofit2:converter-protobuf:$rootProject.retrofit2Version"
+    api "com.github.bumptech.glide:glide:$rootProject.glideVersion"
+    api "io.reactivex:rxjava:$rootProject.rxjavaVersion"
+    api "io.reactivex:rxandroid:$rootProject.rxandroidVersion"
+    api "com.squareup.retrofit2:adapter-rxjava:$rootProject.rxjavaAdapterAdapter"
+    api files('libs/logger_v1.3.0.jar')
+    api 'pub.devrel:easypermissions:1.0.1'
+    api 'com.blankj:utilcode:1.9.10'
 
 }
