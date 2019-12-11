@@ -3,6 +3,7 @@ package com.inspection.application.view.task.info;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.inspection.application.common.ConstantInt;
 import com.inspection.application.mode.bean.task.InspectionDetailBean;
 import com.inspection.application.mode.bean.task.RoomListBean;
 import com.inspection.application.mode.callback.IObjectCallBack;
@@ -60,18 +61,21 @@ class TaskInfoPresenter implements TaskInfoContract.Presenter {
 
     @Override
     public void startTask(RoomListBean data, long taskId) {
-        mSubscription.add(mTaskDataSource.startTask(data, taskId, new TaskDataSource.IStartTaskCallBack() {
-
-            @Override
-            public void onSuccess(RoomListBean roomListBean) {
-                mView.startWork(roomListBean);
-            }
-
-            @Override
-            public void onFail(String message) {
-                mView.showMessage(message);
-            }
-        }));
+        data.setTaskRoomState(ConstantInt.ROOM_STATE_2);
+        data.setStartTime(System.currentTimeMillis());
+        mView.startWork(data);
+//        mSubscription.add(mTaskDataSource.startTask(data, taskId, new TaskDataSource.IStartTaskCallBack() {
+//
+//            @Override
+//            public void onSuccess(RoomListBean roomListBean) {
+//
+//            }
+//
+//            @Override
+//            public void onFail(String message) {
+//                mView.showMessage(message);
+//            }
+//        }));
     }
 
     @Override
@@ -122,7 +126,7 @@ class TaskInfoPresenter implements TaskInfoContract.Presenter {
 
     @Override
     public void saveRoomDataToCache(RoomListBean roomListBean, long taskId) {
-        mTaskDataSource.saveRoomData(roomListBean,taskId);
+        mTaskDataSource.saveRoomData(roomListBean, taskId);
     }
 
     @Override

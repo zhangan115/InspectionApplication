@@ -1,6 +1,7 @@
 package com.inspection.application.widget;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,8 +11,12 @@ import android.widget.TextView;
 import com.inspection.application.R;
 import com.inspection.application.app.App;
 import com.inspection.application.common.ConstantInt;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDataDb;
+import com.inspection.application.mode.bean.equipment.db.EquipmentDataDbDao;
 import com.inspection.application.mode.bean.equipment.db.EquipmentDbDao;
+import com.inspection.application.mode.bean.task.DataItemValueListBean;
 import com.inspection.application.mode.bean.task.RoomListBean;
+import com.inspection.application.mode.bean.task.TaskEquipmentBean;
 import com.inspection.application.mode.db.DbManager;
 
 
@@ -120,7 +125,21 @@ public class RoomListLayout extends LinearLayout implements View.OnClickListener
                         , EquipmentDbDao.Properties.TaskId.eq(taskId)
                         , EquipmentDbDao.Properties.UploadState.eq(true)
                         , EquipmentDbDao.Properties.RoomId.eq(data.getRoom().getRoomId())).count();
-        tv_equip_count.setText("进度:" + count + "/" + data.getTaskEquipment().size());
+        int checkCount = 0;
+        for (TaskEquipmentBean equipmentBean : data.getTaskEquipment()) {
+            long valueCount = DbManager.getDbManager().getDaoSession().getEquipmentDataDbDao().queryBuilder()
+                    .where(EquipmentDataDbDao.Properties.EquipmentId.eq(equipmentBean.getEquipment().getEquipmentId())
+                            ,EquipmentDataDbDao.Properties.TaskId.eq(taskId)
+                            ,EquipmentDataDbDao.Properties.RoomId.eq(roomListBean.getRoom().getRoomId())
+                            ,EquipmentDataDbDao.Properties.CurrentUserId.eq(App.getInstance().getCurrentUser().getUserId())
+                            ,EquipmentDataDbDao.Properties.Value.isNotNull()
+                            ,EquipmentDataDbDao.Properties.Value.notEq(""))
+                    .count();
+            if (valueCount!=0){
+                checkCount++;
+            }
+        }
+        tv_equip_count.setText("进度:" + checkCount + "/" + data.getTaskEquipment().size());
     }
 
     public void timer() {

@@ -183,7 +183,8 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                     return;
                 }
                 if (isAllDataAdd()) {
-                    uploadData();
+                    //取消点击上传功能
+//                    uploadData();
                     ++mCurrentPosition;
                     showTaskEquipData();
                 } else {
@@ -193,7 +194,7 @@ public class TaskWorkActivity extends BaseActivity implements IViewCreateListene
                             .onPositive(new MaterialDialog.SingleButtonCallback() {
                                 @Override
                                 public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    uploadData();
+//                                    uploadData();
                                     ++mCurrentPosition;
                                     showTaskEquipData();
                                 }
