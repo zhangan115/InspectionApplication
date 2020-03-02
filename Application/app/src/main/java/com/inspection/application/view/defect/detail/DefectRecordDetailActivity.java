@@ -18,6 +18,7 @@ import com.inspection.application.mode.bean.fault.FaultDetail;
 import com.inspection.application.view.BaseActivity;
 import com.inspection.application.widget.FlowsItemLayout;
 import com.inspection.application.widget.ShowImageLayout;
+import com.library.utils.DataUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,7 +91,12 @@ public class DefectRecordDetailActivity extends BaseActivity implements DefectRe
         }
         ((TextView) (findViewById(R.id.tv_fault_type))).setText(String.format("缺陷等级:%s", App.getInstance().getMapOption().get("2").get(String.valueOf(faultDetail.getFaultType()))));
         ((TextView) (findViewById(R.id.tv_report_user_name))).setText(String.format("上报人:%s", faultDetail.getUser().getRealName()));
-        ((TextView) (findViewById(R.id.tv_report_time))).setText(String.format("上报时间:%s", faultDetail.getCreateTime()));
+        ((TextView) (findViewById(R.id.tv_report_time))).setText(String.format("上报时间:%s", DataUtil.timeFormat(faultDetail.getCreateTime(), null)));
+        if (faultDetail.getCloseTime() != 0) {
+            ((TextView) (findViewById(R.id.tv_remove_time))).setText(String.format("消除时间:%s", DataUtil.timeFormat(faultDetail.getCloseTime(), null)));
+        } else {
+            ((TextView) (findViewById(R.id.tv_remove_time))).setText(String.format("消除时间:%s", "-"));
+        }
         ((TextView) (findViewById(R.id.tv_fault_des))).setText(faultDetail.getFaultDescript());
         ((TextView) (findViewById(R.id.tv_fault_state))).setText(App.getInstance().getMapOption().get("9").get(String.valueOf(faultDetail.getFaultState())));
         ShowImageLayout showImageLayout = findViewById(R.id.show_image_layout);
@@ -119,7 +125,7 @@ public class DefectRecordDetailActivity extends BaseActivity implements DefectRe
                 String[] ids = faultDetail.getFaultFlows().get(faultDetail.getCurrentFlowIndex()).getUsersNext().split(",");
                 for (String userId : ids) {
                     if (userId.equals(String.valueOf(App.getInstance().getCurrentUser().getUserId()))) {
-                        findViewById(R.id.ll_fault_action).setVisibility(View.VISIBLE);
+//                        findViewById(R.id.ll_fault_action).setVisibility(View.VISIBLE);
                         break;
                     }
                 }
@@ -170,7 +176,7 @@ public class DefectRecordDetailActivity extends BaseActivity implements DefectRe
     private void addViewToLL(List<FaultDetail.FaultFlowsBean> faultFlows) {
         LinearLayout linearLayout = findViewById(R.id.container);
         if (faultFlows != null && faultFlows.size() > 0) {
-            findViewById(R.id.ll_record).setVisibility(View.VISIBLE);
+//            findViewById(R.id.ll_record).setVisibility(View.VISIBLE);
             for (int i = 0; i < faultFlows.size(); i++) {
                 FlowsItemLayout layout = new FlowsItemLayout(getApplicationContext());
                 layout.setContent(faultFlows.get(i));

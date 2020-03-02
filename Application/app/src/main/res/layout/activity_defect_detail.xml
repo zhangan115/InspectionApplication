@@ -91,6 +91,14 @@
                         android:textColor="@color/text_gray_999"
                         android:textSize="17sp" />
 
+                    <TextView
+                        android:id="@+id/tv_remove_time"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:lines="1"
+                        android:textColor="@color/text_gray_999"
+                        android:textSize="17sp" />
 
                     <TextView
                         android:id="@+id/tv_fault_type"
@@ -139,8 +147,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="14dp"
-                    android:layout_marginRight="14dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="14dp"
                     android:text="缺陷操作"
                     android:textColor="@color/text_black"
                     android:textSize="20sp"
@@ -150,8 +158,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="12dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
@@ -172,8 +180,8 @@
                             android:id="@+id/rb_point_fault"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
                             android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
                             android:text="流转缺陷"
                             android:textColor="@color/text_gray_999"
                             android:textSize="17sp" />
@@ -182,8 +190,8 @@
                             android:id="@+id/rb_sure_fault"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:paddingBottom="10dp"
                             android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
                             android:text="确认缺陷"
                             android:textColor="@color/text_gray_999"
                             android:textSize="17sp" />
@@ -193,8 +201,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
-                            android:paddingBottom="10dp"
                             android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
                             android:text="关闭缺陷"
                             android:textColor="@color/text_gray_999"
                             android:textSize="17sp" />
@@ -207,8 +215,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="12dp"
                     android:orientation="vertical">
 
                     <EditText
@@ -228,10 +236,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="2">
@@ -243,8 +251,8 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/bg_btn_comm"
-                        android:paddingBottom="15dp"
                         android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
                         android:text="提交"
                         android:textColor="@color/colorWhite"
                         android:textSize="16sp" />
@@ -264,9 +272,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="12dp"
+                    android:layout_marginBottom="20dp"
                     android:text="@string/str_check_record"
                     android:textColor="@color/text_black"
                     android:textSize="17sp" />
