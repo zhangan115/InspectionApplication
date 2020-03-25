@@ -83,7 +83,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_sunday"
                     android:textColor="@color/text_light_gray"
@@ -108,7 +108,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_monday"
                     android:textColor="@color/text_gray"
@@ -135,7 +135,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_tuesday"
                     android:textColor="@color/text_gray"
@@ -160,7 +160,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_wednesday"
                     android:textColor="@color/text_gray"
@@ -186,7 +186,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_thursday"
                     android:textColor="@color/text_gray"
@@ -211,7 +211,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_friday"
                     android:textColor="@color/text_gray"
@@ -238,7 +238,7 @@
 
                 <TextView
                     android:layout_width="@dimen/task_data_size"
-                    android:layout_height="@dimen/task_data_size"
+                    android:layout_height="@dimen/task_data_size_1"
                     android:gravity="center"
                     android:text="@string/text_saturday"
                     android:textColor="@color/text_light_gray"
