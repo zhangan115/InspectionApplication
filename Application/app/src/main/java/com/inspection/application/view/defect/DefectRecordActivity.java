@@ -2,8 +2,6 @@ package com.inspection.application.view.defect;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
@@ -44,7 +42,7 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
     private DefectRecordContract.Presenter mPresenter;
     private List<FaultList> mList;
     private boolean isRefresh;
-    @Nullable
+
     private EquipmentBean equipmentBean;
 
     @Override
@@ -167,7 +165,7 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     @Override
-    public void showFaultList(@NonNull List<FaultList> data) {
+    public void showFaultList(List<FaultList> data) {
         mList.clear();
         mList.addAll(data);
         mRecyclerView.getAdapter().notifyDataSetChanged();
@@ -175,7 +173,7 @@ public class DefectRecordActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     @Override
-    public void showMoreFaultList(@NonNull List<FaultList> data) {
+    public void showMoreFaultList(List<FaultList> data) {
         mList.addAll(data);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }

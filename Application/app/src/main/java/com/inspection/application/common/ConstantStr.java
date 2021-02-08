@@ -14,7 +14,7 @@ public interface ConstantStr {
      * 是否使用过App
      **/
     String USE_APP = "use_app";
-    int VERSION_NO = 8;//版本号 2020-03-13
+    int VERSION_NO = 9;//版本号 2021-02-08
     String NOTIFY_GROUP = "notify_group";
 
 

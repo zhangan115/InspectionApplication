@@ -31,9 +31,9 @@ public final class Api {
 
     public static final String HOST = BuildConfig.HOST;
     private static Retrofit mRetrofit;
-    private static final int CONNECT_TIME = 5;
-    private static final int READ_TIME = 30;
-    private static final int WRITE_TIME = 30;
+    private static final int CONNECT_TIME = 15;
+    private static final int READ_TIME = 60;
+    private static final int WRITE_TIME = 60;
     private static Cookie cookie;
 
     public static Retrofit createRetrofit() {

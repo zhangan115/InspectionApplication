@@ -62,6 +62,15 @@
 
 
         <include layout="@layout/layout_no_data" />
+
+        <android.support.v4.widget.ContentLoadingProgressBar
+            android:layout_width="100dp"
+            android:id="@+id/progress"
+            android:visibility="visible"
+            style="?android:progressBarStyleLargeInverse"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_height="100dp"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -61,6 +62,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
     private RelativeLayout noDataLayout;
     private LinearLayout mRoomsLayout;
     private LinearLayout ll_add_user;
+    private ContentLoadingProgressBar progressBar;
     private TextView finishTv;
     private UploadTaskInfo uploadTaskInfo;
     private InspectionDetailBean inspectionBeen;
@@ -83,6 +85,7 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
         mRoomsLayout = findViewById(R.id.ll_item);
         ll_add_user = findViewById(R.id.ll_add_user);
         finishTv = findViewById(R.id.tv_finish);
+        progressBar = findViewById(R.id.progress);
         mList = new ArrayList<>();
         roomListLayouts = new ArrayList<>();
         refreshUi = new RefreshUi();
@@ -115,12 +118,12 @@ public class TaskInfoActivity extends BaseActivity implements TaskInfoContract.V
 
     @Override
     public void showLoading() {
-
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideLoading() {
-
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
